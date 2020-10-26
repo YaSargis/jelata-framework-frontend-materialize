@@ -1,0 +1,382 @@
+/* YOU CAN ADD YOUR CLASSES HERE  */
+
+.flex_tiles {
+  display: flex;
+  overflow-x: auto;
+}
+.test_test {
+	cursor:pointer;
+	color:black;
+}
+
+/* SQL MANAGER */
+.schema_table {
+  font-size: 11px;
+}
+
+.schema_table tbody {
+  color: #1c92ff;
+}
+
+.schema_table td, th {
+  border-style: none;
+}
+
+.args_table {
+  font-size: 11px;
+  width:100%;
+}
+
+.args_table tbody {
+  color: #1c92ff;
+}
+
+.args_table td, th {
+  border-style: none;
+}
+
+.t_table {
+  font-size: 11px;
+}
+
+.t_table tbody {
+  color: #1c92ff;
+}
+
+.t_table tr {
+  border-style: outset;
+  border-color: #68ff00;
+  border-width: 1px;
+  cursor: pointer;
+
+}
+
+.et_table tr:hover {
+  background:#b5d9db;
+}
+
+.et_table {
+  font-size: 11px;
+}
+
+.et_table tbody {
+  color: #170653;
+}
+
+.et_table td {
+  border-style: outset;
+  border-color: #626262;
+  border-width: 1px;
+  cursor: pointer;
+  padding: 5px;
+
+}
+
+.t_table tr:hover {
+  background:#b5d9db;
+}
+
+.commit_btn {
+  background-color: #fff44c;
+  color: #000;
+}
+
+/* SQL MANAGER */
+
+.aa {}
+
+
+.resizable, div[id^="ace-editor"] {
+  overflow: hidden;
+  resize: both;
+}
+
+
+
+.content_app {
+  padding:2px;
+ }
+
+ .paleturquoise {
+  background-color:#AFEEEE;
+ }
+
+ .title22 {
+  font-size: 22px;
+ }
+
+ .title22 b {
+  display:none;
+ }
+
+ .nob {
+
+ }
+
+ .nob b {
+  display:none;
+ }
+
+ .lil_list_text {
+   font-size: 10px;
+ }
+
+ .lil_list_text span {
+    color: #557c9e;
+ }
+
+
+ .green_prety_b {
+
+ }
+
+ .green_prety_b b {
+   color: #2be242;
+ }
+
+ .green_prety_b span {
+    color: #0824ec;
+    font-size: 17px;
+ }
+
+
+ .bigtitle25 {
+    font-size: 25px;
+    color: #06a7b7d9;
+ }
+
+ .basket {
+    background: #fff705;
+    width: 300px;
+ }
+
+ .basket i {
+  font-size: 20px;
+  color: #ca3e09;
+ }
+
+ .contents {
+  display:contents;
+ }
+
+ .smaller {
+  font-size: smaller;
+ }
+
+ .food_table {
+  width:100%;
+ }
+
+
+
+.food_table th, td {
+   border:none;
+}
+
+.food_table th:hover {
+   background:#ffff002e;
+   cursor:pointer;
+}
+
+.food_table td:hover {
+   background:#f5eff5;
+   cursor:pointer;
+}
+
+body {
+  background:black;
+}
+
+.food_table tr{
+    border-style: groove;
+    border-width: thin;
+    border-color: #b3aace8c;
+    text-align: center;
+
+}
+
+.food_table thead {
+    background:#f0fff28a;
+}
+
+.food_table tbody tr:hover {
+    background:#cffdcf;
+}
+
+.del_color {
+    background: #000652;
+    color: aliceblue;
+    text-align: center;
+    font-size: 17px;
+    font-family: cursive;
+}
+
+.big_s_button {
+    min-height: 40px;
+    min-width: 40px;
+    font-size: 20px;
+    color: #fdfdfd;
+    background: #0cbf22;
+}
+
+.notitle {
+
+}
+
+.notitle label {
+  display:none;
+}
+
+
+/* MOBILE */
+@media screen
+  and (max-device-width: 1080px)
+  and (max-device-height: 1920px)
+
+ {
+  span, b, label, .ant-col, .ant-collapse-header {
+    font-size:25px;
+   /* margin-left:72px;*/
+  }
+
+  .css-1kdo2r7 {
+    font-size:25px;
+  }
+
+
+  .get_one_form .ant-form-item-label>label {
+      font-size:25px;
+  }
+
+  .ant-form-item-control input {
+      font-size:25px;
+      height:45px;
+  }
+
+  li, a, i, icon, tr, .ant-popover-message-title {
+    font-size:25px;
+  }
+
+  .ant-form label {
+    font-size:25px;
+  }
+
+  .fr_tiles .ant-card {
+
+      margin-bottom:25px;
+
+  }
+
+  button {
+    min-width:100px;
+    min-height:55px;
+
+  }
+  img {
+    width:170px;
+    height:170px;
+  }
+
+
+}
+/* MOBILE */
+
+.p11 {
+    font-size: 11px;
+}
+
+
+.p11 span {
+    font-size: 11px;
+}
+
+.commit_btn {
+  background-color: #fff44c;
+  color: #000;
+}
+
+/* CHAT */
+
+.chat_list {
+  background-color: aliceblue;
+}
+
+.chat_list div {
+  background-color: aliceblue;
+  margin: 0;
+  /*padding: 2px;*/
+}
+
+.avka {
+
+}
+
+.avka img {
+    height: 45px;
+    width: 45px;
+    display: inline-block;
+    border-radius: 50%;
+}
+
+.chattitle {
+    font-size: large;
+    font-weight: 500;
+    color: rgba(0,0,0,.65);
+}
+
+.chat_login {
+  background: #899ee8;
+  color: white;
+  text-align: center;
+  border-radius: 40%;
+}
+
+.chat_time {
+  font-size:9px;
+}
+
+.chat_message {
+  background: #abd4f9;
+  height: 60px;
+  width: 150px;
+  border-radius: 10%;
+  color: #291818;
+  padding: 20px;
+}
+
+.unreaded2 span {
+    width: 20px;
+    display: block;
+    background: #ffa0cc;
+    text-align: center;
+    border-radius: 50%;
+    border-width: 0.2pt;
+    border-style: ridge;
+    border-color: #e066c059;
+    text-shadow: 0 0 1px red, 0 0 0.1px #505852;
+}
+
+.unreaded span {
+    margin: 2px 0 2px 2px;
+    zoom: 1;
+    padding: 4px 6px;
+    vertical-align: top;
+    color: #5b6e85;
+    background: #d1d9e0;
+    font-weight: 700;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 11px;
+    line-height: 17px;
+    height: 16px;
+    border-radius: 2px;
+    transition: background-color 200ms linear,color 200ms linear;
+}
+
+.unreaded div {
+    color: #3f3ff5;
+    font-weight: 500;
+}
+
+
+/* CHAT */
