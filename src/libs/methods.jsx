@@ -5,15 +5,18 @@ import qs from 'query-string';
 import { apishka } from './api';
 
 import {
-  Row, Col, Icon, Input, InputNumber, Select, Checkbox, Button, Tooltip,
-  Popconfirm, Menu, notification
+  Icon
 } from 'antd';
+
+// import {MenuItem, MenuList, Menu, Collapse, ListItem, ListItemText, List} from '@material-ui/core';
+// import CollapsibleItem from '@material-ui/core/CollapsibleItem';
+
+import { CollapsibleItem, Collapsible, SideNavItem, Badge, Dropdown, Button } from 'react-materialize';
 
 import { Link } from 'react-router-dom';
 
-const { TextArea } = Input;
-const { Option } = Select;
-const { SubMenu } = Menu;
+
+// const { SubMenu } = Menu;
 
 /* save uersettings json ( some views settings ) */
 export const saveUserSettings = (settings) => {
@@ -298,33 +301,78 @@ export const handlerGoLink = (item, el, config, inputs, history) => {
 };
 
 
-export const menu_creator = () => (menu_creator, items, isParent) => {
+/*
+
+						<div>
+						{							
+							<div style={{'justifyContent':'flex'}}>
+								<Icon type={el.icon} />
+								<ListItemText primary={(el.istitle)? el.title : null } />
+
+								{(el.ws)? <b style={{color:'blue'}}>{' ' + el.notif_count}</b> : null}	
+							</div>
+						}
+						</div>
+*/
+
+export const menu_creator = () => (menu_creator, items) => {
     if(Array.isArray(items)) if(items.length > 0) {
 		return items.map((el,i) => {
 			if(el.childs && el.childs > 0) {
 				return (
-					<SubMenu
-						key={el.id || i+'user'}
-						title={
-							<span>
-								<Icon type={el.icon} />
-								<span>{(el.istitle)? el.title : null }</span>
-								{(el.ws)? <b style={{color:'blue'}}>{' ' + el.notif_count}</b> : null}
-							</span>
-						}
-					>
-						{ menu_creator(menu_creator, el.items || [], el.childs > 0) }
-					</SubMenu>
+					<Collapsible style={{padding:0}} key={el.id + '_A'} accordion>
+						<CollapsibleItem 
+							key={el.id}
+							expanded={false} header={(el.istitle)? el.title : null }
+							icon={<Icon small type={el.icon} />}
+						> 
+							<div style={{marginLeft:'10px'}}>{ menu_creator(menu_creator, el.items || []) }</div>
+						</CollapsibleItem >
+					</Collapsible>
 				)
 			} else {
 				return (
-					<Menu.Item key={el.id || i+'user'}>
-						<Link to={el.to} title={ el.title }>
-							<Icon type={el.icon} />
-							<span>{(el.istitle)? el.title : null }</span>
-							{(el.ws)? <b style={{color:'blue'}}>{' ' + el.notif_count}</b> : null}
-						</Link>
-					</Menu.Item>
+					<SideNavItem style={{padding:0}} icon={<Icon type={el.icon} />} >
+						<li >
+							<Link to={el.to} title={ el.title } style={{whiteSpace: 'nowrap', color:'#039be5'}}>
+								{(el.istitle)? el.title : null }
+								{(el.ws)? <Badge className='blue'>{' ' + el.notif_count}</Badge> : null}
+							</Link>
+						</li>
+					</SideNavItem>
+			   )
+			}
+		})
+    } else return null;
+};
+
+export const menu_creator_header = () => (menu_creator_header, items) => {
+    if(Array.isArray(items)) if(items.length > 0) {
+		return items.map((el,i) => {
+			if(el.childs && el.childs > 0) {
+				return (
+					<Dropdown
+						id="Dropdown_6"
+						options={{
+							alignment: 'left', autoTrigger: true, closeOnClick: true, constrainWidth: true,
+							container: null, coverTrigger: true, hover: false, inDuration: 150, onCloseEnd: null,
+							onCloseStart: null, onOpenEnd: null, onOpenStart: null, outDuration: 250
+						}}
+						trigger={<div><Icon style={{marginRight:10}} small type={el.icon} /><span>{(el.istitle)? el.title : null }</span></div>}
+					>
+						<div style={{marginLeft:'10px'}}>{ menu_creator_header(menu_creator, el.items || []) }</div>
+					</Dropdown >
+					
+				)
+			} else {
+				return (
+				<li>
+					<Link to={el.to} title={ el.title } style={{whiteSpace: 'nowrap'}}>
+						<Icon small type={el.icon} />
+						{(el.istitle)? el.title : null }
+						{(el.ws)? <Badge className='blue'>{' ' + el.notif_count}</Badge> : null}
+					</Link>
+				</li>
 			   )
 			}
 		})

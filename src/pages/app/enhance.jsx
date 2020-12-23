@@ -3,7 +3,7 @@ import { compose, withHandlers, lifecycle, withState } from 'recompose';
 import _ from 'lodash';
 import { notification, Avatar, Icon } from 'antd';
 
-import { menu_creator, saveUserSettings } from 'src/libs/methods';
+import { menu_creator, saveUserSettings, menu_creator_header } from 'src/libs/methods';
 import { apishka } from 'src/libs/api';
 import { api } from 'src/defaults';
 
@@ -14,6 +14,7 @@ const enhance = compose(
 	withState('custom_menu', 'changeMenu', []), // menus array
 	withState('user_detail', 'changeUserDetail', {}), // user details
 	withState('collapsed', 'changeCollapsed', false), // preloader
+	withState('cxs', 'changeCxs', 8), // preloader
 
 	withHandlers({
 		getMenu: ({ changeMenu, changeUserDetail, changeLoading }) => () => {
@@ -31,12 +32,15 @@ const enhance = compose(
 			})
 		},
 		menu_creator: menu_creator,
-		menuCollapseStateSave: ({changeCollapsed}) => (collapseState) => {
+		menu_creator_header: menu_creator_header,
+		menuCollapseStateSave: ({changeCollapsed, changeCxs}) => (collapseState) => {
 			let userSettings = JSON.parse(localStorage.getItem('usersettings')) || {views:{}}
 			userSettings['menuCollapse'] = collapseState
 			saveUserSettings(userSettings)
 			localStorage.setItem('usersettings',JSON.stringify(userSettings))
-			changeCollapsed(collapseState)
+			changeCollapsed(collapseState) 
+			if (collapseState) changeCxs(8) 
+			else changeCxs(12)
 		}
 	}),
 	withHandlers({

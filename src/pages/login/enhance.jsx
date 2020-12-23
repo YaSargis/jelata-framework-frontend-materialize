@@ -1,8 +1,6 @@
-
-import { compose, withState, withHandlers, lifecycle, withStateHandlers } from 'recompose';
-import { notification } from 'antd';
-
-import { apishka } from 'src/libs/api';
+import { compose, withState, withHandlers, lifecycle, withStateHandlers } from 'recompose'
+import { notification } from 'antd'
+import { apishka } from 'src/libs/api'
 
 const enhance = compose(
     withStateHandlers(
@@ -17,7 +15,7 @@ const enhance = compose(
             set_state: (state) => (obj) => {
                 let _state = {...state};
                 _.keys(obj).map( k => { _state[k] = obj[k] })
-                return _state;
+                return _state
             },
             setTypeLogin: (state) => (status = true, arr_sert = state.sertificats) => {
                 return {
@@ -48,23 +46,23 @@ const enhance = compose(
                         });
                         set_state({
                             ready: true
-                        });
-                    });
+                        })
+                    })
                 } else {
                     notification.error({
                         message: 'Error',
                         description: 'Can not fount the module'
-                    });
+                    })
                     set_state({
                         ready: true
-                    });
+                    })
                 }
-            } else setTypeLogin(!legacy);
+            } else setTypeLogin(!legacy)
         }
     }),
     withHandlers({
         handleSubmit: ({ form, legacy, select_scp/*, set_login_status */}) => (event) => {
-            event.preventDefault();
+            event.preventDefault()
             if(legacy === true) {
                 form.validateFields((err, values) => {
                     if (!err) {
@@ -72,7 +70,6 @@ const enhance = compose(
                                 login: values.username,
                                 pass: values.password
                             }, '/auth/auth_f', (res) => {
-                                // set_login_status(true);
     				            location.href='/'
                             }
                         )
@@ -80,7 +77,6 @@ const enhance = compose(
                 })
             } else {
                 apishka( 'POST', select_scp, '/auth/auth_crypto', (res) => {
-                        // set_login_status(true);
                         location.href='/'
                     }
                 )
@@ -89,15 +85,10 @@ const enhance = compose(
     }),
     lifecycle({
         componentDidMount() {
-            //let { set_loading } = this.props;
-
-            document.title = 'Log In';
-
-            let body = document.getElementsByTagName('body')[0];
-            body.classList.add("login_bckg");
-            // set_loading(false);
+            document.title = 'Log In'
+            let body = document.getElementsByTagName('body')[0]
         }
     })
 )
 
-export default enhance;
+export default enhance

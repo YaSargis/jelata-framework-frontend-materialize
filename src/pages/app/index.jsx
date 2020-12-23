@@ -2,8 +2,8 @@ import React from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
 import { config } from 'src/defaults';
 
-import { BackTop, Icon, Layout, Menu, Avatar, Row, Button, Modal } from 'antd';
-const { Header, Sider, Content, Footer } = Layout;
+import { Icon, Layout,  /*Grid,*/ Modal } from 'antd';
+const { /*Header,*/ Sider, Content } = Layout;
 import _ from 'lodash';
 import Helmet from 'react-helmet';
 
@@ -17,67 +17,117 @@ import List from 'src/pages/list';
 import Composition from 'src/pages/composition';
 import Trees from 'src/pages/trees';
 import Report from 'src/pages/report';
-import Error_404 from 'src/pages/error_404';
+import Error_404 from 'src/pages/error_404'
+import {
+	Avatar, Drawer,  
+	IconButton, AppBar, Toolbar, Divider, Grid
+} from '@material-ui/core'
+import { Collapsible, Button, SideNav, SideNavItem, Icon as MIcon, Breadcrumb, Footer } from 'react-materialize';
+import 'materialize-css'
+
+
+/*
+								<div>
+									<img
+										width='90px'
+										alt={} 
+										className='circle'
+										src={}
+									/>	
+									<Grid>
+										<span style={{ color: 'white' }}>
+											{!collapsed ? (user_detail.fam || '') + ' ' + (user_detail.im || '') : null}
+										</span>
+									</Grid>
+									{config.userorg ? (
+										<Grid>
+											<Link to={config.userorg}>
+												{!collapsed ? user_detail.orgname || '' : <Icon title='org' type='setting' />}
+											</Link>
+										</Grid>
+								) : null}
+								</div>
+*/
+
 
 const App = ({
-	user_detail, collapsed, custom_menu,
+	user_detail, collapsed, custom_menu, cxs, menu_creator_header,
 	menu_creator, menuCollapseStateSave, getMenu
 }) => {
     return (
-        <Layout className='lay' style={{ minHeight: '100vh' }}>
+
+        <div>
             <Helmet>
                 <meta charset='utf-8' />
             </Helmet>
-            {(
-				custom_menu &&
-				custom_menu.filter((mn) => mn.menutype === 'Left Menu').length>0 &&
-				custom_menu.filter((mn) => mn.menutype === 'Left Menu')[0].menu &&
-				custom_menu.filter((mn) => mn.menutype === 'Left Menu')[0].menu.length > 0
-            )? (
-				<Sider collapsible collapsed={collapsed} onCollapse={collapsed => {menuCollapseStateSave(collapsed)}}>
-					{config.profile === true ? (
-						<Row className='profile'>
-							<Avatar size={72} shape='cyrcle' src={user_detail.photo || null} icon='user' />
-							<Row>
-								<span style={{ color: 'white' }}>
-									{!collapsed ? (user_detail.fam || '') + ' ' + (user_detail.im || '') : null}
-								</span>
-							</Row>
-							{config.userorg ? (
-								<Row>
-									<Link to={config.userorg}>
-										{!collapsed ? user_detail.orgname || '' : <Icon title='org' type='setting' />}
-									</Link>
-								</Row>
+			<div position='fixed' >
+				<div>	
+					<Breadcrumb className='teal' cols={12}>
+						{custom_menu ? (
+							_.find(custom_menu, item => item.menutype === 'Header Menu') ? (
+								<div>
+									{menu_creator_header(
+										menu_creator_header,
+										_.find(custom_menu, item => item.id === 2).menu,
+										false
+									)}
+								</div>
+							) : null
+						) : null}
+					</Breadcrumb>
+				</div>	
+			</div>
+			<Grid  container >
+				<Grid item xs={7}> 
+					{(
+						custom_menu &&
+						custom_menu.filter((mn) => mn.menutype === 'Left Menu').length>0 &&
+						custom_menu.filter((mn) => mn.menutype === 'Left Menu')[0].menu &&
+						custom_menu.filter((mn) => mn.menutype === 'Left Menu')[0].menu.length > 0
+					)? (
+
+						<SideNav
+							id="SideNav-10"
+							options={{
+							  draggable: true
+							}}
+							trigger={
+								<Button small node='button' icon={<MIcon small>menu</MIcon>} className='blue' />
+							}
+						>
+							{config.profile === true ? (
+									<SideNavItem
+										user={{
+											background: '/src/public/material_back.jpg',
+											email: (user_detail.login || ''),
+											image: (user_detail.photo || null),
+											name: (user_detail.fam || '') + ' ' + (user_detail.im || ''),
+											
+										  }}
+										  userView
+									/>
+								) : null
+							}
+							{config.profile === true ? (
+									<SideNavItem>
+										<Link to={config.userorg}>
+											<Icon title='org' type='setting' /> {user_detail.orgname || ''} 
+										</Link>
+									</SideNavItem>
+								):null
+							}
+							{custom_menu ? (
+								_.find(custom_menu, item => item.menutype === 'Left Menu') ? (
+									<Collapsible accordion>
+										{menu_creator(menu_creator, _.find(custom_menu, item => item.id === 1).menu, false)}
+									</Collapsible>
+								) : null
 							) : null}
-						</Row>
-						) : null
-					}
-		            {custom_menu ? (
-						_.find(custom_menu, item => item.menutype === 'Left Menu') ? (
-							<Menu theme='dark' mode='vertical' inlineCollapsed={collapsed} subMenuOpenDelay={0.4}>
-								{menu_creator(menu_creator, _.find(custom_menu, item => item.id === 1).menu, false)}
-							</Menu>
-						) : null
-		            ) : null}
-				</Sider>
-		    ) : null}
-            <Layout>
-                <Header style={{ padding: '0' }}>
-					{custom_menu ? (
-						_.find(custom_menu, item => item.menutype === 'Header Menu') ? (
-							<Menu mode='horizontal'>
-								{menu_creator(
-									menu_creator,
-									_.find(custom_menu, item => item.id === 2).menu,
-									false
-								)}
-							</Menu>
-						) : null
+						</SideNav >
 					) : null}
-                </Header>
-                <Content>
-                    <Switch>
+				</Grid> 
+				<Grid item xs={cxs}> 
+					<Switch>
 						<Route path='/' component={Home} exact />
 						<Route path='/home' component={Home} exact />
 						<Route path='/login' component={LoginForm} exact />
@@ -102,29 +152,25 @@ const App = ({
 								 />
 							</Link>
 						) : null}
-				</Content>
-                <Footer style={{ padding: '10px' }}>
-					{custom_menu ? (
-						_.find(custom_menu, item => item.menutype === 'Footer Menu') ? (
-						<Menu>
-							{menu_creator(
-								menu_creator,
-								_.find(custom_menu, item => item.id === 3).menu,
-								false
-							)}
-						</Menu>
-					) : null) : null}
-				</Footer>
-			</Layout>
-			<BackTop>
+				</Grid>
+			</Grid>
+
+			<div>
 				<div className='ant-back-top-inner'>
-					<Button type='primary'>
-						<Icon type='up-circle' />
-					</Button>
+					<Button icon={<Icon type='up-circle' />} />
 				</div>
-			</BackTop>
-		</Layout>
+			</div>
+		</div>
     );
 };
+
+/*
+									{menu_creator_header(
+										menu_creator_header,
+										(_.find(custom_menu, item => item.id === 3) || {}).menu,
+										false
+									)}
+
+*/
 
 export default enhance(App);

@@ -7,20 +7,14 @@ import { BrowserRouter } from 'react-router-dom';
 import { store } from 'src/redux/configStore';
 import App from 'src/pages/app/index.jsx';
 
-import "antd/dist/antd.min.css";
-import 'src/styles/index.scss';
 
-import {ConfigProvider} from 'antd'
-import ruRu from 'antd/lib/locale-provider/ru_RU';
-import 'moment/locale/ru';
+
 
 ReactDOM.render(
 	<Provider store={store}>
-		<ConfigProvider locale={ruRu}>
-			<BrowserRouter>
-				<Route component={App}/>
-			</BrowserRouter>
-		</ConfigProvider>
+		<BrowserRouter>
+			<Route component={App}/>
+		</BrowserRouter>
 	</Provider>,
   document.getElementById('container')
 );
