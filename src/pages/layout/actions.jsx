@@ -17,6 +17,7 @@ import List from 'src/pages/list';
 
 //import { toggleLoading } from 'src/redux/actions/helpers';
 
+
 const ActionsBlock = ({
 	actions, data, params,
 	loading, type = 'form', checked,
@@ -70,9 +71,10 @@ const ActionsBlock = ({
 			let el = props.el
 			return (
 				<button
-					className={'fm-btn fm-btn-sm ' + el.classname}
+					className={ 'btn btn-flat btn-small ' + el.classname }
 					size='small'
 					title={el.title}
+					style={{marginLeft:4}}
 					onClick={()=>{
 						if (props.confirmed)
 							onAction(el)
@@ -85,14 +87,16 @@ const ActionsBlock = ({
 		}
 
 		return (
-			<Tooltip key={'s1'+i} placement={place_tooltip} title={el.title || ''}>
+			/*<div key={'s1'+i}>
 				{((el.actapiconfirm === true &&  el.type === 'API') || el.type === 'Delete')? (
 					<Popconfirm placement="bottom" title="Confirm" okText="Yes" cancelText="No" onConfirm = {()=>onAction(el)}>
 						<a style={{display:'hide'}}/>
-						<FmButton confirmed={false} el = {el} />
+						
 					</Popconfirm>
 				) : <FmButton confirmed={true} el = {el} />}
-			</Tooltip>
+			</div>*/
+			
+			<FmButton confirmed={false} el = {el} />
 		)
   });
 };

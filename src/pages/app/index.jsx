@@ -20,9 +20,9 @@ import Report from 'src/pages/report';
 import Error_404 from 'src/pages/error_404'
 import {
 	Avatar, Drawer,  
-	IconButton, AppBar, Toolbar, Divider, Grid
+	IconButton, AppBar, Toolbar, Divider
 } from '@material-ui/core'
-import { Collapsible, Button, SideNav, SideNavItem, Icon as MIcon, Breadcrumb, Footer } from 'react-materialize';
+import { Collapsible, Button, SideNav, SideNavItem, Icon as MIcon, Breadcrumb, Footer, Col } from 'react-materialize';
 import 'materialize-css'
 
 
@@ -77,8 +77,8 @@ const App = ({
 					</Breadcrumb>
 				</div>	
 			</div>
-			<Grid  container >
-				<Grid item xs={7}> 
+			<Col  container >
+				<Col item> 
 					{(
 						custom_menu &&
 						custom_menu.filter((mn) => mn.menutype === 'Left Menu').length>0 &&
@@ -125,8 +125,8 @@ const App = ({
 							) : null}
 						</SideNav >
 					) : null}
-				</Grid> 
-				<Grid item xs={cxs}> 
+				</Col> 
+				<Col item> 
 					<Switch>
 						<Route path='/' component={Home} exact />
 						<Route path='/home' component={Home} exact />
@@ -152,8 +152,8 @@ const App = ({
 								 />
 							</Link>
 						) : null}
-				</Grid>
-			</Grid>
+				</Col>
+			</Col>
 
 			<div>
 				<div className='ant-back-top-inner'>
