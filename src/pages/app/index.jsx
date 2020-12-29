@@ -2,8 +2,8 @@ import React from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
 import { config } from 'src/defaults';
 
-import { Icon, Layout,  /*Grid,*/ Modal } from 'antd';
-const { /*Header,*/ Sider, Content } = Layout;
+//import { Icon  /*Grid,*/ } from 'antd';
+//const { /*Header,*/ Sider, Content } = Layout;
 import _ from 'lodash';
 import Helmet from 'react-helmet';
 
@@ -18,10 +18,7 @@ import Composition from 'src/pages/composition';
 import Trees from 'src/pages/trees';
 import Report from 'src/pages/report';
 import Error_404 from 'src/pages/error_404'
-import {
-	Avatar, Drawer,  
-	IconButton, AppBar, Toolbar, Divider
-} from '@material-ui/core'
+// import {} from '@material-ui/core'
 import { Collapsible, Button, SideNav, SideNavItem, Icon as MIcon, Breadcrumb, Footer, Col } from 'react-materialize';
 import 'materialize-css'
 
@@ -111,7 +108,7 @@ const App = ({
 							{config.profile === true ? (
 									<SideNavItem>
 										<Link to={config.userorg}>
-											<Icon title='org' type='setting' /> {user_detail.orgname || ''} 
+											<MIcon tiny >settings</MIcon>  {' '}{user_detail.orgname || ''} 
 										</Link>
 									</SideNavItem>
 								):null
@@ -142,14 +139,13 @@ const App = ({
 					</Switch>
 					{(localStorage.getItem('ischat') === true || localStorage.getItem('ischat') === 'true') ? (
 							<Link to='/composition/chats'>
-								<Icon 
-									className='dashboard__icon-chat' title='Chat'
-									type='message' 
+								<MIcon 
+									small
 									style={{
 										fontSize: 40, color: '#1890ff', position: 'fixed', bottom: 20,
 										right: 30
 									}}
-								 />
+								 >message</MIcon>
 							</Link>
 						) : null}
 				</Col>
@@ -157,7 +153,7 @@ const App = ({
 
 			<div>
 				<div className='ant-back-top-inner'>
-					<Button icon={<Icon type='up-circle' />} />
+					<Button small icon={<MIcon tiny>keyboard_arrow_up</MIcon>} />
 				</div>
 			</div>
 		</div>

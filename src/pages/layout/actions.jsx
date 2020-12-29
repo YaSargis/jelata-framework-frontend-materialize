@@ -5,15 +5,15 @@ import axios from 'axios';
 
 import { compose, lifecycle, withHandlers } from 'recompose';
 
-import { Tooltip, Icon, Popconfirm, notification, Modal, Spin } from 'antd';
-
+import { Icon, notification, Modal } from 'antd';
+//import { notification } from 	'@ant-design/notification'
 import { visibleCondition, switchIcon, QueryBuilder, QueryBuilder2, bodyBuilder } from 'src/libs/methods';
 
 import { PostMessage, Delete, Get, Put, apishka } from 'src/libs/api';
 //import { MyIcons } from 'src/libs/icons';
-
 import Getone from 'src/pages/Getone';
 import List from 'src/pages/list';
+
 
 //import { toggleLoading } from 'src/redux/actions/helpers';
 
@@ -71,17 +71,22 @@ const ActionsBlock = ({
 			let el = props.el
 			return (
 				<button
-					className={ 'btn btn-flat btn-small ' + el.classname }
+					className={  el.classname + ' m-btn' }
 					size='small'
+					href='#modal1'
 					title={el.title}
+					tooltip = 'ok'
 					style={{marginLeft:4}}
 					onClick={()=>{
-						if (props.confirmed)
+						if (!(el.actapiconfirm === true || el.type === 'Delete'))
 							onAction(el)
+						else
+							if (confirm(el.title + '?'))
+								onAction(el)
 					}}
 				>
 					<Icon type={el.icon} />
-					{ _value }
+						{'  '} { _value }
 				</button>
 			)
 		}

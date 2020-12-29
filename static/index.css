@@ -142,6 +142,38 @@
 	box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
 }
 
+.m-btn {
+	text-decoration: none;
+
+    text-align: center;
+    letter-spacing: .5px;
+    -webkit-transition: background-color .2s ease-out;
+    transition: background-color .2s ease-out;
+    cursor: pointer;
+	border: none;
+    border-radius: 2px;
+    display: inline-block;
+    padding: 0 16px;
+    text-transform: uppercase;
+    vertical-align: middle;
+	text-indent: 0px;
+    text-shadow: none;
+    -webkit-tap-highlight-color: transparent;
+	word-spacing: normal;
+	-webkit-writing-mode: horizontal-tb !important;
+    text-rendering: auto;
+	align-items: flex-start;
+	font: 400 13px Arial;
+	height: 32.4px;
+    line-height: 32.4px;
+	
+}
+
+.m-btn:hover {
+	background-color: #2bbbad;
+	color: #fff;
+}
+
 .fm-btn {
     line-height: 1.499;
     position: relative;

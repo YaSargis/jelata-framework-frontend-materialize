@@ -152,7 +152,7 @@ const TableComp = ({
 									<BootstrapTable
 										classes={
 											!allProps.classname || allProps.classname === ''? 
-												'tabtab list_table'
+												'table'
 												: allProps.classname
 										} // try to apply CSS class
 									    keyField={'id'} data={rows} columns={columns2}
