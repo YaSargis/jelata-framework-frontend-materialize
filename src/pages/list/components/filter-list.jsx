@@ -4,9 +4,9 @@ import { apishka } from "src/libs/api";
 import _ from 'lodash';
 import moment from 'moment';
 import locale from 'antd/es/date-picker/locale/ru_RU';
-import { Drawer, Row, Col, Input, Divider, Button, List, Checkbox, Tooltip, Select, DatePicker } from 'antd';
+import { Drawer, Row, Input, Divider, List, Checkbox, Tooltip, Select, DatePicker } from 'antd';
 import {saveUserSettings} from 'src/libs/methods';
-
+import { Col, Button, Icon, Modal } from 'react-materialize';
 const FilterList = ({
 	filter, filters, allProps, getData, changeLoading,
 	changeFilter, changeFilters, handlerFilters, handlerGetTable,
@@ -14,11 +14,11 @@ const FilterList = ({
 	indeterminate, listColumns, arr_hide, reduxUser, pagination, changePagination
 }) => {
   return (
-    <Drawer
-      visible={filter} width={450}
-      closable={false}
-      onClose={() => changeFilter(!filter)}
-      maskStyle={{backgroundColor: 'rgba(0,0,0, 0.12)'}}
+    <Modal
+		open={filter} 
+		bottomSheet
+		fixedFooter={false}
+		onClose={() => changeFilter(!filter)}
     >
       <Row key='sawad1' gutter={4}>
           {allProps.filters ? (
@@ -184,22 +184,29 @@ const FilterList = ({
       </Row>
       <Divider key='sawad2' style={{ margin: '15px 0 0 0' }}/>
       <Row key='sawad3' gutter={4}>
-        <Button type='link' icon='check' onClick={()=>{
-					pagination.pagenum = 1
-					changePagination(pagination)
-          getData(getData); changeLoading(true);
-
-          // changeFilter(false)
-        }}>ok</Button>
-        <Button type='link' icon='delete' onClick={()=>{
-          filters = {};
-          changeFilters(filters); changeLoading(true);
-          // changeFilter(false)
-					pagination.pagenum = 1
-					changePagination(pagination)
-          getData(getData, {});
+        <Button 
+			flat
+			small
+			icon={<Icon>check</Icon>} 
+			onClick={()=>{
+				pagination.pagenum = 1
+				changePagination(pagination)
+				getData(getData); changeLoading(true);
+			}}
+		>ok</Button>
+        <Button 
+			flat 
+			small
+			icon={<Icon>delete</Icon>} 
+			onClick={()=>{
+				filters = {};
+				changeFilters(filters); changeLoading(true);
+				// changeFilter(false)
+				pagination.pagenum = 1
+				changePagination(pagination)
+				getData(getData, {});
         }}>clean</Button>
-        <Button type='link' icon='close' style={{ color: '#ef1010' }} onClick={()=>changeFilter(false)}>close</Button>
+        <Button flat small icon={<Icon>close</Icon>} style={{ color: '#ef1010' }} onClick={()=>changeFilter(false)}>close</Button>
       </Row>
       <Row key='sawad5' gutter={4}>
         <br/>
@@ -215,65 +222,63 @@ const FilterList = ({
           }}
         />
       </Row>
-  </Drawer>)
+	</Modal>)
 };
 
 const enhance = compose(
 	withState('indeterminate', 'changeInder', true),
 	withState('apiData', 'changeApiData', {}),
 	withHandlers({
-    handlerColumnHider: ({ basicConfig, changeTS,  path }) => (ev, item) => {
-			// userSettings from global
-
+		handlerColumnHider: ({ basicConfig, changeTS,  path }) => (ev, item) => {
 			let userSettings = JSON.parse(localStorage.getItem('usersettings')) || {}
 			let viewsSettings = {}
 
 			if (!userSettings['views']) { // if not views key
-					userSettings['views'] = {}
+				userSettings['views'] = {}
 			}
 
 			if (userSettings['views'][path]) { // if not view in views object
-					viewsSettings = userSettings['views'][path]
+				viewsSettings = userSettings['views'][path]
 			}
 
-      if (viewsSettings.hide) {
-          let ind = _.findIndex(viewsSettings.hide, (x, i) => x === item.title);
-          if(ind !== -1) viewsSettings.hide.splice(ind, 1); else viewsSettings.hide.push(item.title)
-      } else {
-          viewsSettings.hide = [item.title]
-      }
+			if (viewsSettings.hide) {
+				let ind = _.findIndex(viewsSettings.hide, (x, i) => x === item.title);
+				if(ind !== -1) viewsSettings.hide.splice(ind, 1); else viewsSettings.hide.push(item.title)
+			} else {
+				viewsSettings.hide = [item.title]
+			}
 			localStorage.setItem('usersettings', JSON.stringify(userSettings))
 			userSettings['views'][path] = viewsSettings
 			//reduxUser.user_detail.usersettings = userSettings
 			saveUserSettings(userSettings)
-      changeTS(userSettings['views']);
-    },
+			changeTS(userSettings['views']);
+		},
 		handlerFilters: ({filters, changeFilters}) => (column, value) => {
-      filters[column] = value;
-      changeFilters(filters);
-    },
-    handlerTriCheck: ({ filters, changeFilters, changeInder }) => (column, value) => {
-      if(value==null) {
-        changeInder(false);
-        filters[column] = true;
-        changeFilters(filters);
-      }
-      if(value === true) {
-        filters[column] = false;
-        changeFilters(filters);
-      }
-      if(value === false) {
-        changeInder(true);
-        filters[column] = null;
-        changeFilters(filters);
-      }
-    },
-    handlerGetTable: ({ listConfig, filters, apiData, changeApiData }) => (item) => {
-	     apishka('GET', {}, '/api/gettable?id=' + item.id, (res) => {
-					apiData[item.title] = res.outjson;
-					changeApiData(apiData);
-		   })
-    },
+			filters[column] = value;
+			changeFilters(filters);
+		},
+		handlerTriCheck: ({ filters, changeFilters, changeInder }) => (column, value) => {
+			if(value==null) {
+				changeInder(false);
+				filters[column] = true;
+				changeFilters(filters);
+			}
+			if(value === true) {
+				filters[column] = false;
+				changeFilters(filters);
+			}
+			if(value === false) {
+				changeInder(true);
+				filters[column] = null;
+				changeFilters(filters);
+			}
+		},
+		handlerGetTable: ({ listConfig, filters, apiData, changeApiData }) => (item) => {
+			apishka('GET', {}, '/api/gettable?id=' + item.id, (res) => {
+				apiData[item.title] = res.outjson;
+				changeApiData(apiData);
+			})
+		},
 	})
 );
 

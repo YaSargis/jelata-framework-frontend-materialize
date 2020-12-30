@@ -1,11 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
 import { withRouter } from 'react-router';
-import {
-  Row, Col, Layout, Spin, Card, Collapse
-} from 'antd';
 
-const { Content } = Layout;
+import { Col, Row, Card, Preloader, Collapsible, CollapsibleItem } from 'react-materialize';
 
 import { handlerGoLink, visibleCondition } from 'src/libs/methods';
 import MyHeader from 'src/pages/layout/header';
@@ -22,7 +19,7 @@ import { expandRowGenerator } from './components/expandRow';
 import enhance from './enhance';
 
 
-const { Panel } = Collapse;
+
 const keyTable = ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,c=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15 >> c/4).toString(16));
 //Configer.nanoid();
 
@@ -75,112 +72,110 @@ const TableComp = ({
 			listData, params, listConfig, history, origin, expandState, set_state
 		);
 
-
 		function renderBlock() {
-		return (
-			<>
-				{compo ? (
-					<ActionsBlock
-						key='sd1' actions={origin.acts}
-						origin={origin} data={listData}
-						params={params} history={history}
-						location={location} getData={getData}
-						checked={checked} setLoading = {changeLoading}
-					/>
-				) : null}
-				{pagin}
-				<div key='sd2' className='size_table'>
-					<Spin spinning={loading} tip='loading...'>
-						{origin.viewtype === 'tiles' ? (
-							<div
-								className={
-									!allProps.classname || allProps.classname === ''? 'fr_tiles'
-									: allProps.classname
-								}
-							>
-								{(ready ? rows : []).map((el, i) => {
-									return (
-										<Card key={'tile_' + i} className='tiles_el'>
-											<Col>
-												{listConfig.filter((cnf) => cnf.key !== 'rownum').map((conf, ind) => {
-													return conf.visible === true ? (
-														<div> {
-															(conf.key !== '__actions__')? (
-																<Col
-																	span={conf.width || 12} key={'lfa_' + ind}
-																	className={conf.classname}
-																	style={{ borderBottom: '1px dashed #ececec' }}
-																	onDoubleClick = {() => {
-																		let action = _.find(listActions, x =>
-																			x.ismain === true &&
+			return (
+				<>
+					{compo ? (
+						<ActionsBlock
+							key='sd1' actions={origin.acts}
+							origin={origin} data={listData}
+							params={params} history={history}
+							location={location} getData={getData}
+							checked={checked} setLoading = {changeLoading}
+						/>
+					) : null}
+					{pagin}
+					<div key='sd2' className='size_table'>
+						{loading? <Preloader id='prel' size='big' active={true} flashing={true} /> : null}
+						<div>
+							{origin.viewtype === 'tiles' ? (
+								<div
+									className={
+										!allProps.classname || allProps.classname === ''? 'fr_tiles'
+										: allProps.classname
+									}
+								>
+									{(ready ? rows : []).map((el, i) => {
+										return (
+											<Card key={'tile_' + i} className='tiles_el'>
+												<Col>
+													{listConfig.filter((cnf) => cnf.key !== 'rownum').map((conf, ind) => {
+														return conf.visible === true ? (
+															<div> {
+																(conf.key !== '__actions__')? (
+																	<Col
+																		s={conf.width || 12} key={'lfa_' + ind}
+																		className={conf.classname}
+																		style={{ borderBottom: '1px dashed #ececec' }}
+																		onDoubleClick = {() => {
+																			let action = _.find(listActions, x =>
+																				x.ismain === true &&
 																				visibleCondition(el, x.act_visible_condition, params.inputs)
-																		);
-																		if (action) {
-																			switch (action.type) {
-																				case 'Link':
-																					handlerGoLink(listData[i], action, listConfig, params.inputs, history);
-																					break;
-																				 }
-																			}
-																	}}
-																>
-																	<div>
-																		<div><b>{conf.title + ': '}</b></div>
-																		<div>{el[conf.key]}</div>
-																	</div>
-																</Col>
-															)  : (
-																<Col
-																	span={24} key={'lfa_' + ind}
-																	style={{ borderBottom: '1px dashed #ececec' }}
-																>
-																	<div className='tiles_actions'>{el[conf.key]}</div>
-																</Col>
-															)
-														}
-														</div>
-													) : null;})
-												}
-											</Col>
-										</Card>
-									);})
-								}
-							</div>
-						) : (
-						    <React.Fragment key={keyTable}>
-								<div style={{ overflowX: 'auto' }}>
-									<BootstrapTable
-										classes={
-											!allProps.classname || allProps.classname === ''? 
-												'table'
-												: allProps.classname
-										} // try to apply CSS class
-									    keyField={'id'} data={rows} columns={columns2}
-									    expandRow={(origin.acts.filter(x => x.type === 'Expand')[0])? expandRow:false }
-									    noDataIndication={() => (
-											<label style={{ color: '#c1bbbb' }}>...empty...</label>
-										)}
-										cellEdit={cellEditFactory({ mode: 'click', blurToSave: true })}
-									/>
-						            <label
-										style={{ fontSize: '9px' }}>
-										count : {allProps.foundcount}
-						            </label>
-						        </div>
-						    </React.Fragment>
-	        			)}
-			    	</Spin>
-			   	</div>
-			</>
-		);}
+																			);
+																			if (action) {
+																				switch (action.type) {
+																					case 'Link':
+																						handlerGoLink(listData[i], action, listConfig, params.inputs, history);
+																						break;
+																					 }
+																				}
+																		}}
+																	>
+																		<div>
+																			<div><b>{conf.title + ': '}</b></div>
+																			<div>{el[conf.key]}</div>
+																		</div>
+																	</Col>
+																)  : (
+																	<Col
+																		s={24} key={'lfa_' + ind}
+																		style={{ borderBottom: '1px dashed #ececec' }}
+																	>
+																		<div className='tiles_actions'>{el[conf.key]}</div>
+																	</Col>
+																)
+															}
+															</div>
+														) : null;})
+													}
+												</Col>
+											</Card>
+										);})
+									}
+								</div>
+							) : (
+								<React.Fragment key={keyTable}>
+									<div style={{ overflowX: 'auto' }}>
+										<BootstrapTable
+											classes={
+												!allProps.classname || allProps.classname === ''? 
+													'table'
+													: allProps.classname
+											} // try to apply CSS class
+											keyField={'id'} data={rows} columns={columns2}
+											expandRow={(origin.acts.filter(x => x.type === 'Expand')[0])? expandRow:false }
+											noDataIndication={() => (
+												<label style={{ color: '#c1bbbb' }}>...empty...</label>
+											)}
+											cellEdit={cellEditFactory({ mode: 'click', blurToSave: true })}
+										/>
+										<label
+											style={{ fontSize: '9px' }}>
+											count : {allProps.foundcount}
+										</label>
+									</div>
+								</React.Fragment>
+							)}
+						</div>
+					</div>
+				</>
+			);
+		}
 
 		return (
-			<Collapse
-				activeKey={localChangeCollapse ? localActiveKey : collapseAll ? [] : ['1']}
-				onChange={onChangeCollapse}
-			>
-				<Panel header={allProps.title.toUpperCase()} key='1'>
-					<Content key='s3' className='f_content_app'>
+			<Collapsible accordion={false} >
+				<CollapsibleItem header={allProps.title.toUpperCase()} key='1' expanded={true}>
+					<div key='s3' className='f_content_app'>
 						<h3>{params.inputs._sub_title}</h3>
 						{(allProps.filters.filter((f) => f.position === 2).length > 0)?
 							<FilterListUp
@@ -211,17 +206,9 @@ const TableComp = ({
 								{renderBlock()}
 							</Card>
 						)}
-					</Content>
-				</Panel>
-				<style
-					dangerouslySetInnerHTML={{
-						__html: `
-							.ant-collapse-content-box {padding:0 !important}
-							.tabtab { border-collapse: collapse; width: 100%;}
-						`
-					}}
-				></style>
-			</Collapse>
+					</div>
+				</CollapsibleItem>
+			</Collapsible>
 		);
 	} else
 		return (
@@ -233,7 +220,7 @@ const TableComp = ({
 				}}
 			>
 				{' '}
-				<Spin />{' '}
+				<Preloader active={loading} />{' '}
 			</Row>
 		);
 };
