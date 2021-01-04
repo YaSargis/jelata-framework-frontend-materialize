@@ -21,6 +21,10 @@
 
 }
 
+td, th {
+	padding: 5px 5px;
+}
+
 .tiles_actions {
 	position: absolute;
 	right: 0px;

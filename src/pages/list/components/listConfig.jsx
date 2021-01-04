@@ -66,11 +66,11 @@ export const listConfigGenerate = (
 					headerTitle: true,
 					editable: item.editable,
 					style: {
-						maxWidth: item.width, minWidth: item.width,
+						maxWidth: item.width, minWidth: item.width, padding: '5px 5px'
 					},
 					searchable: true,
 					headerStyle: {
-						width: item.width, maxWidth: item.width, minWidth: item.width,
+						width: item.width, maxWidth: item.width, minWidth: item.width
 					},
 					classes: item.col === '__actions__'? 'tab_actions' : classname ,
 					headerClasses: item.col === '__actions__'?

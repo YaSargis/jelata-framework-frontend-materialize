@@ -62,13 +62,13 @@ const App = ({
 					<Breadcrumb className='teal' cols={12}>
 						{custom_menu ? (
 							_.find(custom_menu, item => item.menutype === 'Header Menu') ? (
-								<div>
+								<ul>
 									{menu_creator_header(
 										menu_creator_header,
 										_.find(custom_menu, item => item.id === 2).menu,
 										false
 									)}
-								</div>
+								</ul>
 							) : null
 						) : null}
 					</Breadcrumb>
@@ -84,7 +84,7 @@ const App = ({
 					)? (
 
 						<SideNav
-							id="SideNav-10"
+							id='SideNav-10'
 							options={{
 							  draggable: true
 							}}
@@ -137,6 +137,18 @@ const App = ({
 						<Route path='/logout' component={Logout} exact />
 						<Route component={Error_404} />
 					</Switch>
+					<Button 
+						small 
+						style={{
+							 position: 'fixed', bottom: 20,
+							left : 30
+						}}
+						onClick = {() => {
+							document.body.scrollTop = 0; // For Safari
+							document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera	
+						}}
+						icon={<MIcon tiny>keyboard_arrow_up</MIcon>} 
+					/>
 					{(localStorage.getItem('ischat') === true || localStorage.getItem('ischat') === 'true') ? (
 							<Link to='/composition/chats'>
 								<MIcon 
@@ -151,11 +163,11 @@ const App = ({
 				</Col>
 			</Col>
 
-			<div>
+			<Col>
 				<div className='ant-back-top-inner'>
-					<Button small icon={<MIcon tiny>keyboard_arrow_up</MIcon>} />
+					
 				</div>
-			</div>
+			</Col>
 		</div>
     );
 };
