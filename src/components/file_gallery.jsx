@@ -1,14 +1,17 @@
 import React from 'react';
 import { compose, withStateHandlers } from 'recompose';
-import { Row, Col, Button, Carousel, Modal, Icon } from 'antd';
 
-import {Configer} from 'src/libs/methods';
+import { Modal, Button, Slider, Slide, Caption } from 'react-materialize';
+
 
 import { api } from 'src/defaults';
 
 const File_gallery = ({
 	files = [], modal_open, set_state,
 }) => {
+	/*const imgs = []
+	files.forEach((item) => imgs.push(api._url + item.uri))*/
+	
 	if(_.isEmpty(files)){
 		return null;
 	} else return [
@@ -18,20 +21,36 @@ const File_gallery = ({
 			else
 				set_state({ modal_open: true });
 		}}/>,
-		<Modal key='s2' width={400} title='Show' visible={modal_open} onCancel={() => set_state({ modal_open: false })} footer={null}>
-			<Carousel
-				dotPosition='top'
-			>
-				{
-					files.map(el => {
-						return (
-							<div key={JSON.stringify(el)}>
-								<img key='s1' width={350} src={api._url + el.uri}/>
-							</div>
-						)
-					})
-				}
-			</Carousel>
+		<Modal
+			
+			actions={[
+				<Button 
+					onClick = {() => set_state({ modal_open: false })}
+					flat modal='close' 
+					node='button' 
+					waves='green'
+				>
+					Close
+				</Button>
+			]}
+			key={JSON.stringify(files)} 
+			header={files[0].filename} 
+			open={modal_open} 
+			id={JSON.stringify(files)} 
+			onBlur={() => set_state({ modal_open: false })}
+		>
+			<Slider options={{height:800}}>
+			{
+				files.map(el => {
+					return (
+						<Slide  >
+							<img key='s1' width={350} src={api._url + el.uri}/>
+						</Slide>
+
+					)
+				})
+			}
+			</Slider>
 		</Modal>
 	];
 };
@@ -53,3 +72,15 @@ const enhance = compose(
 );
 
 export default enhance(File_gallery);
+
+/*
+				{
+					files.map(el => {
+						return (
+							<div key={JSON.stringify(el)}>
+								<img key='s1' width={350} src={api._url + el.uri}/>
+							</div>
+						)
+					})
+				}
+*/

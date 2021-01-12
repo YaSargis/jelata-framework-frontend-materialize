@@ -1,9 +1,8 @@
 import React from 'react';
 import FileGallery from 'src/components/file_gallery';
 import ActionsBlock from 'src/pages/layout/actions';
-import { Collapse } from 'antd';
+import { Collapsible, CollapsibleItem, Checkbox } from 'react-materialize';
 
-const { Panel } = Collapse;
 
 export const listDataGenerate = (
     listData, listConfig, listActions, filters, origin, history, location, checked,
@@ -111,9 +110,9 @@ export const listDataGenerate = (
 					newItem[k] = (
 						<div>
 							{value.length > 0 ? (
-								<Collapse defaultActiveKey={['1']}>
-									<Panel header={config.title} key='1'>
-										<table>
+								<Collapsible>
+									<CollapsibleItem header={config.title} >
+										<table className='table'>
 											<thead>
 												<tr>
 													{Object.keys(value[0] || {}).map(i => {
@@ -133,8 +132,8 @@ export const listDataGenerate = (
 												})}
 											</tbody>
 										</table>
-									</Panel>
-								</Collapse>
+									</CollapsibleItem>
+								</Collapsible>
 							) : (
 								<div />
 							)}
@@ -144,7 +143,13 @@ export const listDataGenerate = (
 				else if (config.type === 'checkbox') {
 					newItem[k] = (
 						<div>
-							<input type='checkbox' disabled checked={value} />
+							<Checkbox 
+								key={config.key + k.toString()}
+								id={config.key + k.toString()}
+								disabled
+								indeterminate={(value === null || value === undefined)? true : false}
+								checked={value}									
+							/>
 						</div>
 					);
 				}
@@ -198,6 +203,30 @@ export const listDataGenerate = (
 		}
 		newItem['__checker__'] = (
 			<div>
+				<Checkbox 
+					onChange={(e)=>{
+						let id_key = listConfig.filter((conf) => conf.col.toLowerCase() === 'id' && !conf.related)[0].key
+						let Id = item[id_key]
+						let chckd = checked
+						if (e.target.checked === 'on') {
+							chckd.push(Id)
+						} else {
+							chckd = chckd.filter((ch) => ch !== Id)
+						}
+						changeChecked(chckd)
+					}}
+					id = {item.rownum}
+					checked={isCheckedRow(item)}
+				/>	
+
+			</div>
+		)
+
+		rows.push(newItem);
+	});
+	return rows;
+}
+/*
 			  <input
 				checked={isCheckedRow(item)}
 				onChange={(e) => {
@@ -212,10 +241,4 @@ export const listDataGenerate = (
 					changeChecked(chckd)
 				}}
 				type='checkbox' />
-			</div>
-		)
-
-		rows.push(newItem);
-	});
-	return rows;
-}
+*/

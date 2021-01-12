@@ -1,14 +1,13 @@
 import React from 'react';
-import {
-  DatePicker, Input, Icon
-} from 'antd';
+
+import { Icon, Checkbox } from 'react-materialize';
 import * as moment from 'moment';
 
 import Select from 'src/pages/Getone/components/select';
 import MultiSelect from 'src/pages/Getone/components/multiselect';
 import Typeahead from 'src/pages/Getone/components/typehead';
 import MultiTypehead from 'src/pages/Getone/components/multitypehead';
-import { handlerGoLink, visibleCondition } from 'src/libs/methods';
+import { handlerGoLink, visibleCondition, dateFormat } from 'src/libs/methods';
 
 export const listConfigGenerate = (
 	listConfig, listData, listActions, arr_hide, params, history, isorderby,
@@ -20,8 +19,8 @@ export const listConfigGenerate = (
 			columns2.push({
 				dataField: item.key, text: item.title,
 				title:  item.title, editable:false,
-				headerFormatter: () => (
-					<input
+				headerFormatter: () => (	
+					<Checkbox 
 						onChange={(e)=>{
 							let id_key = listConfig.filter((conf) => conf.col.toLowerCase() === 'id' && !conf.related)[0].key
 							let chckd = [] // this is new checked array
@@ -32,7 +31,7 @@ export const listConfigGenerate = (
 							}
 							changeChecked(chckd)
 						}}
-						type='checkbox' />
+					/>	
 				)
 			})
 		}
@@ -73,32 +72,25 @@ export const listConfigGenerate = (
 						width: item.width, maxWidth: item.width, minWidth: item.width
 					},
 					classes: item.col === '__actions__'? 'tab_actions' : classname ,
-					headerClasses: item.col === '__actions__'?
+					/*headerClasses: item.col === '__actions__'?
 						'tab_actions ant-table-header-column ant-table-column-has-actions'
-						: 'ant-table-header-column ant-table-column-has-actions',
+						: 'ant-table-header-column ant-table-column-has-actions',*/
 					sort: isorderby,
 					sortCaret: (order, column) => {
-						if (!order)
-							return (
-								<span style={{ fontSize: 9 }}>
-									<Icon type='caret-up' />
-									<Icon type='caret-down' />
-								</span>
-							);
-						else if (order === 'asc')
-							return (
-								<span style={{ fontSize: 9 }}>
-									<Icon style={{ color: 'red' }} type='caret-up' />
-									<Icon type='caret-down' />
-								</span>
-							);
-						else if (order === 'desc')
-							return (
-								<span style={{ fontSize: 9 }}>
-									<Icon type='caret-up' />
-									<Icon style={{ color: 'red' }} type='caret-down' />
-								</span>
-							);
+						if (column.dataField !== 'rownum' && column.dataField !== '__actions__') {
+							if (!order)
+								return (
+									<Icon style={{ fontSize: 12 }}>unfold_more</Icon>
+								);
+							else if (order === 'asc')
+								return (
+									<Icon style={{ fontSize: 12 }}>expand_less</Icon>
+								);
+							else if (order === 'desc')
+								return (
+									<Icon style={{ fontSize: 12 }}>expand_more</Icon>
+								);
+						}
 						return null;
 					},
 					onSort: (field, order) => {
@@ -123,9 +115,10 @@ export const listConfigGenerate = (
 						case 'number':
 						case 'password':
 							return (
-								<Input
+								<input
 									type={item.type}
 									value={colVal}
+									style={{border: '1px solid #9e9e9e', fontSize:14, height: '1.5rem', paddingLeft: '8px', margin: '0 0 0 0', padding: '0 0 0 0'}}
 									onChange={e => {
 										listData[rowIndex][column.dataField] = e.target.value;
 										set_state({ listData: listData });
@@ -136,41 +129,53 @@ export const listConfigGenerate = (
 						  break;
 						case 'checkbox':
 							return (
-								<Input
-									type={item.type}
+								<Checkbox 
+									key={item.key}
+									id={item.key}
+									indeterminate={(colVal === null || colVal === undefined)? true : false}
 									checked={colVal}
-									onChange={e => {
-										listData[rowIndex][column.dataField] = e.target.checked;
-										onChangeInput(e.target.checked, item, rowIndex);
+									onChange={(e)=>{
+										console.log('EEEE:', e.target.value)
+										let v = colVal
+										if (v === null || v === undefined)
+											v = true
+										else if (v === true)
+											v = false
+										else
+											v = null
+										listData[rowIndex][column.dataField] = v;
+										onChangeInput(v, item, rowIndex);
 										set_state({ listData: listData });
 									}}
+									
 								/>
 							);
 							break;
 						case 'date':
 							return (
-								<DatePicker
-									value={colVal ? moment(colVal, 'DD.MM.YYYY') : null}
-									onChange={(f, e) => {
-										listData[rowIndex][column.dataField] = e; //.target.value
-										onChangeInput(e, item, rowIndex);
+								<input
+									type='date'
+									style={{border: '1px solid #9e9e9e', fontSize:14, height: '1.5rem', paddingLeft: '8px', margin: '0 0 0 0', padding: '0 0 0 0'}}									
+									value={colVal ? dateFormat(colVal, 'date') : null}
+									onChange={(e) => {
+										listData[rowIndex][column.dataField] = e.target.value; //.target.value
+										onChangeInput(e.target.value, item, rowIndex);
 										set_state({ listData: listData });
 									}}
-								  
-									format='DD.MM.YYYY'
 								/>
 							);
 							break;
 						case 'datetime':
 							return (
-								<DatePicker
-									value={colVal ? moment(colVal, 'DD.MM.YYYY HH:mm') : null}
-									onChange={(f, ev) => {
-										listData[rowIndex][column.dataField] = ev; //.target.value
-										onChangeInput(ev, item, rowIndex);
+								<input
+									type='datetime-local'
+									style={{border: '1px solid #9e9e9e', fontSize:14, height: '1.5rem', paddingLeft: '8px', margin: '0 0 0 0', padding: '0 0 0 0'}}									
+									value={colVal ? dateFormat(colVal, 'datetime') : null}
+									onChange={(e) => {
+										listData[rowIndex][column.dataField] = e.target.value; //.target.value
+										onChangeInput(e.target.value, item, rowIndex);
 										set_state({ listData: listData });
 									}}
-									format='DD.MM.YYYY HH:mm'
 								/>
 							);
 						case 'select':

@@ -378,3 +378,21 @@ export const menu_creator_header = () => (menu_creator_header, items) => {
 		})
     } else return null;
 };
+
+export const dateFormat = (dt, c_type) => {
+	let dt2 = ''
+	if (dt && typeof(dt) === 'string') {
+		if (c_type === 'date') {
+			dt.split('.').reverse().forEach((x) => dt2 += '-' + x)
+			dt2 = dt2.slice(1)
+		} else if (c_type === 'datetime') {
+			let tm = dt.split(' ')[1]
+			dt = dt.split(' ')[0]			
+			dt.split('.').reverse().forEach((x) => dt2 += '-' + x)
+			dt2 = dt2.slice(1) + 'T' + tm
+		} else if (c_type === 'time') {
+			dt2 = '2020-01-01T' + dt			
+		}
+	} else dt2 = dt
+	return dt2
+}

@@ -299,7 +299,7 @@ const FilterList = ({
 									label={rrrow.title}
 									offLabel='Off'
 									checked={_.findIndex(arr_hide, x => x === rrrow.title) === -1}
-									onChange={(ev) => { console.log('ROW:',rrrow); handlerColumnHider(ev, rrrow)}} />
+									onChange={(ev) => {  handlerColumnHider(ev, rrrow)}} />
 							</Col>
 
 						</li>
