@@ -3,15 +3,18 @@ import * as moment from 'moment';
 import InputMask from 'react-input-mask';
 
 import {
-  Form, Spin, Card, Layout, Row,
-  Col, Checkbox, Collapse,
-  Carousel, Table, notification,
+
+  Checkbox, Collapse,
+  Carousel, Table,
   Input, DatePicker, Upload,
   Modal, Progress, Icon,
   Tooltip, AutoComplete, TimePicker,
   Button, List, Avatar, InputNumber, Rate
 } from 'antd';
-const { Content } = Layout;
+
+import { Col, Row, Card, Preloader, Collapsible, CollapsibleItem } from 'react-materialize';
+
+
 
 import ColorPicker from './components/colorpicker';
 import TextEditor from './components/text-editor';
@@ -33,10 +36,11 @@ import AceEditor from 'react-ace';
 
 import { visibleCondition /*Configer*/ } from 'src/libs/methods';
 import TextArea from 'antd/lib/input/TextArea';
-const { Panel } = Collapse;
+
 
 const keyCollapse = ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,c=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15 >> c/4).toString(16))
 
+const inputStyles = {border: '1px solid #9e9e9e', height: '2.5rem', paddingLeft: '8px', fontSize:'15px', borderRadius:'5px'}
 
 const GetOne = ({
 	location, history, set_state,
@@ -58,13 +62,13 @@ const GetOne = ({
 			case 'label':
 				if (data[item.key] instanceof Object) {
 					return (
-						<Form.Item key='1,1' label={item.title}>
+						<div key='1,1' label={item.title}><div><b>{item.title}</b></div>
 							{JSON.stringify(data[item.key])}
-						</Form.Item>
+						</div>
 					);
 				}
 				return (
-					<Form.Item key='1,1' label={item.title}>
+					<div key='1,1' label={item.title}><div><b>{item.title}</b></div>
 						<span className='ant-form-text'>{' '}
 							{!_.isNull(data[item.key])? (() => {
 								switch (typeof data[item.key]) {
@@ -81,48 +85,49 @@ const GetOne = ({
 							: ''}
 							{' '}
 						</span>
-					</Form.Item>
+					</div>
 				 );
 				break;
 			case 'text':
 				return (
-					<Form.Item key='1.2' label={item.title}>
-						<Input
+					<div key='1.2' label={item.title}><div><b>{item.title}</b></div>
+						<input
+							style={inputStyles}
 							disabled={item.read_only || false}
 							value={data[item.key] ? data[item.key] : ''}
 							onChange={event => onChangeData(event, item)}
 							onBlur={event => onChangeInput(event, item)}
 						/>
-					</Form.Item>
+					</div>
 				);
 				break;
 			case 'textarea':
 				return (
-					<Form.Item key='d2.1' label={item.title}>
+					<div key='d2.1' label={item.title}><div><b>{item.title}</b></div>
 						<TextArea
 							disabled={item.read_only || false}
 							value={data[item.key] ? data[item.key] : ''}
 							onChange={event => onChangeData(event, item)}
 							onBlur={event => onChangeInput(event, item)}
 						/>
-					</Form.Item>
+					</div>
 				);
 				break;
 			case 'date':
 				return (
-					<Form.Item key='d3' label={item.title}>
+					<div key='d3' label={item.title}><div><b>{item.title}</b></div>
 						<DatePicker
 							disabled={item.read_only || false}
 							value={data[item.key] ? moment(data[item.key], 'DD.MM.YYYY') : null}
 							onChange={(f, ev) => onChangeInput(ev, item)}
 							format='DD.MM.YYYY'
 						/>
-					</Form.Item>
+					</div>
 				);
 				break;
 			case 'autocomplete':
 				return (
-					<Form.Item key='4.b' label={item.title}>
+					<div key='4.b' label={item.title}><div><b>{item.title}</b></div>
 						<AutoComplete
 							dataSource={
 								item.selectdata? item.selectdata.map((it_ds, in_ds) => {
@@ -145,24 +150,26 @@ const GetOne = ({
 						  if (value === undefined) onChangeInput({ target: { value: null } }, item);
 						}}
 					  />
-					</Form.Item>
+					</div>
 				);
 				break;
 			case 'datetime':
 			    return (
-					<Form.Item key='d3.1' label={item.title}>
+					<div key='d3.1' label={item.title}><div><b>{item.title}</b></div>
 						<DatePicker
 							disabled={item.read_only || false}
 							value={data[item.key] ? moment(data[item.key], 'DD.MM.YYYY HH:mm') : null}
 							onChange={(f, ev) => onChangeInput(ev, item)}
 							format='DD.MM.YYYY HH:mm'
 						/>
-					</Form.Item>
+					</div>
 				);
 			case 'number':
 				return (
-					<Form.Item key='d4' label={item.title}>
-						<InputNumber
+					<div key='d4' label={item.title}><div><b>{item.title}</b></div>
+						<input
+							type='number'
+							style={inputStyles}
 							disabled={item.read_only || false}
 							value={data[item.key] === null ? null : data[item.key]}
 							onChange={event => {
@@ -170,12 +177,12 @@ const GetOne = ({
 							}}
 							onBlur={event => onChangeInput(event, item)}
 						/>
-					</Form.Item>
+					</div>
 				);
 				break;
 			case 'rate':
 				return (
-					<Form.Item key={item.key} label={item.title}>
+					<div key={item.key} label={item.title}><div><b>{item.title}</b></div>
 						<Rate
 							allowHalf
 							defaultValue={data[item.key] === null ? 0 : data[item.key]}
@@ -183,12 +190,12 @@ const GetOne = ({
 								onChangeData(event, item);
 							}}
 						/>
-					</Form.Item>
+					</div>
 				);
 				break;
 			case 'tags':
 				return (
-					<Form.Item key={item.key} label={item.title}>
+					<div key={item.key} label={item.title}><div><b>{item.title}</b></div>
 						<input
 							className = 'ant-input'
 							value = {data[item.key+item.key]}
@@ -218,24 +225,26 @@ const GetOne = ({
 								</Tag>
 							))}
 						</div>
-					</Form.Item>
+					</div>
 				);
 				break;
 			case 'password':
 				return (
-					<Form.Item key='d4.1' label={item.title}>
-						<Input.Password
+					<div key='d4.1' label={item.title}><div><b>{item.title}</b></div>
+						<input
+							type='password'
+							style={inputStyles}
 							disabled={item.read_only || false}
 							value={data[item.key]}
 							onChange={event => onChangeData(event, item)}
 							onBlur={event => onChangeInput(event, item)}
 							placeholder='password'
 						/>
-					</Form.Item>
+					</div>
 				);
 			case 'link':
 				return (
-					<Form.Item key='d4.1' label={item.title}>
+					<div key='d4.1' label={item.title}><div><b>{item.title}</b></div>
 						<div>
 							{typeof data[item.key] !== 'object' ? (
 								<a href={data[item.key]} target='_blank' rel='noopener noreferrer'>
@@ -252,7 +261,7 @@ const GetOne = ({
 								</a>
 							)}
 						</div>
-					</Form.Item>
+					</div>
 				);
 				break;
 			case 'image':
@@ -267,7 +276,7 @@ const GetOne = ({
 					})
 					: [];
 				return (
-					<Form.Item key='d4.2' label={item.title}>
+					<div key='d4.2' label={item.title}><div><b>{item.title}</b></div>
 						<Upload
 							disabled={item.read_only || false}
 							listType={item.type === 'image' ? 'picture-card' : 'text'}
@@ -309,7 +318,7 @@ const GetOne = ({
 						>
 							<img alt='example' style={{ width: '100%' }} src={previewFile.url || ''} />
 						</Modal>
-					</Form.Item>
+					</div>
 				);
 				break;
 			case 'files':
@@ -352,7 +361,7 @@ const GetOne = ({
 				break;
 			case 'filelist':
 			    return (
-					<Form.Item key='9.b' label='Filelist'>
+					<div key='9.b' label='Filelist'>
 						<List
 							itemLayout='horizontal'
 							locale={{emptyText:'...'}}
@@ -370,7 +379,7 @@ const GetOne = ({
 								</List.Item>
 							)}
 						/>
-					</Form.Item>
+					</div>
 				  );
 			case 'images':
 				return (
@@ -429,7 +438,7 @@ const GetOne = ({
 				break;
 			case 'gallery':
 				return (
-					<Form.Item key='23.p' label='Images list'>
+					<div key='23.p' label='Images list'>
 						<div className='getone__imageslist'>
 							{data[item.key]? data[item.key].map((file, index) => (
 								<Tooltip title={file.label} key={'gallerry' + file.uri}>
@@ -489,13 +498,13 @@ const GetOne = ({
 								}
 							</Carousel>
 						</Modal>
-					</Form.Item>
+					</div>
 				);
 				break;
 			case 'select':
 			case 'select_api':
 				return (
-					<Form.Item key='5.b' label={item.title}>
+					<div key='5.b' label={item.title}><div><b>{item.title}</b></div>
 						<Select
 							name={
 								([1e7]+-1e3+-4e3+-8e3+-1e11)
@@ -509,13 +518,13 @@ const GetOne = ({
 							location={location}
 							globalConfig={config}
 						/>
-					</Form.Item>
+					</div>
 				);
 				break;
 			case 'multiselect':
 			case 'multiselect_api':
 				return (
-					<Form.Item key='12.b' label={item.title}>
+					<div key='12.b' label={item.title}><div><b>{item.title}</b></div>
 						<MultiSelect
 							name={
 								([1e7]+-1e3+-4e3+-8e3+-1e11)
@@ -530,12 +539,12 @@ const GetOne = ({
 							location={location}
 							globalConfig={config}
 						/>
-					</Form.Item>
+					</div>
 				);
 			case 'typehead':
 			case 'typehead_api':
 				return (
-					<Form.Item key={item.key} label={item.title}>
+					<div key={item.key} label={item.title}><div><b>{item.title}</b></div>
 						<Typeahead
 							name={
 								([1e7]+-1e3+-4e3+-8e3+-1e11)
@@ -550,13 +559,13 @@ const GetOne = ({
 							location={location}
 							globalConfig={config}
 						/>
-					</Form.Item>
+					</div>
 				);
 				break;
 			case 'multitypehead':
 			case 'multitypehead_api':
 				return (
-					<Form.Item key='7.b' label={item.title}>
+					<div key='7.b' label={item.title}><div><b>{item.title}</b></div>
 						<MultiTypehead
 							name={
 								([1e7]+-1e3+-4e3+-8e3+-1e11)
@@ -571,12 +580,12 @@ const GetOne = ({
 							location={location}
 							globalConfig={config}
 						/>
-					</Form.Item>
+					</div>
 				);
 				break;
 			case 'checkbox':
 				return (
-					<Form.Item key='d4.6' label={item.title}>
+					<div key='d4.6' label={item.title}><div><b>{item.title}</b></div>
 						<Tooltip placement='topLeft' title={item.title || ''}>
 							<Checkbox
 								disabled={config.read_only || false}
@@ -588,24 +597,24 @@ const GetOne = ({
 								{item.title}
 							</Checkbox>
 						</Tooltip>
-					</Form.Item>
+					</div>
 				);
 				break;
 			case 'certificate':
 				return (
-					<Form.Item key='d5' label={item.title}>
+					<div key='d5' label={item.title}><div><b>{item.title}</b></div>
 						<Certificate
 							config={item}
 							data={data}
 							location={location}
 							onChangeInput={onChangeInput}
 						/>
-					</Form.Item>
+					</div>
 				);
 				break;
 			case 'time':
 			  return (
-				<Form.Item key='d6' label={item.title}>
+				<div key='d6' label={item.title}><div><b>{item.title}</b></div>
 					<TimePicker
 						format={'HH:mm'}
 						placeholder='Chose time'
@@ -615,21 +624,21 @@ const GetOne = ({
 							onChangeInput(timeString, item);
 						}}
 					/>
-				</Form.Item>
+				</div>
 			);
 			case 'colorpicker':
 				return (
-					<Form.Item key='23c' label={item.title}>
+					<div key='23c' label={item.title}><div><b>{item.title}</b></div>
 						<ColorPicker
 							currentColor={data[item.key] || '#000000'}
 							onChangeInput={onChangeInput}
 							localConfig={item}
 						/>
-						</Form.Item>
+						</div>
 				);
 			case 'color':
 				return (
-					<Form.Item key='24c' label={item.title}>
+					<div key='24c' label={item.title}><div><b>{item.title}</b></div>
 						<div
 							style = {{
 								width: '30px', height: '30px', borderRadius: '50%',
@@ -637,26 +646,26 @@ const GetOne = ({
 								border: '2px solid grey'
 								}}
 						></div>
-					</Form.Item>
+					</div>
 				);
 			case 'texteditor':
 				return (
-					<Form.Item key='1t' label={item.title}>
+					<div key='1t' label={item.title}><div><b>{item.title}</b></div>
 						<TextEditor
 							currentText={data[item.key] || ''}
 							onChangeInput={onChangeInput}
 							localConfig={item}
 						/>
-					</Form.Item>
+					</div>
 				);
 			case 'innerHtml':
 				function createMarkup() {
 					return { __html: `${data[item.key]}` };
 					}
 				return (
-					<Form.Item key='2t' label={item.title}>
+					<div key='2t' label={item.title}><div><b>{item.title}</b></div>
 						<div dangerouslySetInnerHTML={createMarkup()} />
-					</Form.Item>
+					</div>
 				);
 			case 'array':
 				const dataTable = data[item.key]? 
@@ -678,9 +687,9 @@ const GetOne = ({
 					}
 				}
 				return (
-					<Form.Item key='32u' label={item.title}>
+					<div key='32u' label={item.title}><div><b>{item.title}</b></div>
 							<Collapse defaultActiveKey={['1']}>
-							<Panel key={1}>
+							
 								<Table
 									pagination={false}
 									dataSource={dataTable}
@@ -691,13 +700,13 @@ const GetOne = ({
 									  emptyText: '...'
 									}}
 								/>
-							</Panel>
+							
 						</Collapse>
-					</Form.Item>
+					</div>
 				);
 			case 'codeEditor':
 				return (
-					<Form.Item key='2t' label={item.title}>
+					<div key='2t' label={item.title}><div><b>{item.title}</b></div>
 						<AceEditor
 							mode='python'
 							value={data[item.key] || ''}
@@ -714,90 +723,87 @@ const GetOne = ({
 								tabSize: 2
 							}}
 						/>
-					</Form.Item>
+					</div>
 				);
 			case 'phone':
 				return (
-					<Form.Item key='phone' label={item.title}>
+					<div key='phone' label={item.title}><div><b>{item.title}</b></div>
+						
 						<InputMask
 							className ='ant-input'
 							mask='+9 (999) 999-99-99' value={data[item.key]}
 							onChange={e => onChangeData(e, item)}
 							onBlur={e => onChangeInput(e)}
 						/>
-					</Form.Item>
+					</div>
 				);
 			case 'multidate':
 				return (
-					<Form.Item key='multidate' label={item.title}>
+					<div key='multidate' label={item.title}><div><b>{item.title}</b></div>
 						<MultiDate
 							config={item} data={data}
 							onChangeInput={onChangeInput}
 							onChangeData={onChangeData}
 							origin={origin}
 						/>
-					</Form.Item>
+					</div>
 				)
 			default:
 				return (
-					<Form.Item key='d22' label={item.title}>
+					<div key='d22' label={item.title}><div><b>{item.title}</b></div>
 						{item.type}
-					</Form.Item>
+					</div>
 				);
 				break;
 		}
     },
 	render_form = (
-		<Form layout='vertical'>
-			<Row gutter={8} type='flex'>
-				<Col span={24}>
-					<Row type='flex'>
-						{_.filter( config, item =>
-							(item.visible === true || item.visible === 1) &&
-								visibleCondition(data, item.visible_condition, params.inputs)
-						).map((item, ind, arr) => {
-							let width = item.width ? (item.width > 24 ? 24 : parseInt(item.width)) : 12;
-							return (
-								<Col className={item.classname} span={width} key={'ss' + ind}>
-									<div className={item.classname}>{render_childs(item)}</div>
-								</Col>
-							);
-						})}
-					</Row>
-				</Col>
-				<Col span={24}>
-					<ActionsBlock
-						actions={origin.acts} origin={origin}
-						data={data} params={params}
-						history={history} location={location}
-						getData={getData} onSave={onSave}
-						setLoading = {setLoading}
-					/>
-				</Col>
-			</Row>
-		</Form>
+		<Row>
+			<Col s={12}>
+				<Row>
+					{_.filter( config, item =>
+						(item.visible === true || item.visible === 1) &&
+							visibleCondition(data, item.visible_condition, params.inputs)
+					).map((item, ind, arr) => {
+						let width = item.width ? (item.width > 12 ? 12 : parseInt(item.width)) : 12;
+						return (
+							<Col className={item.classname} s={(width > 12) ? 12 : width} key={'ss' + ind}>
+								<div className={item.classname}>{render_childs(item)}</div>
+							</Col>
+						);
+					})}
+				</Row>
+			</Col>
+			<Col s={12}>
+				<ActionsBlock
+					actions={origin.acts} origin={origin}
+					data={data} params={params}
+					history={history} location={location}
+					getData={getData} onSave={onSave}
+					setLoading = {setLoading}
+				/>
+			</Col>
+		</Row>
 	);
 	// ------------------------------------------------------------------------------------------------------------------------
 
 	return (
-		<Collapse
-			key={keyCollapse}
-			activeKey={localChangeCollapse ? localActiveKey : collapseAll ? [] : ['1']}
-			onChange={onChangeCollapse}
-		>
-			<Panel className = {origin.classname || ''} header={(origin.title || '').toUpperCase()} key='1'>
-				<h3>{params.inputs._sub_title}</h3>
-				{loading ? (
-					<Spin key='sk' spinning={true} tip='Loading...'>
-						<Card className='f_content_app' />
-					</Spin>
-				) : (
-					<Content key='s3' className={`f_content_app get_one_form`}>
-						{render_form}
-					</Content>
-				)}
-			</Panel>
-		</Collapse>
+		<Collapsible accordion={true} key={origin.title + 'rrr'} >
+			<CollapsibleItem node='div' onClick={onChangeCollapse} header={(origin.title || '').toUpperCase()} key={origin.title} expanded={ collapseAll }>
+				<div style={collapseAll || localChangeCollapse? {} : {display: 'none'}}>
+					<h3>{params.inputs._sub_title}</h3>
+					{loading ? (
+						<Preloader >
+							<Card className='f_content_app' />
+						</Preloader>
+					) : (
+						<div>
+							{render_form}
+						</div>
+					)}
+				</div>
+			</CollapsibleItem>
+		</Collapsible>
 	);
 };
 

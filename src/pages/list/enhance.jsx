@@ -15,7 +15,7 @@ const enhance = compose(
 			popup: {
 				visible: false, x: 0, y: 0
 			},
-			expandState: [], collapseAll: false,
+			expandState: [], collapseAll: true,
 			localChangeCollapse: false,  localActiveKey: []
 		}
 	}) => ({

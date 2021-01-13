@@ -12,20 +12,20 @@ const CompositionNew = ({ history, path, compo, location, match }) => {
 	let [_state, setState] = useState({}), {
 			loading = false,	values = {},
 			id_page = null,	// pathname
-				init = false,
-			btnCollapseAll = false
+			init = false,
+			btnCollapseAll = true
 		} = _state;
 
-		const [inputs, setInputs] = useState(location.search)
+	const [inputs, setInputs] = useState(location.search)
 
-	function set_state(obj) {
+	const set_state = (obj) => {
 		let st = {..._state}, keys = _.keys(obj);
 		keys.map( k => { st[k] = obj[k] });
 		setState(st);
 	};
 
 	let _inputs = location.search;
-	function getData(_id, type) {
+	const getData = (_id, type) => {
 		apishka(
 			'GET', {},
 			`/api/compobypath?path=${_id}&inputs=${JSON.stringify(qs.parse(location.search))}`,
@@ -42,7 +42,7 @@ const CompositionNew = ({ history, path, compo, location, match }) => {
 	};
 	let _id = compo ? path : match.params.id; // if tree or composition in another component
 
-	function collapseActivityState(){
+	const collapseActivityState = () => {
 		set_state({btnCollapseAll: !btnCollapseAll});
 	}
 
@@ -75,7 +75,7 @@ const CompositionNew = ({ history, path, compo, location, match }) => {
 				<Col s={12} style={{ padding: '20px' }} >
 					<Button 
 						small onClick={ collapseActivityState }
-						icon = {btnCollapseAll ? <Icon>add</Icon> : <Icon>remove</Icon>}
+						icon = {btnCollapseAll ? <Icon>remove</Icon> : <Icon>add</Icon> }
 					/>
 						
 				</Col>

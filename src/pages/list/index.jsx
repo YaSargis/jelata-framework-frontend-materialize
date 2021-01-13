@@ -171,11 +171,10 @@ const TableComp = ({
 				</>
 			);
 		}
-
 		return (
-			<Collapsible accordion={false} >
-				<CollapsibleItem header={allProps.title.toUpperCase()} key='1' expanded={localChangeCollapse ? true : collapseAll ? false : true}>
-					<div key='s3' className='f_content_app'>
+			<Collapsible accordion={true} key={allProps.title + 'rrr'} >
+				<CollapsibleItem node='div' onClick={onChangeCollapse} header={allProps.title.toUpperCase()} key={allProps.title} expanded={ collapseAll }>
+					<div key='s3' className='f_content_app' style={collapseAll || localChangeCollapse? {} : {display: 'none'}}>
 						<h3>{params.inputs._sub_title}</h3>
 						{(allProps.filters.filter((f) => f.position === 2).length > 0)?
 							<FilterListUp
@@ -185,7 +184,7 @@ const TableComp = ({
 								listColumns={listColumns} changeLoading={changeLoading}
 								arr_hide={arr_hide} handlerGetTable={handlerGetTable}
 								changeTS={changeTS} basicConfig={basicConfig}
-								pagination = {pagination}	changePagination = {changePagination}
+								pagination = {pagination} changePagination = {changePagination}
 							/>: null
 						}
 						{compo ? null : (

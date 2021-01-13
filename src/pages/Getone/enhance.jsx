@@ -18,7 +18,7 @@ const enhance = compose(
         inState = {
 			data: {}, origin: {}, id_title: null,
 			carouselRef: React.createRef(), initIndex: 0,
-			collapseAll: false, localChangeCollapse: false,
+			collapseAll: true, localChangeCollapse: false,
 			localActiveKey: []
         }
     }) => ({
