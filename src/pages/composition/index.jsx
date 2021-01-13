@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Spin } from 'antd';
 // import MyHeader from 'src/pages/layout/header';
-import { Col, Row, Button } from 'react-materialize';
+import { Col, Row, Button, Icon } from 'react-materialize';
 import List from 'src/pages/list';
 import GetOne from 'src/pages/Getone';
 import qs from 'query-string';
@@ -72,19 +72,19 @@ const CompositionNew = ({ history, path, compo, location, match }) => {
 			}}
 		>
 			<Row key='s2' style={{ margin: '0 10px' }} >
-				<div style={{display: 'flex', justifyContent: 'right', padding: '10px 0'}}>
+				<Col s={12} style={{ padding: '20px' }} >
 					<Button 
 						small onClick={ collapseActivityState }
-						icon = {btnCollapseAll ? 'plus-square' : 'minus-square'}
-					>
-						{ !btnCollapseAll ? '+' : '-' }
-					</Button>
-				</div>
-				<Spin tip='...' spinning={loading || false}>
+						icon = {btnCollapseAll ? <Icon>add</Icon> : <Icon>remove</Icon>}
+					/>
+						
+				</Col>
+				<div>
+					{loading? <Preloader id='prel' size='big' active={true} flashing={true} /> : null}
 					{id_page === _id ? !loading ? values.config ? _.isArray(values.config)?
 						values.config.map((Item, ikf) => {
 							return (
-								<Row key={ikf} gutter={8} type='flex' justify='center' >
+								<Row key={ikf} justify='center' >
 									{Item.cols.map((x, isk) => {
 										if (
 											!values.visible_views || (
@@ -92,7 +92,7 @@ const CompositionNew = ({ history, path, compo, location, match }) => {
 												values.visible_views.filter((i) => i == x.path.id ).length > 0
 										)) {
 						 					return (
-												<Col key={isk} s={x.width || 12}>
+												<Col key={isk} s={(x.width > 12)? 12: x.width||  12}>
 													{(() => {	switch(x.path.viewtype) {
 														case 'table':
 														case 'tiles':
@@ -116,7 +116,7 @@ const CompositionNew = ({ history, path, compo, location, match }) => {
 							)
 						}) : null : null : null : null
 					}
-				</Spin>
+				</div>
 			</Row>
 		</div>
 	)

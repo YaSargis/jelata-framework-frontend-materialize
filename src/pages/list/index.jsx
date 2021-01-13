@@ -174,7 +174,7 @@ const TableComp = ({
 
 		return (
 			<Collapsible accordion={false} >
-				<CollapsibleItem header={allProps.title.toUpperCase()} key='1' expanded={true}>
+				<CollapsibleItem header={allProps.title.toUpperCase()} key='1' expanded={localChangeCollapse ? true : collapseAll ? false : true}>
 					<div key='s3' className='f_content_app'>
 						<h3>{params.inputs._sub_title}</h3>
 						{(allProps.filters.filter((f) => f.position === 2).length > 0)?
