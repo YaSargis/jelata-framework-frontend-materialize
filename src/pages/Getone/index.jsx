@@ -3,16 +3,16 @@ import * as moment from 'moment';
 import InputMask from 'react-input-mask';
 
 import {
-
-  Checkbox, Collapse,
-  Carousel, Table,
-  Input, DatePicker, Upload,
+  Carousel, Upload,
   Modal, Progress, Icon,
-  Tooltip, AutoComplete, TimePicker,
-  Button, List, Avatar, InputNumber, Rate
+  Tooltip, AutoComplete, 
+  Button, Rate
 } from 'antd';
 
-import { Col, Row, Card, Preloader, Collapsible, CollapsibleItem } from 'react-materialize';
+import { 
+	Col, Row, Card, Preloader, Collapsible, CollapsibleItem, 
+	Textarea, Autocomplete, Chip, Icon  as MIcon, Checkbox
+} from 'react-materialize';
 
 
 
@@ -34,8 +34,7 @@ import Certificate from './components/certificate';
 import { CustomArrowNext, CustomArrowPrev } from './components/custom-arrows';
 import AceEditor from 'react-ace';
 
-import { visibleCondition /*Configer*/ } from 'src/libs/methods';
-import TextArea from 'antd/lib/input/TextArea';
+import { visibleCondition, dateFormat } from 'src/libs/methods';
 
 
 const keyCollapse = ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,c=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15 >> c/4).toString(16))
@@ -101,27 +100,167 @@ const GetOne = ({
 					</div>
 				);
 				break;
-			case 'textarea':
+			case 'number':
 				return (
-					<div key='d2.1' label={item.title}><div><b>{item.title}</b></div>
-						<TextArea
+					<div key='d4' label={item.title}><div><b>{item.title}</b></div>
+						<input
+							type='number'
+							style={inputStyles}
 							disabled={item.read_only || false}
-							value={data[item.key] ? data[item.key] : ''}
-							onChange={event => onChangeData(event, item)}
+							value={data[item.key] === null ? null : data[item.key]}
+							onChange={event => {
+								onChangeData(event, item);
+							}}
 							onBlur={event => onChangeInput(event, item)}
 						/>
 					</div>
 				);
 				break;
+			case 'password':
+				return (
+					<div key='d4.1' label={item.title}><div><b>{item.title}</b></div>
+						<input
+							type='password'
+							style={inputStyles}
+							disabled={item.read_only || false}
+							value={data[item.key]}
+							onChange={event => onChangeData(event, item)}
+							onBlur={event => onChangeInput(event, item)}
+							placeholder='password'
+						/>
+					</div>
+				);
 			case 'date':
 				return (
 					<div key='d3' label={item.title}><div><b>{item.title}</b></div>
-						<DatePicker
+						<input
+							style={inputStyles}
+							type='date'
 							disabled={item.read_only || false}
-							value={data[item.key] ? moment(data[item.key], 'DD.MM.YYYY') : null}
-							onChange={(f, ev) => onChangeInput(ev, item)}
-							format='DD.MM.YYYY'
+							value={dateFormat(data[item.key], 'date')}
+							onChange={(ev) => onChangeInput(ev.target.value, item)}
 						/>
+					</div>
+				);
+				break;
+			case 'datetime':
+			    return (
+					<div key='d3.1' label={item.title}><div><b>{item.title}</b></div>
+						<input
+							style={inputStyles}
+							type='datetime-local'
+							disabled={item.read_only || false}
+							value={dateFormat(data[item.key], 'datetime')}
+							onChange={(ev) => onChangeInput(ev.target.value, item)}
+						/>
+					</div>
+				);
+				break;
+			case 'time':
+			  return (
+				<div key='d6' label={item.title}><div><b>{item.title}</b></div>
+					<input
+						style={inputStyles}
+						type='time'
+						value={dateFormat(data[item.key], 'time')}
+						onChange={(ev) => onChangeInput(ev.target.value, item)}
+						placeholder='Chose time'
+					/>
+				</div>
+			);
+			case 'checkbox':
+				return (
+					<div key='d4.6' label={item.title}><div><b>{item.title}</b></div>
+						<Checkbox 
+							key={item.key}
+							id={item.key}
+							indeterminate={(data[item.key] === null || data[item.key] === undefined)? true : false}
+							checked={data[item.key]}
+							onChange={(e)=>{
+
+								let v = data[item.key]
+								if (v === null || v === undefined)
+									v = true
+								else if (v === true)
+									v = false
+								else
+									v = null
+								onChangeInput(v, item);
+							}}
+								
+						/>
+					</div>
+				);
+				break;
+			case 'textarea':
+				return (
+					<div key='d2.1' label={item.title}><div><b>{item.title}</b></div>
+						<textarea
+							style={{border: '1px solid #9e9e9e'}}
+							disabled={item.read_only || false}
+							value={data[item.key] ? data[item.key] : ''}
+							onChange={event => onChangeData(event.target.value) }
+							onBlur={event => onChangeInput(event, item)}
+						/>
+					</div>
+				);
+				break;
+			case 'link':
+				return (
+					<div key='d4.1' label={item.title}><div><b>{item.title}</b></div>
+						<div>
+							{typeof data[item.key] !== 'object' ? (
+								<a href={data[item.key]} target='_blank' rel='noopener noreferrer'>
+									{' '}
+									{data[item.key]}
+								</a>
+							) : (
+								<a
+									href={(data[item.key] || { link: '' }).link}
+									target={(data[item.key] || {target:null}).target || '_blank'}
+									rel='noopener noreferrer'
+								>
+									{(data[item.key] || { title: '' }).title}
+								</a>
+							)}
+						</div>
+					</div>
+				);
+				break;	
+			case 'tags':
+				return (
+					<div key={item.key} label={item.title}><div><b>{item.title}</b></div>
+						<input
+							style={inputStyles}
+							value = {data[item.key+item.key]}
+							onChange = {(e) => {
+								let item2 = {key:item.key+item.key}
+								onChangeData(e, item2)
+							}}
+							onKeyPress = {(event) => {
+								if(event.key === 'Enter'){
+									let v = data[item.key] || []
+									v.push(event.target.value)
+									let item2 = {key:item.key+item.key}
+									onChangeData(v, item)
+									onChangeData('', item2)
+								}
+							}}
+						/>
+						<button style={{display:'none'}} title = '+' />
+						<div>
+							{(data[item.key] || []).map((tag) => (
+								<Chip 
+									close
+									closeIcon={<MIcon onClick = {()=>{
+										onChangeData(data[item.key].filter((x) => x != tag), item)}
+									} className="close">close</MIcon>}
+									key = {tag} closable 
+								>
+									{tag}
+								</Chip>
+							))}
+						</div>
 					</div>
 				);
 				break;
@@ -146,40 +285,31 @@ const GetOne = ({
 						placeholder='enter the value'
 						value={data[item.key]}
 						onChange={event => onChangeData(event, item)}
+						
 						onBlur={value => {
+						  	
 						  if (value === undefined) onChangeInput({ target: { value: null } }, item);
 						}}
 					  />
-					</div>
-				);
-				break;
-			case 'datetime':
-			    return (
-					<div key='d3.1' label={item.title}><div><b>{item.title}</b></div>
-						<DatePicker
-							disabled={item.read_only || false}
-							value={data[item.key] ? moment(data[item.key], 'DD.MM.YYYY HH:mm') : null}
-							onChange={(f, ev) => onChangeInput(ev, item)}
-							format='DD.MM.YYYY HH:mm'
-						/>
-					</div>
-				);
-			case 'number':
-				return (
-					<div key='d4' label={item.title}><div><b>{item.title}</b></div>
-						<input
-							type='number'
-							style={inputStyles}
-							disabled={item.read_only || false}
-							value={data[item.key] === null ? null : data[item.key]}
-							onChange={event => {
-								onChangeData(event, item);
+						<Autocomplete
+							key={item.key}
+							onBlur={value => {
+								if (value === undefined) onChangeInput({ target: { value: null } }, item);
 							}}
-							onBlur={event => onChangeInput(event, item)}
+							onChange={(e) => {
+								handlerAutoComplete(e.target.value, item)
+								onChangeInput(e, item)
+								
+							}}
+
+							value={data[item.key]}
+							options={item.selectdata}
 						/>
 					</div>
 				);
 				break;
+
+
 			case 'rate':
 				return (
 					<div key={item.key} label={item.title}><div><b>{item.title}</b></div>
@@ -193,77 +323,9 @@ const GetOne = ({
 					</div>
 				);
 				break;
-			case 'tags':
-				return (
-					<div key={item.key} label={item.title}><div><b>{item.title}</b></div>
-						<input
-							className = 'ant-input'
-							value = {data[item.key+item.key]}
-							onChange = {(e) => {
-								let item2 = {key:item.key+item.key}
-								onChangeData(e, item2)
-							}}
-							onKeyPress = {(event) => {
-								if(event.key === 'Enter'){
-									let v = data[item.key] || []
-									v.push(event.target.value)
-									let item2 = {key:item.key+item.key}
-									onChangeData(v, item)
-									onChangeData('', item2)
-								}
-							}}
-						/>
-						<button style={{display:'none'}} title = '+' />
-						<div>
-							{(data[item.key] || []).map((tag) => (
-								<Tag 
-									key = {tag} closable onClose={() => {
-										onChangeData(data[item.key].filter((x) => x != tag), item)
-									}}
-								>
-									{tag}
-								</Tag>
-							))}
-						</div>
-					</div>
-				);
-				break;
-			case 'password':
-				return (
-					<div key='d4.1' label={item.title}><div><b>{item.title}</b></div>
-						<input
-							type='password'
-							style={inputStyles}
-							disabled={item.read_only || false}
-							value={data[item.key]}
-							onChange={event => onChangeData(event, item)}
-							onBlur={event => onChangeInput(event, item)}
-							placeholder='password'
-						/>
-					</div>
-				);
-			case 'link':
-				return (
-					<div key='d4.1' label={item.title}><div><b>{item.title}</b></div>
-						<div>
-							{typeof data[item.key] !== 'object' ? (
-								<a href={data[item.key]} target='_blank' rel='noopener noreferrer'>
-									{' '}
-									{data[item.key]}
-								</a>
-							) : (
-								<a
-									href={(data[item.key] || { link: '' }).link}
-									target={(data[item.key] || {target:null}).target || '_blank'}
-									rel='noopener noreferrer'
-								>
-									{(data[item.key] || { title: '' }).title}
-								</a>
-							)}
-						</div>
-					</div>
-				);
-				break;
+
+
+
 			case 'image':
 			case 'file':
 				let fileList = [];
@@ -362,23 +424,13 @@ const GetOne = ({
 			case 'filelist':
 			    return (
 					<div key='9.b' label='Filelist'>
-						<List
-							itemLayout='horizontal'
-							locale={{emptyText:'...'}}
-							dataSource={data[item.key] ? data[item.key] : []}
-							renderItem={item => (
-								<List.Item>
-									<List.Item.Meta
-										avatar={<Avatar icon='file' />}
-										title={
-											<Tooltip title='Download' placement='right'>
-											    <a target = '_blank' href={item.src}>{item.filename}</a>
-											</Tooltip>
-										}
-									/>
-								</List.Item>
-							)}
-						/>
+						<ul>
+							{(data[item.key] || []).map(item => (
+								<li>
+									<a target = '_blank' href={item.src}>{item.filename}</a>
+								</li>
+							))}
+						</ul>
 					</div>
 				  );
 			case 'images':
@@ -583,23 +635,7 @@ const GetOne = ({
 					</div>
 				);
 				break;
-			case 'checkbox':
-				return (
-					<div key='d4.6' label={item.title}><div><b>{item.title}</b></div>
-						<Tooltip placement='topLeft' title={item.title || ''}>
-							<Checkbox
-								disabled={config.read_only || false}
-								checked={data[item.key] || false}
-								onChange={event => {
-									onChangeInput(event.target.checked, item);
-								 }}
-							>
-								{item.title}
-							</Checkbox>
-						</Tooltip>
-					</div>
-				);
-				break;
+
 			case 'certificate':
 				return (
 					<div key='d5' label={item.title}><div><b>{item.title}</b></div>
@@ -612,20 +648,7 @@ const GetOne = ({
 					</div>
 				);
 				break;
-			case 'time':
-			  return (
-				<div key='d6' label={item.title}><div><b>{item.title}</b></div>
-					<TimePicker
-						format={'HH:mm'}
-						placeholder='Chose time'
-						value={data[item.key] === null ? null : moment(data[item.key] || '', 'HH:mm')}
-						onChange={(time, timeString) => {
-							timeString === '' ? (timeString = null) : timeString;
-							onChangeInput(timeString, item);
-						}}
-					/>
-				</div>
-			);
+
 			case 'colorpicker':
 				return (
 					<div key='23c' label={item.title}><div><b>{item.title}</b></div>
@@ -688,20 +711,29 @@ const GetOne = ({
 				}
 				return (
 					<div key='32u' label={item.title}><div><b>{item.title}</b></div>
-							<Collapse defaultActiveKey={['1']}>
-							
-								<Table
-									pagination={false}
-									dataSource={dataTable}
-									columns={dataColumns}
-									scroll={{ x: true }}
-									className='getone__table'
-									locale={{
-									  emptyText: '...'
-									}}
-								/>
-							
-						</Collapse>
+						<Collapsible >
+							<CollapsibleItem header={item.title}>
+								<table>
+									<thead>
+										<tr>{
+											Object.keys(data[item.key][0] || {}).map((k)=> <th>{k}</th> )
+										}
+										</tr>
+									</thead>
+									<tbody>
+										{data[item.key].map(it => {
+											return (
+												<tr key={JSON.stringify(it)}>
+													{Object.keys(it).map(i => {
+														return <td key={i}>{it[i]}</td>;
+													})}
+												</tr>
+											);
+										})}
+									</tbody>
+								</table>
+							</CollapsibleItem>
+						</Collapsible>
 					</div>
 				);
 			case 'codeEditor':

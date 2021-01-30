@@ -391,7 +391,7 @@ export const dateFormat = (dt, c_type) => {
 			dt.split('.').reverse().forEach((x) => dt2 += '-' + x)
 			dt2 = dt2.slice(1) + 'T' + tm
 		} else if (c_type === 'time') {
-			dt2 = '2020-01-01T' + dt			
+			dt2 = dt			
 		}
 	} else dt2 = dt
 	return dt2

@@ -1,5 +1,8 @@
 import React from "react";
-import { Tag, Icon, DatePicker, notification } from "antd";
+
+import { 
+	Chip, Icon
+} from 'react-materialize';
 
 const MultiDate = ({
 	pickerVisible = false, set_state,
@@ -15,30 +18,41 @@ const MultiDate = ({
 		>
 			<div style={{ width: "content", flex: "10" }}>
 				{data[config.key] && data[config.key].map((item) => (
-					<Tag key={item} closable onClose={() => onCloseTag(item)}>
-					  {item}
-					</Tag>
+					<Chip 
+						key={item} close 
+						closeIcon={
+							<Icon 
+								onClick = {()=>{
+									onCloseTag(item)
+								}} 
+								className="close"
+							>close
+							</Icon>
+							}
+					>
+						{item}
+					</Chip>
 				))}
 				{pickerVisible && (
-					<DatePicker
-						size="small"
-						format="DD.MM.YYYY"
-						onChange={changePicker}
-					/>
+					<input type='date' onChange={changePicker} />
+
 				)}
 				{!pickerVisible && (
-					<Tag
-						onClick={() => set_state({ pickerVisible: true })}
-						style={{ background: "#fff", borderStyle: "dashed" }}
-					>
-						<Icon type="plus" /> 
-					</Tag>
+					<Icon onClick={() => set_state({ pickerVisible: true })}>add_circle_outline</Icon> 
 				)}
 			</div>
 		</div>
 	);
 };
 
+
+/*
+					<DatePicker
+						size="small"
+						format="DD.MM.YYYY"
+						onChange={changePicker}
+					/>
+*/
 import { compose, withStateHandlers, withHandlers } from "recompose";
 
 const enhance = compose(
@@ -53,16 +67,18 @@ const enhance = compose(
 	}),
 	withHandlers({
 		changePicker: ({ set_state, config, data, onChangeData, onChangeInput, origin }) => (
-			date,
-			dateString
+			/*date,
+			dateString*/
+			e
 		) => {
+			let date = e.target.value
 			set_state({ pickerVisible: false });
 			const localData = data[config.key] ? [...data[config.key]] : [];
-			const isCollision = localData.includes(dateString);
+			const isCollision = localData.includes(date.toString());
 			if (isCollision) {
-				notification.error({ message: "Date adding", duration: 2.5 });
+				alert('Date adding error');
 			} else {
-				localData.push(dateString);
+				localData.push(date.toString());
 				const isFormFull = origin.viewtype === 'form full' ? true : false;
 				isFormFull ? onChangeInput(localData, config) : onChangeData(localData, config);
 			}

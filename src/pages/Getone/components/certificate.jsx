@@ -1,7 +1,7 @@
 import React from 'react';
 import { compose, lifecycle, withStateHandlers, withHandlers } from 'recompose';
-import { Button, Modal, List, Typography, Popconfirm, Icon, notification } from 'antd';
-
+import { Modal, List, Typography, Popconfirm, Icon, notification } from 'antd';
+import {Button} from 'react-materialize';
 const Certificate = ({
 	data, config, open = false, options = [],
 	set_state, onSave, onOpen, onSelect
