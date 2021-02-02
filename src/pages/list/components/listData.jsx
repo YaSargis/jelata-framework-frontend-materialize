@@ -1,4 +1,5 @@
 import React from 'react';
+import { api } from 'src/defaults';
 import FileGallery from 'src/components/file_gallery';
 import ActionsBlock from 'src/pages/layout/actions';
 import { Collapsible, CollapsibleItem, Checkbox } from 'react-materialize';
@@ -23,8 +24,17 @@ export const listDataGenerate = (
 			};
 
 			if (config && config.visible) {
-				if (config.type === 'image' || config.type === 'images' || config.type === 'gallery') {
+				if ( config.type === 'images' || config.type === 'gallery') {
 					newItem[k] = <FileGallery files={value || []} />;
+				} else if (config.type === 'image' ) {
+					newItem[k] = (
+						<img 
+							width={150} 
+							style={{cursor:'pointer'}} 
+							onClick={() => window.open(api._url + ((value || [])[0] || {}).uri)} 
+							src={api._url + ((value || [])[0] || {}).uri} 
+						/>
+					)
 				} else if (
 					config.type === 'file' ||
 					config.type === 'files' ||

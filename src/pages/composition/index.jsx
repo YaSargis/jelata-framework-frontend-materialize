@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Spin } from 'antd';
 // import MyHeader from 'src/pages/layout/header';
 import { Col, Row, Button, Icon } from 'react-materialize';
 import List from 'src/pages/list';

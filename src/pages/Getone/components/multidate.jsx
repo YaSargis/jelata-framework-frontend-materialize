@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 import { 
 	Chip, Icon
@@ -12,26 +12,31 @@ const MultiDate = ({
 	return (
 		<div
 		  style={{
-			display: "flex", alignItems: "center",
-			border: "1px solid grey", borderRadius: 5, padding: 2,
+			display: 'flex', alignItems: 'center',
+			border: '1px solid grey', borderRadius: 5, padding: 2,
 		  }}
 		>
-			<div style={{ width: "content", flex: "10" }}>
+			<div style={{ width: 'content', flex: '10' }}>
 				{data[config.key] && data[config.key].map((item) => (
-					<Chip 
-						key={item} close 
-						closeIcon={
-							<Icon 
-								onClick = {()=>{
-									onCloseTag(item)
-								}} 
-								className="close"
-							>close
-							</Icon>
-							}
+					<div 
+						style = {{
+							display: 'inline-block', height: '32px', 'fontSize': '13px', 'fontWeight': 500,	
+							color: 'black', lineHeight: '32px', padding: '0 12px',
+							borderRadius: '16px', backgroundColor: '#e4e4e4',
+							marginBottom: '5px', marginRight: '5px'		
+						}}
+						key = {item}  
 					>
 						{item}
-					</Chip>
+						<Icon 
+							onClick = {()=>{
+								onCloseTag(item)
+							}} 
+							className='close'
+						>
+							close
+						</Icon>
+					</div>
 				))}
 				{pickerVisible && (
 					<input type='date' onChange={changePicker} />
@@ -48,12 +53,12 @@ const MultiDate = ({
 
 /*
 					<DatePicker
-						size="small"
-						format="DD.MM.YYYY"
+						size='small'
+						format='DD.MM.YYYY'
 						onChange={changePicker}
 					/>
 */
-import { compose, withStateHandlers, withHandlers } from "recompose";
+import { compose, withStateHandlers, withHandlers } from 'recompose';
 
 const enhance = compose(
 	withStateHandlers(() => ({}), {

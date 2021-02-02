@@ -1,57 +1,49 @@
 import React from 'react';
 import { compose, withStateHandlers } from 'recompose';
 
-import { Modal, Button, Slider, Slide, Caption } from 'react-materialize';
+import { Modal, Button, Carousel } from 'react-materialize';
 
 
 import { api } from 'src/defaults';
 
 const File_gallery = ({
-	files = [], modal_open, set_state,
+	files = [], modal_open, set_state, title
 }) => {
-	/*const imgs = []
-	files.forEach((item) => imgs.push(api._url + item.uri))*/
+	const imgs = []
+	files.forEach((item) => imgs.push(api._url + item.uri))
 	
 	if(_.isEmpty(files)){
 		return null;
 	} else return [
-		<img key='s1' width={150} src={api._url + files[0].uri} onClick={() => {
-			if (files[0].href)
-				window.location.replace(files[0].href)
-			else
-				set_state({ modal_open: true });
-		}}/>,
-		<Modal
-			
-			actions={[
-				<Button 
-					onClick = {() => set_state({ modal_open: false })}
-					flat modal='close' 
-					node='button' 
-					waves='green'
-				>
-					Close
-				</Button>
-			]}
-			key={JSON.stringify(files)} 
-			header={files[0].filename} 
-			open={modal_open} 
-			id={JSON.stringify(files)} 
-			onBlur={() => set_state({ modal_open: false })}
-		>
-			<Slider options={{height:800}}>
-			{
-				files.map(el => {
-					return (
-						<Slide  >
-							<img key='s1' width={350} src={api._url + el.uri}/>
-						</Slide>
+		<div style={{backgroundColor:'black', width:400}}>
+			<Carousel
+				
+				carouselId={title}
+				classname='gh'
+				options={{
+					fullWidth: false,
+					indicators: true
+				}}
+				centerImages = {true}
+				
+			>
+				{
+					files.map(el => {
+						return (
+							<div style={{width:350}} key={JSON.stringify(el)}>
+								<img 
+									key={el.uri} 
+									style={{width:350, cursor:'zoom-in'}} 
+									src={api._url + el.uri}
+									onClick={() => window.open(api._url + el.uri)}
+								/>
+							</div>
+						)
+					})
+				}
+			</Carousel>
+		</div>
 
-					)
-				})
-			}
-			</Slider>
-		</Modal>
 	];
 };
 

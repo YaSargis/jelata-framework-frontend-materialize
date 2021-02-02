@@ -305,39 +305,13 @@ const enhance = compose(
 				onSaveRow(value, item);
 		},
 		onRemoveImg: ({ data, onSaveRow }) => event => {
-            // title - binding
-            confirm({
-                title: 'delete file?', content: '',
-                onOk() {
-                    let row = event.row,
-                            row_data = data[row.key];
+            _.remove(row_data, o => o.uri === event.file_url); // deleting file
 
-                    _.remove(row_data, o => o.uri === event.file_url); // deleting file
-
-                    onSaveRow(row_data, row);
-                },
-                onCancel() {},
-                okText: 'Yes',
-                cancelText: 'No'
-            });
-            notification.info({
-                message: 'Do not forget save changes'
-            });
+            onSaveRow(row_data, row);
         },
         onRemoveFile: ({ data, onSaveRow }) => (files, uri, item) => {
-            confirm({
-                title: 'Delete file?', content: '',
-                onOk() {
-                    _.remove(files, o => o.uri === uri);
-                    onSaveRow(files, item);
-                },
-                onCancel() {},
-                okText: 'Yes',
-                cancelText: 'No'
-            });
-            notification.info({
-                message: 'Do not forget save changes'
-            });
+             _.remove(files, o => o.uri === uri);
+             onSaveRow(files, item);
         },
         onUploadFileChange: ({ set_state, data, origin, onSaveRow }) => (event, item_config, multyple) => {
             if (event.target) {

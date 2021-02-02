@@ -1,17 +1,20 @@
 import React from 'react';
-import * as moment from 'moment';
+
+
 import InputMask from 'react-input-mask';
+import FileGallery from 'src/components/file_gallery';
 
 import {
   Carousel, Upload,
   Modal, Progress, Icon,
   Tooltip, AutoComplete, 
-  Button, Rate
+  Rate
 } from 'antd';
 
 import { 
 	Col, Row, Card, Preloader, Collapsible, CollapsibleItem, 
-	Textarea, Autocomplete, Chip, Icon  as MIcon, Checkbox
+	Textarea, Autocomplete, Chip, Icon  as MIcon, Checkbox, Button,
+	Tabs, Tab
 } from 'react-materialize';
 
 
@@ -31,7 +34,6 @@ import MultiDate from "./components/multidate";
 import Typeahead from './components/typehead';
 import MultiTypehead from './components/multitypehead';
 import Certificate from './components/certificate';
-import { CustomArrowNext, CustomArrowPrev } from './components/custom-arrows';
 import AceEditor from 'react-ace';
 
 import { visibleCondition, dateFormat } from 'src/libs/methods';
@@ -130,6 +132,20 @@ const GetOne = ({
 						/>
 					</div>
 				);
+				break;
+			case 'phone':
+				return (
+					<div key='phone' label={item.title}><div><b>{item.title}</b></div>
+						
+						<InputMask
+							style={inputStyles}
+							mask='+9 (999) 999-99-99' value={data[item.key]}
+							onChange={e => onChangeData(e, item)}
+							onBlur={e => onChangeInput(e)}
+						/>
+					</div>
+				);
+				break;
 			case 'date':
 				return (
 					<div key='d3' label={item.title}><div><b>{item.title}</b></div>
@@ -250,15 +266,29 @@ const GetOne = ({
 						<button style={{display:'none'}} title = '+' />
 						<div>
 							{(data[item.key] || []).map((tag) => (
-								<Chip 
-									close
-									closeIcon={<MIcon onClick = {()=>{
-										onChangeData(data[item.key].filter((x) => x != tag), item)}
-									} className="close">close</MIcon>}
-									key = {tag} closable 
+								<div 
+									style = {{
+										display: 'inline-block', height: '32px', 'fontSize': '13px', 'fontWeight': 500,	
+										color: 'black', lineHeight: '32px', padding: '0 12px',
+										borderRadius: '16px', backgroundColor: '#e4e4e4',
+										marginBottom: '5px', marginRight: '5px'
+										
+									}}
+
+									key = {tag}  
 								>
 									{tag}
-								</Chip>
+									<MIcon 
+										onClick = {()=>{
+											let nData = data[item.key].filter((x) => x != tag)
+											onChangeData(nData, item)}
+										} 
+										className='close' 
+										style ={{cursor:'pointer'}}
+									>
+										close
+									</MIcon>
+								</div>
 							))}
 						</div>
 					</div>
@@ -326,94 +356,47 @@ const GetOne = ({
 
 
 
-			case 'image':
+			
 			case 'file':
-				let fileList = [];
-					data[item.key]? _.forEach(data[item.key], (file, file_index, files) => {
-						fileList.push({
-							row: item, uid: '-1',
-							name: file.filename, status: 'done',
-							file_url: file.uri, url: api._url + file.uri
-						});
-					})
-					: [];
-				return (
-					<div key='d4.2' label={item.title}><div><b>{item.title}</b></div>
-						<Upload
-							disabled={item.read_only || false}
-							listType={item.type === 'image' ? 'picture-card' : 'text'}
-							fileList={fileList}
-							customRequest={event => onUpload(event, item, false)}
-							onRemove={onRemoveImg}
-							onPreview={event => {
-								let file_sr = ['img', 'jpg', 'png', 'gif'];
-								function findOf(na) {
-									let result = false;
-									file_sr.forEach(el => {
-										result = !result ? na.split('.')[1] === el : result;
-									});
-									return result;
-								}
-								if (findOf(event.name)) {
-									if (event.file_url) set_state({ previewFile: event });
-									else set_state({ previewFile: false });
-								} else window.open(event.url, '_blank');
-							}}
-							onChange={onUploadFileChange}
-						>
-							{fileList.length > 0 ? null : !uploaded ? (
-								<div key='d1.2' className={item.type === 'file' ? 'getone__upload-file' : null}>
-									{item.type === 'image' ? <Icon type='plus' /> : null}
-									<div className='ant-upload-text'>
-										{' '}
-										{item.type === 'image' ? 'Upload image' : 'Upload file'}
-									</div>
-								</div>
-							) : (
-								<Progress type='circle' percent={uploaded || 0} />
-							)}
-						</Upload>
-						<Modal
-							visible={previewFile ? true : false}
-							footer={null}
-							onCancel={() => set_state({ previewFile: false })}
-						>
-							<img alt='example' style={{ width: '100%' }} src={previewFile.url || ''} />
-						</Modal>
-					</div>
-				);
-				break;
 			case 'files':
 				return (
 					<div key={data[item.key]}>
+						<div><b>{item.title}</b></div>
 						<input
-							multiple
+							multiple={(item.type==='files')?true:false}
 							onChange={e => onUploadFileChange(e, item, false)}
 							type='file'
-							placeholder={'placeholder'}
+							
 						/>
+						<hr />
 						<ul className='getone__filelist'>
 							{data[item.key]? data[item.key].map(file => (
 								<li key={file.uri} className='getone__filelist-item'>
-									<div style={{ paddingLeft: 20 }}>{file.label || file.filename}</div>
-									<div className='getone__filelist-buttons'>
-										<Tooltip title='Download' placement='topLeft'>
-											<Button
-												icon='download' size='small'
-												shape='circle'
-												style={{ border: '1px solid grey' }}
-												onClick={() => window.open(api._url + file.uri)}
-											/>
-										</Tooltip>
-										<Tooltip title='Delete' placement='topLeft'>
-											<Button
-												icon='delete' size='small'
-												shape='circle'
-												style={{ border: '1px solid grey', backgroundColor: 'crimson' }}
-												onClick={() => onRemoveFile(data[item.key], file.uri, item)}
-											/>
-										</Tooltip>
-									</div>
+									<Row>
+										<Col>{file.label || file.filename}</Col>
+										<Col>
+											<Col>
+												<Button
+													floating
+													small
+													style={{ border: '1px solid grey' }}
+													
+												>
+													<MIcon onClick={() => window.open(api._url + file.uri)}>download</MIcon>
+												</Button>
+											</Col>
+											<Col>
+												<Button
+													floating
+													small
+													style={{ border: '1px solid grey', backgroundColor: 'crimson' }}
+													onClick={() => onRemoveFile(data[item.key], file.uri, item)}
+												>
+													<MIcon>delete</MIcon>
+												</Button>
+											</Col>
+										</Col>
+									</Row>
 								 </li>
 							))
 							: null}
@@ -424,6 +407,7 @@ const GetOne = ({
 			case 'filelist':
 			    return (
 					<div key='9.b' label='Filelist'>
+						<div><b>{item.title}</b></div>
 						<ul>
 							{(data[item.key] || []).map(item => (
 								<li>
@@ -434,122 +418,53 @@ const GetOne = ({
 					</div>
 				  );
 			case 'images':
+			case 'image':
 				return (
 					<div key={data[item.key]}>
-						<label 
-							htmlFor='files' className='getone__images-label'>
-							choose image
-						</label>
+						<div><b>{item.title}</b></div>
+						
 						<input
 							accept='.jpg, .jpeg, .png'
 							id='files'
-							style={{ visibility: 'hidden', height: 1 }}
-							multiple
+							
+							multiple={item.type==='images'?true:false}
 							onChange={e => onUploadFileChange(e, item, false)}
 							type='file'
 						/>
-						<div className='getone__imageslist'>
-							{data[item.key]? data[item.key].map(file => (
-								<Tooltip title={file.label} key={file.uri}>
-									<div
-										key={file.uri}
-										className='getone__images-item'
-										style={{
-											background: `url("${file.src}") 100% 100% no-repeat`,
-											backgroundSize: 'contain',
-											backgroundPosition: 'center center'
-										}}
-									>
-										<div className='getone__imageslist-buttons'>
-											<Tooltip title='Show' placement='topLeft'>
-												<Button
-													icon='eye'
-													size='small'
-													shape='circle'
-													style={{ border: '1px solid grey' }}
-													onClick={() => window.open(api._url + file.uri)}
-												/>
-											</Tooltip>
-											<Tooltip title='Delete' placement='topLeft'>
-												<Button
-													icon='delete'
-													size='small'
-													shape='circle'
-													style={{ border: '1px solid grey', backgroundColor: 'crimson' }}
-													onClick={() => onRemoveFile(data[item.key], file.uri, item)}
-												/>
-											</Tooltip>
-										</div>
+						<hr/>
+						<Row>
+						{(data[item.key] || []).map((im) => (
+							
+								<Col s={3}>
+									<div onClick={() => window.open(api._url + im.uri)}  style={{backgroundColor:'black', height:400, width:400, textAlign: 'center', cursor:'zoom-in'}}>
+										<img 
+											
+											width={350} style={{maxHeight:400}} 
+											src = {api._url + im.uri} 
+										/>
 									</div>
-								</Tooltip>
-							))
-							: null}
-						</div>
+									<Button 
+										style={{ backgroundColor: 'crimson' }}
+										onClick={() => onRemoveFile(data[item.key], im.uri, item)}
+										className='crimson' small
+										floating
+									>
+										<MIcon>delete</MIcon>
+									</Button>
+								</Col>
+							
+						
+						))}
+						</Row>
 					</div>
 				);
 				break;
 			case 'gallery':
 				return (
 					<div key='23.p' label='Images list'>
-						<div className='getone__imageslist'>
-							{data[item.key]? data[item.key].map((file, index) => (
-								<Tooltip title={file.label} key={'gallerry' + file.uri}>
-									<div
-										key={file.uri}
-										className='getone__images-item'
-										style={{
-											background: `url("${file.src}") 100% 100% no-repeat`,
-											backgroundSize: 'contain',
-											backgroundPosition: 'center center'
-										}}
-									>
-										<div className='getone__imageslist-buttons'>
-											<Tooltip title='Show' placement='topLeft'>
-												<Button
-													icon='eye' size='small' shape='circle'
-													style={{ border: '1px solid grey' }}
-													onClick={() => window.open(api._url + file.uri)}
-												/>
-											</Tooltip>
-											<Tooltip title='Slider' placement='topLeft'>
-												<Button
-													icon='picture' size='small' shape='circle'
-													style={{ border: '1px solid grey', background: 'GreenYellow' }}
-													onClick={() => {
-														set_state({ visibleModal: true });
-															carouselRef.current !== null
-															? carouselRef.goTo(index)
-															: set_state({ initIndex: index });
-													}}
-												/>
-											</Tooltip>
-										</div>
-									</div>
-								</Tooltip>
-							))
-							: null}
-						</div>
-						<Modal
-							width={1300} visible={visibleModal}
-							onCancel={() => set_state({ visibleModal: false })}
-							footer={null}
-						>
-							<Carousel
-								ref={slider => (carouselRef = slider)}
-								arrows={true}
-								nextArrow={<CustomArrowNext />}
-								prevArrow={<CustomArrowPrev />}
-								infinite={true} speed={500}
-								slidesToShow={1}
-								slidesToScroll={1}
-								initialSlide={initIndex}
-							>
-								{data[item.key]
-									? data[item.key].map(file => <img src={file.src} key={file.uri} />)
-									: null
-								}
-							</Carousel>
-						</Modal>
+						<div><b>{item.title}</b></div>
+						<FileGallery title={item.title} files={data[item.key] || []} />
+	
 					</div>
 				);
 				break;
@@ -757,18 +672,7 @@ const GetOne = ({
 						/>
 					</div>
 				);
-			case 'phone':
-				return (
-					<div key='phone' label={item.title}><div><b>{item.title}</b></div>
-						
-						<InputMask
-							className ='ant-input'
-							mask='+9 (999) 999-99-99' value={data[item.key]}
-							onChange={e => onChangeData(e, item)}
-							onBlur={e => onChangeInput(e)}
-						/>
-					</div>
-				);
+
 			case 'multidate':
 				return (
 					<div key='multidate' label={item.title}><div><b>{item.title}</b></div>
