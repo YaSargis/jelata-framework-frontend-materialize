@@ -4,12 +4,7 @@ import React from 'react';
 import InputMask from 'react-input-mask';
 import FileGallery from 'src/components/file_gallery';
 
-import {
-  Carousel, Upload,
-  Modal, Progress, Icon,
-  Tooltip, AutoComplete, 
-  Rate
-} from 'antd';
+
 
 import { 
 	Col, Row, Card, Preloader, Collapsible, CollapsibleItem, 
@@ -136,7 +131,6 @@ const GetOne = ({
 			case 'phone':
 				return (
 					<div key='phone' label={item.title}><div><b>{item.title}</b></div>
-						
 						<InputMask
 							style={inputStyles}
 							mask='+9 (999) 999-99-99' value={data[item.key]}
@@ -297,59 +291,65 @@ const GetOne = ({
 			case 'autocomplete':
 				return (
 					<div key='4.b' label={item.title}><div><b>{item.title}</b></div>
-						<AutoComplete
-							dataSource={
-								item.selectdata? item.selectdata.map((it_ds, in_ds) => {
-									return (
-										<AutoComplete.Option key={in_ds} text={it_ds.value}>
-											{it_ds.value}
-										</AutoComplete.Option>
-									);
-								})
-								: []
-							}
-						onSelect={(event, selectedItem) =>
-						  onChangeInput({ target: { value: selectedItem.props.text } }, item)
-						}
-						onSearch={event => handlerAutoComplete(event, item)}
-						placeholder='enter the value'
-						value={data[item.key]}
-						onChange={event => onChangeData(event, item)}
-						
-						onBlur={value => {
-						  	
-						  if (value === undefined) onChangeInput({ target: { value: null } }, item);
-						}}
-					  />
-						<Autocomplete
-							key={item.key}
-							onBlur={value => {
-								if (value === undefined) onChangeInput({ target: { value: null } }, item);
-							}}
-							onChange={(e) => {
+						<input 
+							style={inputStyles}
+							value={data[item.key] ? data[item.key] : ''}
+							onChange={e => {
 								handlerAutoComplete(e.target.value, item)
 								onChangeInput(e, item)
-								
 							}}
 
-							value={data[item.key]}
-							options={item.selectdata}
 						/>
+						<ul style={{}}>
+							{(item.selectdata || []).map((it) => (
+								<li 
+									className='autocompli' 
+									style={{ 
+										cursor:'pointer', borderRadius:'12px', margin:3, padding: 5, 
+										height:35, border:'0.3pt solid #c8c8b6'
+									}}
+									onClick={() => {
+										onChangeInput(it.value, item)
+										item.selectdata = []
+									}}
+								>
+									{it.label}
+								</li>))}
+						</ul>
 					</div>
 				);
 				break;
 
 
 			case 'rate':
+				let rate = parseFloat(data[item.key]) || 0
+				let i = 0
+				let trueRate = rate
+				if (rate > 0 && (rate % 1) !== 0) {
+					rate = rate - 1
+				}
+				const stars = []
+				while ( i < rate ) {
+					stars.push({'id': i+1, 'item':'star'})
+					i += 1
+				}
+				i = 0
+				while ( i < 5-rate ) {
+					stars.push({'id': rate+i+1, 'item':'star_border'})
+					i += 1
+				}
+				if (trueRate > 0 && (trueRate % 1) !== 0) {
+					stars.push({'id': i+1, 'item':'star_half'})
+				}
+				
 				return (
-					<div key={item.key} label={item.title}><div><b>{item.title}</b></div>
-						<Rate
-							allowHalf
-							defaultValue={data[item.key] === null ? 0 : data[item.key]}
-							onChange={event => {
-								onChangeData(event, item);
-							}}
-						/>
+					<div key={item.key} label={item.title}>
+						<div><b>{item.title}</b></div>
+						<Row>
+							<div>
+								{stars.map((itm) => <MIcon onClick={(e) => onChangeData(itm.id, item)} className='starss' style={{color: '#ffef00', fontSize: '40px'}}>{itm.item}</MIcon>)}
+							</div>
+						</Row>
 					</div>
 				);
 				break;
@@ -701,7 +701,7 @@ const GetOne = ({
 						(item.visible === true || item.visible === 1) &&
 							visibleCondition(data, item.visible_condition, params.inputs)
 					).map((item, ind, arr) => {
-						let width = item.width ? (item.width > 12 ? 12 : parseInt(item.width)) : 12;
+						let width = item.width ? (item.width > 12 ? 12 : parseInt(item.width)) : 6;
 						return (
 							<Col className={item.classname} s={(width > 12) ? 12 : width} key={'ss' + ind}>
 								<div className={item.classname}>{render_childs(item)}</div>

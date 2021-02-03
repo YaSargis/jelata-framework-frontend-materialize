@@ -1,14 +1,12 @@
 import React from 'react';
-import { Result, Button } from 'antd';
+import {Button, Card} from 'react-materialize';
 
 const Error_404 = ({history, location}) => {
 	return (
-		<Result
-			status='404'
-			title='404: Not found'
-			subTitle={`${location.pathname + location.search + location.hash}`}
-			extra={<Button type="primary" onClick={() => history.goBack()} >Go Back</Button>}
-		/>
+		<Card>
+			<h1 style={{fontSize:200, color:'pink'}}>404</h1>
+			<Button type="primary" onClick={() => history.goBack()} >Go Back</Button>
+		</Card>
 	)
 };
 

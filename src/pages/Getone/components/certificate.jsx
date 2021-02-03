@@ -8,50 +8,31 @@ const Certificate = ({
 }) => {
 	let value = data[config.key];
 	return [
-		<Button onClick={onOpen} key='c1'>
-			Сhoose certificate
-		</Button>,
-		<Modal
-			key='c2'
-			title='Choose the certificate'
-			visible={open}
-			onOk={onSave}
-			onCancel={() => set_state({ open: false })}
-		>
-			<List
-				header={<h4>Certificates list</h4>}
-				size='small'
-				dataSource={options}
-				renderItem={item => (
-					value === item.thumbprint ?
-						<List.Item>
-							<Typography.Text>
+		<div>
+			<Button onClick={onOpen} key='c1'>
+				Сhoose certificate
+			</Button>
+			{(open)? (
+					<ul>
+						list:
+						{options.map((item) => (
+							<li 
+								className='autocompli' 
+								onClick={() => onSelect(item)}
+								style={{ 
+									cursor:'pointer', borderRadius:'12px', margin:3, padding: 5, 
+									height:35, border:'0.3pt solid #c8c8b6'
+								}}
+							>
 								{item.sname}
-							</Typography.Text>
-							<Icon 
-								style={{
-									right: '0',
-									position: 'absolute'
-								}} 
-								type="check-circle" />
-						</List.Item>
-					: 
-						<Popconfirm
-							placement="top"
-							title={'Confirm'}
-							onConfirm={() => onSelect(item) }
-							okText="Yes"
-							cancelText="Close"
-						>
-							<List.Item className='list-item-certificate'>
-								<Typography.Text>
-									{item.sname}
-								</Typography.Text>
-							</List.Item>
-						</Popconfirm>
-				)}
-			/>
-		</Modal>
+							</li>
+						))}
+					</ul>
+				) : null
+				
+			}
+
+		</div>
 	];
 };
 

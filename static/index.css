@@ -21,6 +21,17 @@
 
 }
 
+.starss {}
+
+.starss:hover {
+	background: #d7d7d7;
+	cursor:pointer	
+}
+.autocompli {}
+.autocompli:hover {
+	background:#ededed
+}
+
 td, th {
 	padding: 5px 5px;
 }
