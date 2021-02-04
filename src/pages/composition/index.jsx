@@ -83,7 +83,7 @@ const CompositionNew = ({ history, path, compo, location, match }) => {
 					{id_page === _id ? !loading ? values.config ? _.isArray(values.config)?
 						values.config.map((Item, ikf) => {
 							return (
-								<Row key={ikf} justify='center' >
+								<Row key={ikf} style={{ display: 'flex', flexWrap:'wrap' }}>
 									{Item.cols.map((x, isk) => {
 										if (
 											!values.visible_views || (
@@ -91,7 +91,7 @@ const CompositionNew = ({ history, path, compo, location, match }) => {
 												values.visible_views.filter((i) => i == x.path.id ).length > 0
 										)) {
 						 					return (
-												<Col key={isk} s={(x.width > 12)? 12: x.width||  12}>
+												<Col key={isk} s={(x.width > 12)? 12: Math.floor(x.width/2) ||  12}>
 													{(() => {	switch(x.path.viewtype) {
 														case 'table':
 														case 'tiles':
@@ -99,10 +99,7 @@ const CompositionNew = ({ history, path, compo, location, match }) => {
 														case 'form full':
 														case 'form not mutable':
 															return (
-																<div>
-																	<h4>{ null }</h4>
-																	<GetOne compo = {true} path = {x.path.path}	history = {history} location={location} values={values} btnCollapseAll={btnCollapseAll} />
-																</div>
+																<GetOne compo = {true} path = {x.path.path}	history = {history} location={location} values={values} btnCollapseAll={btnCollapseAll} />
 															)
 													}})()}
 												</Col>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Spin, Empty } from 'antd';
+import { Preloader } from 'react-materialize';
 import { compose, lifecycle, withHandlers, withStateHandlers } from 'recompose';
 import qs from 'query-string';
 import { components } from 'react-select';
@@ -15,13 +15,13 @@ const NoOptionsMessage = props => {
 	if(loading) {
 		return (
 			<components.NoOptionsMessage {...props}>
-				<Spin tip={'...'}/>
+				<Preloader tip={'...'}/>
 			</components.NoOptionsMessage>
 		)
 	} else {
 		return (
 			<components.NoOptionsMessage {...props}>
-				<Empty />
+				<div>NO RESULT</div>
 			</components.NoOptionsMessage>
 		);
 	}
@@ -57,14 +57,14 @@ const SelectBox = ({ name, onChange, onFocusApi, onFocus, data, inputs, config, 
     filtOptions = filtOptionGenerate(data[config.key],options)
 
     if(!status && (data[config.key] !== null)) {
-		return < Spin />
+		return < Preloader />
     } else {
 		return (
 			<AsyncSelect
 				styles={{
 					menuPortal: (base) => ({
 						...base,
-						zIndex: 9999
+						
 					}),
 					dropdownIndicator: (base) => ({
 						...base,
@@ -80,25 +80,23 @@ const SelectBox = ({ name, onChange, onFocusApi, onFocus, data, inputs, config, 
 					}),
 					input: (base) => ({
 						...base,
-						padding: 0
+						height:'25px'
 					}),
 					valueContainer: (base) => ({
 						...base,
-						padding: "0 8px",
 						color: '#000000'
 					}),
 					placeholder: (base)=>({
-						...base,
-						color: '#cdbfc7'
-					}),
-				}}
+					...base,
+					color: '#cdbfc7'
+				})}}
 				isMulti
 				menuPlacement='auto'
 				menuPortalTarget={document.body}
 				loading={loading}
-				components={{ NoOptionsMessage, LoadingMessage: () => <div style={{textAlign: 'center'}}><Spin tip='...' /></div> }}
+				components={{ NoOptionsMessage, LoadingMessage: () => <div style={{textAlign: 'center'}}><Preloader tip='...' /></div> }}
 				isClearable
-				placeholder={'Введите для поиска'}
+				placeholder={'start typing'}
 				cacheOptions
 				isDisabled={config.read_only || false}
 				value={ filtOptions }

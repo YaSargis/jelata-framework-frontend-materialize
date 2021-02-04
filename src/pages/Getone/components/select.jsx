@@ -56,7 +56,7 @@ const SelectBox = ({ onChange, data = {}, inputs, config, options = [], onFocus,
 			}}
 			menuPlacement='auto'
 			menuPortalTarget={document.body}
-			placeholder={'Choose from thr list'}
+			placeholder={'Choose from the list'}
 			isClearable
 			isDisabled={config.read_only || false}
 			value={ options[ind] || ''}

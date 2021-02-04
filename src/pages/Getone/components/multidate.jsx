@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { 
-	Chip, Icon
+	Icon
 } from 'react-materialize';
 
 const MultiDate = ({
@@ -51,13 +51,6 @@ const MultiDate = ({
 };
 
 
-/*
-					<DatePicker
-						size='small'
-						format='DD.MM.YYYY'
-						onChange={changePicker}
-					/>
-*/
 import { compose, withStateHandlers, withHandlers } from 'recompose';
 
 const enhance = compose(

@@ -1,6 +1,5 @@
 import React from 'react';
 import { compose, lifecycle, withStateHandlers, withHandlers } from 'recompose';
-import { Modal, List, Typography, Popconfirm, Icon, notification } from 'antd';
 import {Button} from 'react-materialize';
 const Certificate = ({
 	data, config, open = false, options = [],
@@ -60,10 +59,7 @@ const enhance = compose(
 					open: true,
 				})
 			}).catch( err => {
-				notification.error({
-					message: 'Error',
-					description: err.status || 'Can not found module'
-				});
+				alert('No module CryptoPro')
 			})
 		},
 		onSave: ({ set_state }) => () => {

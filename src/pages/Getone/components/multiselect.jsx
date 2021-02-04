@@ -31,7 +31,7 @@ const SelectBox = ({ onChange, onChangeInput, data = {}, inputs, config, options
         styles={{
             menuPortal: (base) => ({
                 ...base,
-                zIndex: 9999
+                
             }),
             dropdownIndicator: (base) => ({
                 ...base,
@@ -47,11 +47,10 @@ const SelectBox = ({ onChange, onChangeInput, data = {}, inputs, config, options
             }),
             input: (base) => ({
                 ...base,
-                padding: 0
+                height:'25px'
             }),
             valueContainer: (base) => ({
                 ...base,
-                padding: "0 8px",
                 color: '#000000'
             }),
             placeholder: (base)=>({

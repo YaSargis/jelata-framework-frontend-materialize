@@ -1,11 +1,12 @@
 import React from 'react';
-import { Spin, Empty } from 'antd';
+
 import { compose, lifecycle, withHandlers, withStateHandlers } from 'recompose';
 import qs from 'query-string';
 import { components } from 'react-select';
 import AsyncSelect from 'react-select/async';
 
 import { PostMessage , apishka} from 'src/libs/api';
+import { Preloader } from 'react-materialize';
 
 let timer = {};
 
@@ -15,13 +16,13 @@ const NoOptionsMessage = props => {
     if(loading) {
         return (
             <components.NoOptionsMessage {...props}>
-                <Spin tip={'...'}/>
+                <Preloader/>
             </components.NoOptionsMessage>
         )
     } else {
         return (
             <components.NoOptionsMessage {...props}>
-                <Empty />
+                <div>NO RESULT</div>
             </components.NoOptionsMessage>
         );
     }
@@ -45,7 +46,7 @@ const handleKeyDown = (evt)=>{
 const SelectBox = ({ name, onChange, onFocusApi, onFocus, data, inputs, config, options = [], loading, status }) => {
     let ind = _.findIndex(options, x => x.value === data[config.key]);
     if(!status && (data[config.key] !== null)) {
-        return < Spin />
+        return < Preloader />
     } else {
         return (
             <AsyncSelect
@@ -83,9 +84,9 @@ const SelectBox = ({ name, onChange, onFocusApi, onFocus, data, inputs, config, 
                 menuPlacement='auto'
                 menuPortalTarget={document.body}
                 loading={loading}
-                components={{ NoOptionsMessage, LoadingMessage: () => <div style={{textAlign: 'center'}}><Spin tip='Загрузка данных' /></div> }}
+                components={{ NoOptionsMessage, LoadingMessage: () => <div style={{textAlign: 'center'}}><Preloader  /></div> }}
                 isClearable
-                placeholder={'Введите для поиска'}
+                placeholder={'start typing'}
                 cacheOptions
                 isDisabled={config.read_only || false}
                 value={options[ind] || null}

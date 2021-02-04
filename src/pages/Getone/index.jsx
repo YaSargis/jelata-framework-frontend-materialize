@@ -8,8 +8,7 @@ import FileGallery from 'src/components/file_gallery';
 
 import { 
 	Col, Row, Card, Preloader, Collapsible, CollapsibleItem, 
-	Textarea, Autocomplete, Chip, Icon  as MIcon, Checkbox, Button,
-	Tabs, Tab
+	Icon  as MIcon, Checkbox, Button
 } from 'react-materialize';
 
 
