@@ -2,9 +2,9 @@ import React from 'react';
 import { compose, lifecycle, withHandlers, withStateHandlers, withState } from "recompose";
 import _ from 'lodash';
 import qs from 'query-string';
+import { NotificationManager } from 'react-notifications'
 import { saveUserSettings } from 'src/libs/methods';
 import { apishka } from "src/libs/api";
-import { notification } from 'antd';
 
 let wss = []; // ws array
 
@@ -129,9 +129,7 @@ const enhance = compose(
 				  			let data = JSON.parse(e.data)
 							if (!data.error) {
 								data.forEach((x) => {
-									notification.success({
-										message: x.notificationtext,
-									})
+									NotificationManager.success('message', x.notificationtext, 100);
 									apishka('POST', {id:x.id}, '/api/setsended')
 			  						getData(getData)
 			  					})
@@ -263,9 +261,7 @@ const enhance = compose(
 					'POST', _data, '/api/saverow', (res) => {
 						let res_data = res.outjson;
 						getData(getData);
-						notification.success({
-							message: 'Сохранено',
-						});
+						NotificationManager.success('message', 'OK', 100);
 						if (item_config.updatable && compo) {
 							let search_updater = '___hashhhh___=0.11'
 							if (location.search.indexOf('?') === -1)
@@ -279,10 +275,11 @@ const enhance = compose(
 			}).catch((err) => {
 				if(err) {
 					console.log('Unknown error:',err)
-					notification.error({
+					/*notification.error({
 						message: 'Error',
 						description: err.response ?  err.response.data.message : 'Unknown error'
-					});
+					});*/
+					NotificationManager.error('Error', err.response ?  err.response.data.message : 'Unknown error, 100);
 				}
 			});
 		}

@@ -175,7 +175,7 @@ const TableComp = ({
 			<Collapsible accordion={true} key={allProps.title + 'rrr'} >
 				<CollapsibleItem node='div' onClick={onChangeCollapse} header={allProps.title.toUpperCase()} key={allProps.title} expanded={ collapseAll }>
 					<div key='s3' className='f_content_app' style={collapseAll || localChangeCollapse? {} : {display: 'none'}}>
-						<h3>{params.inputs._sub_title}</h3>
+						<h5>{params.inputs._sub_title}</h5>
 						{(allProps.filters.filter((f) => f.position === 2).length > 0)?
 							<FilterListUp
 								getData={getData} allProps={allProps} path={location.pathname}

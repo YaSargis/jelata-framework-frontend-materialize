@@ -1,94 +1,90 @@
 import { compose, withState, withHandlers, lifecycle, withStateHandlers } from 'recompose'
-import { notification } from 'antd'
+import { NotificationManager } from 'react-notifications'
 import { apishka } from 'src/libs/api'
 
 const enhance = compose(
-    withStateHandlers(
-        ({
-            inState = {
-                legacy: true, ecp: {}, arr_scp: []
-            }
-        }) => ({
-            legacy: inState.legacy, select_scp: inState.ecp, sertificats: inState.arr_scp
-        }),
-        {
-            set_state: (state) => (obj) => {
-                let _state = {...state};
-                _.keys(obj).map( k => { _state[k] = obj[k] })
-                return _state
-            },
-            setTypeLogin: (state) => (status = true, arr_sert = state.sertificats) => {
-                return {
-                    ...state, legacy: status, sertificats: arr_sert
-                }
-            },
-            onSelectSert: (state) => (cert = {}) => ({
-                ...state, select_scp: cert
-            })
-        }
-    ),
-    withState('login', 'changeLogin', ''),
-    withState('password', 'changePassword', ''),
-    withHandlers({
-        onECP: ({ sertificats = [], legacy = true, set_state, setTypeLogin }) => () => {
-            set_state({
-                ready: false
-            });
+	withStateHandlers(
+		({
+			inState = {
+				legacy: true, ecp: {}, arr_scp: []
+			}
+		}) => ({
+			legacy: inState.legacy, select_scp: inState.ecp, sertificats: inState.arr_scp
+		}),
+		{
+			set_state: (state) => (obj) => {
+				let _state = {...state};
+				_.keys(obj).map( k => { _state[k] = obj[k] })
+				return _state
+			},
+			setTypeLogin: (state) => (status = true, arr_sert = state.sertificats) => {
+				return {
+					...state, legacy: status, sertificats: arr_sert
+				}
+			},
+			onSelectSert: (state) => (cert = {}) => ({
+				...state, select_scp: cert
+			})
+		}
+	),
+	withState('login', 'changeLogin', ''),
+	withState('password', 'changePassword', ''),
+	withHandlers({
+		onECP: ({ sertificats = [], legacy = true, set_state, setTypeLogin }) => () => {
+			set_state({
+				ready: false
+			});
 
-            if(_.isEmpty(sertificats)) {
-                if(authorize) {
-                    authorize.ecpInit().then(res => {
-                        setTypeLogin(!legacy, res.certs)
-                    }).catch(err => {
-                        notification.error({
-                            message: 'Error',
-                            description: err.status || 'Can not found the module'
-                        });
-                        set_state({
-                            ready: true
-                        })
-                    })
-                } else {
-                    notification.error({
-                        message: 'Error',
-                        description: 'Can not fount the module'
-                    })
-                    set_state({
-                        ready: true
-                    })
-                }
-            } else setTypeLogin(!legacy)
-        }
-    }),
-    withHandlers({
-        handleSubmit: ({ form, legacy, select_scp/*, set_login_status */}) => (event) => {
-            event.preventDefault()
-            if(legacy === true) {
-                form.validateFields((err, values) => {
-                    if (!err) {
-                        apishka( 'POST',    {
-                                login: values.username,
-                                pass: values.password
-                            }, '/auth/auth_f', (res) => {
-    				            location.href='/'
-                            }
-                        )
-                    }
-                })
-            } else {
-                apishka( 'POST', select_scp, '/auth/auth_crypto', (res) => {
-                        location.href='/'
-                    }
-                )
-            }
-        }
-    }),
-    lifecycle({
-        componentDidMount() {
-            document.title = 'Log In'
-            let body = document.getElementsByTagName('body')[0]
-        }
-    })
+			if(_.isEmpty(sertificats)) {
+				if(authorize) {
+					authorize.ecpInit().then(res => {
+						setTypeLogin(!legacy, res.certs)
+					}).catch(err => {
+
+						NotificationManager.error('Error', err.status || 'Can not found the module', 100)
+						set_state({
+							ready: true
+						})
+					})
+				} else {
+					NotificationManager.error('Error', 'Can not fount the module', 100)
+					set_state({
+						ready: true
+					})
+				}
+			} else setTypeLogin(!legacy)
+		}
+	}),
+	withHandlers({
+		handleSubmit: ({ form, legacy, select_scp/*, set_login_status */}) => (event) => {
+			event.preventDefault()
+			if(legacy === true) {
+				form.validateFields((err, values) => {
+					if (!err) {
+						apishka( 'POST',	{
+								login: values.username,
+								pass: values.password
+							}, '/auth/auth_f', (res) => {
+								location.href='/'
+							}
+						)
+					}
+				})
+			} else {
+				apishka( 
+					'POST', select_scp, '/auth/auth_crypto', (res) => {
+						location.href='/'
+					}
+				)
+			}
+		}
+	}),
+	lifecycle({
+		componentDidMount() {
+			document.title = 'Log In'
+			let body = document.getElementsByTagName('body')[0]
+		}
+	})
 )
 
 export default enhance

@@ -726,7 +726,7 @@ const GetOne = ({
 		<Collapsible accordion={true} key={origin.title + 'rrr'} >
 			<CollapsibleItem node='div' onClick={onChangeCollapse} header={(origin.title || '').toUpperCase()} key={origin.title} expanded={ collapseAll }>
 				<div style={collapseAll || localChangeCollapse? {} : {display: 'none'}}>
-					<h3>{params.inputs._sub_title}</h3>
+					<h5>{params.inputs._sub_title}</h5>
 					{loading ? (
 						<Preloader >
 							<Card className='f_content_app' />

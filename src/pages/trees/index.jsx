@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { Icon, Menu } from 'antd';
-const { SubMenu } = Menu;
+import { Icon } from 'antd';
 
 import { Col, Row, Button, Dropdown, Preloader, CollectionItem  } from 'react-materialize';
 

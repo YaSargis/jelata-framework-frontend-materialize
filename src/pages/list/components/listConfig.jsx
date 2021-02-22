@@ -72,23 +72,21 @@ export const listConfigGenerate = (
 						width: item.width, maxWidth: item.width, minWidth: item.width
 					},
 					classes: item.col === '__actions__'? 'tab_actions' : classname ,
-					/*headerClasses: item.col === '__actions__'?
-						'tab_actions ant-table-header-column ant-table-column-has-actions'
-						: 'ant-table-header-column ant-table-column-has-actions',*/
+
 					sort: isorderby,
 					sortCaret: (order, column) => {
 						if (column.dataField !== 'rownum' && column.dataField !== '__actions__') {
 							if (!order)
 								return (
-									<Icon style={{ fontSize: 12 }}>unfold_more</Icon>
+									<Icon style={{ fontSize: 12, display:'inline', marginLeft:3 }}>unfold_more</Icon>
 								);
 							else if (order === 'asc')
 								return (
-									<Icon style={{ fontSize: 12 }}>expand_less</Icon>
+									<Icon style={{ fontSize: 12, display:'contents', marginLeft:3 }}>expand_less</Icon>
 								);
 							else if (order === 'desc')
 								return (
-									<Icon style={{ fontSize: 12 }}>expand_more</Icon>
+									<Icon style={{ fontSize: 12, display:'contents', marginLeft:3 }}>expand_more</Icon>
 								);
 						}
 						return null;

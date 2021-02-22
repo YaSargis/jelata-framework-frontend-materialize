@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 // import MyHeader from 'src/pages/layout/header';
-import { Col, Row, Button, Icon } from 'react-materialize';
+import { Col, Row, Button, Icon, Preloader  } from 'react-materialize';
 import List from 'src/pages/list';
 import GetOne from 'src/pages/Getone';
 import qs from 'query-string';

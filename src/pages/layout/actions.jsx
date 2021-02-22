@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect }  from 'react';
 import qs from 'query-string';
 
 import axios from 'axios';
 
 import { compose, lifecycle, withHandlers } from 'recompose';
+import { NotificationManager } from 'react-notifications'
+import { Icon } from 'antd';
 
-import { Icon, notification, Modal } from 'antd';
+import {Button} from 'react-materialize';
+
+
 //import { notification } from 	'@ant-design/notification'
 import { visibleCondition, switchIcon, QueryBuilder, QueryBuilder2, bodyBuilder } from 'src/libs/methods';
 
@@ -69,13 +73,11 @@ const ActionsBlock = ({
 
 		const FmButton = (props) => {
 			let el = props.el
-			return (
+			return ((el.type !== 'Modal')?
 				<button
 					className={  el.classname + ' m-btn' }
-					size='small'
-					href='#modal1'
-					title={el.title}
-					tooltip = 'ok'
+					size='small' href='#modal1'
+					title={el.title} tooltip = 'ok'
 					style={{marginLeft:4}}
 					onClick={()=>{
 						if (!(el.actapiconfirm === true || el.type === 'Delete'))
@@ -87,7 +89,11 @@ const ActionsBlock = ({
 				>
 					<Icon type={el.icon} />
 						{'  '} { _value }
-				</button>
+				</button> 
+				:
+				<span id={el.title}>{onModal(el)}</span>
+			
+				
 			)
 		}
 
@@ -147,9 +153,10 @@ const enhance = compose(
 				apishka( config_one.actapitype, body, uri,
 					(res) => {
 						if (res && res.message) {
-							notification['success']({
+							/*notification['success']({
 								message: res.message
-							});
+							});*/
+							NotificationManager.success('Message', res.message, 100)
 						}
 						if (res && res._redirect) {
 							window.location.href = res._redirect
@@ -191,12 +198,11 @@ const enhance = compose(
 		onModal: ({getData, origin, data, location, history}) => (act) => {
 			const typeContent = act.act.split('/')[1];
 			let inputs = QueryBuilder(data, act, origin.config, history);
-
+			let mod = 'none'
 			if(!act.isforevery)
 				inputs = QueryBuilder2(data, act, origin.config, location ? qs.parse(location.search) : {});
 
 			let search = { search: inputs, pathname: act.act };
-
 			const ModalContent =  (typeContent, search, act) => {
 				switch (typeContent) {
 					case 'list':
@@ -227,34 +233,41 @@ const enhance = compose(
 							</div>
 						);
 					default:
-						const openNotification = () => {
+						/*const openNotification = () => {
 							notification.open({
 								message: `type ${typeContent} not correct  `,
 								description: 'use list or getone'
 							});
-						};
-					return openNotification;
+						};*/
+					return null
 				}
 			}
-			Modal.success({
-				title: act.title,
-				okType:'dashed',
-				width:'85%',
-				content: (
-					<div style = {{width:'100%'}}>
-						{ModalContent(typeContent, search, act)}
+			
+			let _value = !act.isforevery? act.title : ''
+			let id_key = origin.config.filter((item) => item.col.toUpperCase() === 'ID' && !item.fn && !item.related )[0].key
+
+			  
+			const changeMod = () => {
+				mod = 'block'
+			}
+			return (
+				<span>
+					<button 
+						className={  act.classname + ' m-btn' }
+						title={act.title} 
+						style={{marginLeft:4}}
+						onClick={changeMod}	
+					>
+						<Icon type={act.icon} />
+						{'  '} { _value }
+					</button>
+					<div style={{'display': mod }} >
+						<div style = {{width:'100%'}} >
+							{ModalContent(typeContent, search, act)}
+						</div>
 					</div>
-				),
-				okText: <Icon type ='close' />,
-				onOk: () => {
-					let id_key = origin.config.filter((item) => item.col.toUpperCase() === 'ID' && !item.fn && !item.related )[0].key
-					if (!act.isforevery) {
-						getData(data[id_key], getData);
-					} else {
-						getData(getData, {});
-					}
-				}
-			})
+				</span>
+			)
 		},
 		goBack: ({ history }) => () => {
 			history.goBack();

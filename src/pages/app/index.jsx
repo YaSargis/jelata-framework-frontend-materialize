@@ -6,6 +6,8 @@ import { config } from 'src/defaults';
 //const { /*Header,*/ Sider, Content } = Layout;
 import _ from 'lodash';
 import Helmet from 'react-helmet';
+import { NotificationContainer } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 
 import enhance from './enhance';
 
@@ -18,6 +20,7 @@ import Composition from 'src/pages/composition';
 import Trees from 'src/pages/trees';
 import Report from 'src/pages/report';
 import Error_404 from 'src/pages/error_404'
+
 // import {} from '@material-ui/core'
 import { Collapsible, Button, SideNav, SideNavItem, Icon as MIcon, Breadcrumb, Footer, Col } from 'react-materialize';
 import 'materialize-css'
@@ -149,6 +152,8 @@ const App = ({
 						}}
 						icon={<MIcon tiny>keyboard_arrow_up</MIcon>} 
 					/>
+					<NotificationContainer />
+
 					{(localStorage.getItem('ischat') === true || localStorage.getItem('ischat') === 'true') ? (
 							<Link to='/composition/chats'>
 								<MIcon 

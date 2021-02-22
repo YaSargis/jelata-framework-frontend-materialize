@@ -1,7 +1,7 @@
 import React from 'react';
 import { compose, withHandlers, lifecycle, withState } from 'recompose';
 import _ from 'lodash';
-import { notification, Avatar, Icon } from 'antd';
+import { NotificationManager } from 'react-notifications'
 
 import { menu_creator, saveUserSettings, menu_creator_header } from 'src/libs/methods';
 import { apishka } from 'src/libs/api';
@@ -58,9 +58,7 @@ const enhance = compose(
 			globalSocket.onmessage = (e) => {
 				let globalData = JSON.parse(e.data)
 				globalData.forEach((g_item) => {
-					notification.success({
-						message:g_item.message
-					})
+					NotificationManager.success('message', g_item.message)
 					apishka('GET',  {id: g_item.id},  '/api/setsended')
 				})
 				getMenu()

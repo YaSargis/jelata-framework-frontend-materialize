@@ -2,8 +2,8 @@ import React from 'react';
 import { compose, withHandlers, lifecycle, withStateHandlers } from 'recompose';
 import _ from 'lodash';
 
-import { notification, Modal } from 'antd';
-const confirm = Modal.confirm;
+import { NotificationManager } from 'react-notifications'
+//const confirm = Modal.confirm;
 
 import qs from 'query-string';
 
@@ -143,9 +143,7 @@ const enhance = compose(
                             let data = JSON.parse(e.data);
                             if (!data.error) {
                                 data.forEach(x => {
-                                    notification.success({
-                                        message: x.notificationtext
-                                    });
+                                    NotificationManager.success('message', x.notificationtext)
 
                                     apishka('POST', { id: x.id }, '/api/setsended')
                                     if (res.data[0])
@@ -156,9 +154,7 @@ const enhance = compose(
                             }
                         };
                         socket.onerror = error => {
-                            notification.error({
-                                message: 'ws error'
-                            });
+                            NotificationManager.error('Error', 'ws error')
                             console.log('ws error:', error);
                         };
                     }
@@ -266,18 +262,13 @@ const enhance = compose(
 							}
 							/* update compo if updatable */
 
-							notification.success({
-								message: 'OK', duration: 2
-							});
+							NotificationManager.success('message', 'OK');
 						},
 						(err) => {}
 					)
 				}).catch(err => {
 					if (err)
-						notification.error({
-							message: 'Error',
-							description: err.response ? err.response.data.message : 'Uncknown Error'
-						});
+						NotificationManager.error('Error', err.response ? err.response.data.message : 'Uncknown Error')
 				});
 			}
 		},
@@ -442,9 +433,8 @@ const enhance = compose(
 					data: { ...data },
 					loading: false
 				});
-				notification.success({
-					message: 'Ok'
-				});
+				
+				NotificationManager.success('message', 'Ok');
 				getData(data[id_title] || res_data.id, getData);
 				if (callback && typeof(callback) === 'function') {
 					callback()
