@@ -279,7 +279,7 @@ const enhance = compose(
 						message: 'Error',
 						description: err.response ?  err.response.data.message : 'Unknown error'
 					});*/
-					NotificationManager.error('Error', err.response ?  err.response.data.message : 'Unknown error, 100);
+					NotificationManager.error('Error', err.response ?  err.response.data.message : 'Unknown error', 100);
 				}
 			});
 		}
