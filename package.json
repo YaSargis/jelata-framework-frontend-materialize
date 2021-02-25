@@ -74,6 +74,7 @@
     "react-bootstrap-table-next": "^3.3.5",
     "react-bootstrap-table2-editor": "^1.4.0",
     "react-color": "^2.18.1",
+    "react-confirm-alert": "^2.7.0",
     "react-contextmenu": "^2.14.0",
     "react-dom": "^16.13.1",
     "react-helmet": "^5.2.1",

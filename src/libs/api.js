@@ -1,7 +1,7 @@
-import { api } from 'src/defaults';
+import { api } from 'src/defaults'
 
-import { NotificationManager } from 'react-notifications';
-import axios from 'axios';
+import { NotificationManager } from 'react-notifications'
+import axios from 'axios'
 
 export const apishka = (type, data, methodname, cb = () => {}, err = () => {}) => {
   /* Call API methods with axios */
@@ -27,7 +27,7 @@ export const apishka = (type, data, methodname, cb = () => {}, err = () => {}) =
 			console.log(methodname,':',error)
 		}
 
-		NotificationManager.error('Error', errText, 5000);
+		NotificationManager.error('Error', errText, 5000)
 		
 		let redirect401 = localStorage.getItem('redirect401')
 		if (!redirect401 ||  redirect401 === 'undefined' || redirect401 === 'null') {
@@ -38,7 +38,7 @@ export const apishka = (type, data, methodname, cb = () => {}, err = () => {}) =
 			error.response && error.response.status === 401 &&
 			window.location.pathname !== redirect401
 		) {
-			window.location.replace(redirect401);
+			window.location.replace(redirect401)
 		}
-	});
+	})
 }

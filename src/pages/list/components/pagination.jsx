@@ -1,8 +1,8 @@
-import React from 'react';
-// import { Pagination } from 'antd';
-import FilterList from '../components/filter-list';
-import { Col, Row, Button, Icon } from 'react-materialize';
-import Select from 'react-select';
+import React from 'react'
+// import { Pagination } from 'antd'
+import FilterList from '../components/filter-list'
+import { Col, Row, Button, Icon } from 'react-materialize'
+import Select from 'react-select'
 
 export const PegiNation = (
 	allProps, location, listConfig, listColumns, arr_hide, basicConfig, filter,
@@ -41,7 +41,7 @@ export const PegiNation = (
 									}),
 									valueContainer: (base) => ({
 										...base,
-										padding: "0 8px",
+										padding: '0 8px',
 										color: '#000000'
 									}),
 									placeholder: (base)=>({

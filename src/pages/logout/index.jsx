@@ -1,7 +1,7 @@
-import React from 'react';
-import { compose, withState, withHandlers, lifecycle } from 'recompose';
+import React from 'react'
+import { compose, withState, withHandlers, lifecycle } from 'recompose'
 
-import { apishka } from 'src/libs/api';
+import { apishka } from 'src/libs/api'
 
 const enhance = compose(
 	lifecycle({
@@ -15,10 +15,10 @@ const enhance = compose(
 			)
 		}
 	})
-);
+)
 
 const Logout = () => {
 	return <div></div>
 }
 
-export default enhance(Logout);
+export default enhance(Logout)

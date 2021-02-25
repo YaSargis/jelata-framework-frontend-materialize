@@ -1,35 +1,35 @@
-import React from 'react';
-import reactCSS from 'reactcss';
-import { SketchPicker } from 'react-color';
+import React from 'react'
+import reactCSS from 'reactcss'
+import { SketchPicker } from 'react-color'
 
 class SketchExample extends React.Component {
 	constructor(props) {
-		super(props);
+		super(props)
 		this.state = {
 		  displayColorPicker: false,
 		  color: props.currentColor
 		}
 
-		this.handleClick = this.handleClick.bind(this);
-		this.handleClose = this.handleClose.bind(this);
-		this.handleChange = this.handleChange.bind(this);
+		this.handleClick = this.handleClick.bind(this)
+		this.handleClose = this.handleClose.bind(this)
+		this.handleChange = this.handleChange.bind(this)
 	}
 
 	handleClick() {
 		this.setState({ displayColorPicker: !this.state.displayColorPicker })
-	};
+	}
 
 	handleClose() {
 		this.setState({ displayColorPicker: false })
-	};
+	}
 
 	handleChange (color) {
-		this.setState({ color: color.hex });
-		this.props.onChangeInput(color.hex, this.props.localConfig);
-	};
+		this.setState({ color: color.hex })
+		this.props.onChangeInput(color.hex, this.props.localConfig)
+	}
 
 	render() {
-		const {currentColor, onChangeInput} = this.props;
+		const {currentColor, onChangeInput} = this.props
 		const styles = reactCSS({
 		'default': {
 			color: {
@@ -57,7 +57,7 @@ class SketchExample extends React.Component {
 				bottom: '0px',
 				left: '0px',
 			},
-		},});
+		},})
 
 		return (
 			<div>
@@ -71,8 +71,8 @@ class SketchExample extends React.Component {
 					</div>
 				) : null }
 			</div>
-		);
+		)
 	}
 }
 
-export default SketchExample;
+export default SketchExample

@@ -1,5 +1,5 @@
-import React from 'react';
-import {Button, Card} from 'react-materialize';
+import React from 'react'
+import {Button, Card} from 'react-materialize'
 
 const Error_404 = ({history, location}) => {
 	return (
@@ -8,6 +8,6 @@ const Error_404 = ({history, location}) => {
 			<Button type="primary" onClick={() => history.goBack()} >Go Back</Button>
 		</Card>
 	)
-};
+}
 
-export default Error_404;
+export default Error_404

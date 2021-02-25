@@ -1,10 +1,10 @@
-import React from 'react';
-import { compose, withStateHandlers } from 'recompose';
+import React from 'react'
+import { compose, withStateHandlers } from 'recompose'
 
-import { Modal, Button, Carousel } from 'react-materialize';
+import { Modal, Button, Carousel } from 'react-materialize'
 
 
-import { api } from 'src/defaults';
+import { api } from 'src/defaults'
 
 const File_gallery = ({
 	files = [], modal_open, set_state, title
@@ -13,7 +13,7 @@ const File_gallery = ({
 	files.forEach((item) => imgs.push(api._url + item.uri))
 	
 	if(_.isEmpty(files)){
-		return null;
+		return null
 	} else return [
 		<div style={{backgroundColor:'black', width:400}}>
 			<Carousel
@@ -44,8 +44,8 @@ const File_gallery = ({
 			</Carousel>
 		</div>
 
-	];
-};
+	]
+}
 
 const enhance = compose(
 	withStateHandlers(({
@@ -56,23 +56,12 @@ const enhance = compose(
 		modal_open: inState.modal_open
 	}),{
 		set_state: (state) => (obj) => {
-			let _state = {...state};
+			let _state = {...state}
 				_.keys(obj).map( k => { _state[k] = obj[k] })
-			return _state;
+			return _state
 		},
 	}),
-);
+)
 
-export default enhance(File_gallery);
+export default enhance(File_gallery)
 
-/*
-				{
-					files.map(el => {
-						return (
-							<div key={JSON.stringify(el)}>
-								<img key='s1' width={350} src={api._url + el.uri}/>
-							</div>
-						)
-					})
-				}
-*/

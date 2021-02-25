@@ -1,13 +1,13 @@
-import React from 'react';
-import { compose, withHandlers, lifecycle, withState } from 'recompose';
-import _ from 'lodash';
+import React from 'react'
+import { compose, withHandlers, lifecycle, withState } from 'recompose'
+import _ from 'lodash'
 import { NotificationManager } from 'react-notifications'
 
-import { menu_creator, saveUserSettings, menu_creator_header } from 'src/libs/methods';
-import { apishka } from 'src/libs/api';
-import { api } from 'src/defaults';
+import { menu_creator, saveUserSettings, menu_creator_header } from 'src/libs/methods'
+import { apishka } from 'src/libs/api'
+import { api } from 'src/defaults'
 
-let chatSocket;
+let chatSocket
 
 
 const enhance = compose(
@@ -45,16 +45,16 @@ const enhance = compose(
 	}),
 	withHandlers({
 		handleGlobalWS: ({ getMenu}) => () => {
-			let ws = document.location.href.split('//')[1];
+			let ws = document.location.href.split('//')[1]
 			let ws_protocol = document.location.href.split('//')[0].indexOf('s') !== -1? 'wss' : 'ws'
 			console.log('ws_protocol', ws_protocol)
-			ws = ws.split('/')[0];
+			ws = ws.split('/')[0]
 			  
 			ws = ws_protocol + '://' + ws + '/global_ws'
-			let globalSocket = new WebSocket(ws);
+			let globalSocket = new WebSocket(ws)
 			globalSocket.onopen = () => {
-				globalSocket.send(JSON.stringify({}));
-			};
+				globalSocket.send(JSON.stringify({}))
+			}
 			globalSocket.onmessage = (e) => {
 				let globalData = JSON.parse(e.data)
 				globalData.forEach((g_item) => {
@@ -67,7 +67,7 @@ const enhance = compose(
 	}),
     lifecycle({
 		componentDidMount(){
-			const { changeCollapsed, handleGlobalWS, getMenu} = this.props;
+			const { changeCollapsed, handleGlobalWS, getMenu} = this.props
 			let userSettings = JSON.parse(localStorage.getItem('usersettings'))
 			if (userSettings && userSettings.menuCollapse !== undefined) {
 				changeCollapsed(userSettings.menuCollapse)
@@ -93,23 +93,23 @@ const enhance = compose(
 				localStorage.setItem('login_url', '/login')
 			}
 
-			getMenu();
-			// handleChatWS();
-			handleGlobalWS();
+			getMenu()
+			// handleChatWS()
+			handleGlobalWS()
 		},
 		UNSAFE_componentWillMount() {
-			let body = document.getElementsByTagName('body')[0];
-			body.classList.remove("login_bckg");
+			let body = document.getElementsByTagName('body')[0]
+			body.classList.remove('login_bckg')
 		},
 		componentDidUpdate(prevProps){
-			const { chatId, set_first_id, location, handleChatWS, set_chat_id, handleGlobalWS } = this.props;
+			const { chatId, set_first_id, location, handleChatWS, set_chat_id, handleGlobalWS } = this.props
 
 			if(prevProps.chatId !== chatId) {
-				chatSocket.close();
-				handleChatWS();
+				chatSocket.close()
+				handleChatWS()
 			}
 		}
 	})
 )
 
-export default enhance;
+export default enhance

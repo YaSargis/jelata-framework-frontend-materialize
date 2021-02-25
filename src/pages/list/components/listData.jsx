@@ -1,8 +1,8 @@
-import React from 'react';
-import { api } from 'src/defaults';
-import FileGallery from 'src/components/file_gallery';
-import ActionsBlock from 'src/pages/layout/actions';
-import { Collapsible, CollapsibleItem, Checkbox } from 'react-materialize';
+import React from 'react'
+import { api } from 'src/defaults'
+import FileGallery from 'src/components/file_gallery'
+import ActionsBlock from 'src/pages/layout/actions'
+import { Collapsible, CollapsibleItem, Checkbox } from 'react-materialize'
 
 
 export const listDataGenerate = (
@@ -11,21 +11,21 @@ export const listDataGenerate = (
 ) => {
 	const rows = []
 	listData.forEach((item, ind) => {
-		let newItem = {};
+		let newItem = {}
 		Object.keys(item).forEach(k => {
-			let config = listConfig.filter(conf => conf.key === k)[0];
-			let value = item[k];
+			let config = listConfig.filter(conf => conf.key === k)[0]
+			let value = item[k]
 			const colorRow = (args, config) => {
 				/*  function for type colorrow /painting row in seleted color */
-				let colorrowtitle;
+				let colorrowtitle
 				if (config.filter(x => x.type === 'colorrow').length > 0)
-					colorrowtitle = config.filter(x => x.type === 'colorrow')[0].key;
-				return args[colorrowtitle];
-			};
+					colorrowtitle = config.filter(x => x.type === 'colorrow')[0].key
+				return args[colorrowtitle]
+			}
 
 			if (config && config.visible) {
 				if ( config.type === 'images' || config.type === 'gallery') {
-					newItem[k] = <FileGallery files={value || []} />;
+					newItem[k] = <FileGallery files={value || []} />
 				} else if (config.type === 'image' ) {
 					newItem[k] = (
 						<img 
@@ -55,7 +55,7 @@ export const listDataGenerate = (
 								</li>
 							))}
 						</ul>
-					);
+					)
 				} else if (config.type === 'link') {
 					newItem[k] = (
 					  <div>
@@ -71,9 +71,9 @@ export const listDataGenerate = (
 						  </a>
 						)}
 					  </div>
-					);
+					)
 				} else if (config.type === 'color' || config.type === 'colorpicker') {
-					newItem[k] = <div style={{ width: 20, height: 20, backgroundColor: value }} />;
+					newItem[k] = <div style={{ width: 20, height: 20, backgroundColor: value }} />
 				} else if (config.type === 'select' || config.type === 'typehead') {
 					if (
 					  config.relation && config.relationcolums &&
@@ -93,7 +93,7 @@ export const listDataGenerate = (
 										value.toString().split('\n').map((it, key) => {
 										return (
 											<span key={key}>{it}<br /></span>
-										);
+										)
 									}))
 								) : (
 									''
@@ -110,7 +110,7 @@ export const listDataGenerate = (
 									value.toString().split('\n').map((it, key) => {
 										return (
 											<span key={key}>{it}<br /></span>
-										);
+										)
 									}))
 								) : ('')}
 							</div>
@@ -126,7 +126,7 @@ export const listDataGenerate = (
 											<thead>
 												<tr>
 													{Object.keys(value[0] || {}).map(i => {
-														return <th key={i}>{i}</th>;
+														return <th key={i}>{i}</th>
 													})}
 												</tr>
 											</thead>
@@ -135,10 +135,10 @@ export const listDataGenerate = (
 													return (
 														<tr key={JSON.stringify(it)}>
 															{Object.keys(it).map(i => {
-																return <td key={i}>{it[i]}</td>;
+																return <td key={i}>{it[i]}</td>
 															})}
 														</tr>
-													);
+													)
 												})}
 											</tbody>
 										</table>
@@ -148,7 +148,7 @@ export const listDataGenerate = (
 								<div />
 							)}
 						</div>
-					);
+					)
 				}
 				else if (config.type === 'checkbox') {
 					newItem[k] = (
@@ -161,14 +161,14 @@ export const listDataGenerate = (
 								checked={value}									
 							/>
 						</div>
-					);
+					)
 				}
 				else if (config.type === 'innerHtml') {
 					newItem[k] = (
 						<div>
 							<div dangerouslySetInnerHTML={{__html:value}} />
 						</div>
-					);
+					)
 				}
 				else {
 					newItem[k] = (
@@ -182,18 +182,18 @@ export const listDataGenerate = (
 											<span key={key}> {it}
 												<br />
 											</span>
-										);
+										)
 									})
 								)
 							) : (
 							  ''
 							)}
 						</div>
-					);
+					)
 				}
 			}
-		});
-		let paramS = get_params();
+		})
+		let paramS = get_params()
 		newItem['__actions__'] = (
 			<ActionsBlock
 			  actions={listActions || []} origin={origin || {}}
@@ -202,8 +202,8 @@ export const listDataGenerate = (
 			  getData={() => getData(getData, filters)}
 			  type='table' checked={checked} setLoading = {changeLoading}
 			/>
-		);
-		newItem['id'] = ind;
+		)
+		newItem['id'] = ind
 		const isCheckedRow = (item) => {
 			let id_key = listConfig.filter((conf) => conf.col.toLowerCase() === 'id' && !conf.related)[0].key
 			if (checked.filter((ch) => item[id_key] === ch).length>0) {
@@ -232,9 +232,9 @@ export const listDataGenerate = (
 			</div>
 		)
 
-		rows.push(newItem);
-	});
-	return rows;
+		rows.push(newItem)
+	})
+	return rows
 }
 /*
 			  <input

@@ -1,9 +1,9 @@
-import React from 'react';
-import ActionsBlock from 'src/pages/layout/actions';
-import BootstrapTable from 'react-bootstrap-table-next';
-import cellEditFactory from 'react-bootstrap-table2-editor';
-import { handlerGoLink, visibleCondition } from 'src/libs/methods';
-import { Col, Card, Preloader } from 'react-materialize';
+import React from 'react'
+import ActionsBlock from 'src/pages/layout/actions'
+import BootstrapTable from 'react-bootstrap-table-next'
+import cellEditFactory from 'react-bootstrap-table2-editor'
+import { handlerGoLink, visibleCondition } from 'src/libs/methods'
+import { Col, Card, Preloader } from 'react-materialize'
 
 
 export const renderBlock = ({
@@ -47,12 +47,12 @@ export const renderBlock = ({
 																let action = _.find(listActions, x =>
 																	x.ismain === true &&
 																	visibleCondition(el, x.act_visible_condition, params.inputs)
-																);
+																)
 																if (action) {
 																	switch (action.type) {
 																		case 'Link':
-																			handlerGoLink(listData[i], action, listConfig, params.inputs, history);
-																		break;
+																			handlerGoLink(listData[i], action, listConfig, params.inputs, history)
+																		break
 																	}
 																}
 															}}
@@ -71,11 +71,11 @@ export const renderBlock = ({
 														</Col>
 													)}
 													</div>
-												) : null;})
+												) : null})
 											}
 										</Col>
 									</Card>
-								);})
+								)})
 							}
 						</div>
 					) : (
@@ -104,5 +104,5 @@ export const renderBlock = ({
 				</Preloader>
 			</div>
 		</>
-	);
+	)
 }

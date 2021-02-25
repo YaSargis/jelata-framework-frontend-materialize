@@ -1,11 +1,11 @@
-import React from 'react';
-import { compose, lifecycle, withStateHandlers, withHandlers } from 'recompose';
-import {Button} from 'react-materialize';
+import React from 'react'
+import { compose, lifecycle, withStateHandlers, withHandlers } from 'recompose'
+import {Button} from 'react-materialize'
 const Certificate = ({
 	data, config, open = false, options = [],
 	set_state, onSave, onOpen, onSelect
 }) => {
-	let value = data[config.key];
+	let value = data[config.key]
 	return [
 		<div>
 			<Button onClick={onOpen} key='c1'>
@@ -32,8 +32,8 @@ const Certificate = ({
 			}
 
 		</div>
-	];
-};
+	]
+}
 
 const enhance = compose(
 	withStateHandlers(({
@@ -46,9 +46,9 @@ const enhance = compose(
 		open: inState.open,
     }),{
 		set_state: (state) => (obj) => {
-			let _state = {...state};
+			let _state = {...state}
 			_.keys(obj).map( k => { _state[k] = obj[k] })
-			return _state;
+			return _state
 		}
     }),
 	withHandlers({
@@ -63,10 +63,10 @@ const enhance = compose(
 			})
 		},
 		onSave: ({ set_state }) => () => {
-			set_state({ open: false });
+			set_state({ open: false })
 		},
 		onSelect: ({ onChangeInput, config }) => (item) => {
-			onChangeInput(item.thumbprint, config);
+			onChangeInput(item.thumbprint, config)
 		}
 	}),
 	withHandlers({
@@ -74,6 +74,6 @@ const enhance = compose(
 			getCertificates()
 		}
 	})
-);
+)
 
-export default enhance(Certificate);
+export default enhance(Certificate)

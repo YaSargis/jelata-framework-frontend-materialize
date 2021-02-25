@@ -1,36 +1,36 @@
-import React from 'react';
+import React from 'react'
 
 
-import InputMask from 'react-input-mask';
-import FileGallery from 'src/components/file_gallery';
+import InputMask from 'react-input-mask'
+import FileGallery from 'src/components/file_gallery'
 
 
 
 import { 
 	Col, Row, Card, Preloader, Collapsible, CollapsibleItem, 
 	Icon  as MIcon, Checkbox, Button
-} from 'react-materialize';
+} from 'react-materialize'
 
 
 
-import ColorPicker from './components/colorpicker';
-import TextEditor from './components/text-editor';
+import ColorPicker from './components/colorpicker'
+import TextEditor from './components/text-editor'
 
-//import locale from 'antd/es/date-picker/locale/ru_RU';
-import { api } from 'src/defaults';
+//import locale from 'antd/es/date-picker/locale/ru_RU'
+import { api } from 'src/defaults'
 
-import ActionsBlock from 'src/pages/layout/actions';
-import enhance from './enhance';
+import ActionsBlock from 'src/pages/layout/actions'
+import enhance from './enhance'
 
-import Select from './components/select';
-import MultiSelect from './components/multiselect';
-import MultiDate from "./components/multidate";
-import Typeahead from './components/typehead';
-import MultiTypehead from './components/multitypehead';
-import Certificate from './components/certificate';
-import AceEditor from 'react-ace';
+import Select from './components/select'
+import MultiSelect from './components/multiselect'
+import MultiDate from './components/multidate'
+import Typeahead from './components/typehead'
+import MultiTypehead from './components/multitypehead'
+import Certificate from './components/certificate'
+import AceEditor from 'react-ace'
 
-import { visibleCondition, dateFormat } from 'src/libs/methods';
+import { visibleCondition, dateFormat } from 'src/libs/methods'
 
 
 const keyCollapse = ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,c=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15 >> c/4).toString(16))
@@ -52,7 +52,7 @@ const GetOne = ({
     { config = {} } = origin,
     params = get_params(),
     render_childs = item => {
-		data[item.key] = data.hasOwnProperty(item.key) ? data[item.key] : null;
+		data[item.key] = data.hasOwnProperty(item.key) ? data[item.key] : null
 		switch (item.type) {
 			case 'label':
 				if (data[item.key] instanceof Object) {
@@ -60,7 +60,7 @@ const GetOne = ({
 						<div key='1,1' label={item.title}><div><b>{item.title}</b></div>
 							{JSON.stringify(data[item.key])}
 						</div>
-					);
+					)
 				}
 				return (
 					<div key='1,1' label={item.title}><div><b>{item.title}</b></div>
@@ -71,18 +71,18 @@ const GetOne = ({
 										return data[item.key].split('\n').map((it, key) => {
 											return (
 												<span key={key}>{it}<br /></span>
-											);
-										});
+											)
+										})
 									default:
-										return data[item.key];
+										return data[item.key]
 								}
 							})()
 							: ''}
 							{' '}
 						</span>
 					</div>
-				 );
-				break;
+				 )
+				break
 			case 'text':
 				return (
 					<div key='1.2' label={item.title}><div><b>{item.title}</b></div>
@@ -94,8 +94,8 @@ const GetOne = ({
 							onBlur={event => onChangeInput(event, item)}
 						/>
 					</div>
-				);
-				break;
+				)
+				break
 			case 'number':
 				return (
 					<div key='d4' label={item.title}><div><b>{item.title}</b></div>
@@ -105,13 +105,13 @@ const GetOne = ({
 							disabled={item.read_only || false}
 							value={data[item.key] === null ? null : data[item.key]}
 							onChange={event => {
-								onChangeData(event, item);
+								onChangeData(event, item)
 							}}
 							onBlur={event => onChangeInput(event, item)}
 						/>
 					</div>
-				);
-				break;
+				)
+				break
 			case 'password':
 				return (
 					<div key='d4.1' label={item.title}><div><b>{item.title}</b></div>
@@ -125,8 +125,8 @@ const GetOne = ({
 							placeholder='password'
 						/>
 					</div>
-				);
-				break;
+				)
+				break
 			case 'phone':
 				return (
 					<div key='phone' label={item.title}><div><b>{item.title}</b></div>
@@ -137,8 +137,8 @@ const GetOne = ({
 							onBlur={e => onChangeInput(e)}
 						/>
 					</div>
-				);
-				break;
+				)
+				break
 			case 'date':
 				return (
 					<div key='d3' label={item.title}><div><b>{item.title}</b></div>
@@ -150,8 +150,8 @@ const GetOne = ({
 							onChange={(ev) => onChangeInput(ev.target.value, item)}
 						/>
 					</div>
-				);
-				break;
+				)
+				break
 			case 'datetime':
 			    return (
 					<div key='d3.1' label={item.title}><div><b>{item.title}</b></div>
@@ -163,8 +163,8 @@ const GetOne = ({
 							onChange={(ev) => onChangeInput(ev.target.value, item)}
 						/>
 					</div>
-				);
-				break;
+				)
+				break
 			case 'time':
 			  return (
 				<div key='d6' label={item.title}><div><b>{item.title}</b></div>
@@ -176,7 +176,7 @@ const GetOne = ({
 						placeholder='Chose time'
 					/>
 				</div>
-			);
+			)
 			case 'checkbox':
 				return (
 					<div key='d4.6' label={item.title}><div><b>{item.title}</b></div>
@@ -194,13 +194,13 @@ const GetOne = ({
 									v = false
 								else
 									v = null
-								onChangeInput(v, item);
+								onChangeInput(v, item)
 							}}
 								
 						/>
 					</div>
-				);
-				break;
+				)
+				break
 			case 'textarea':
 				return (
 					<div key='d2.1' label={item.title}><div><b>{item.title}</b></div>
@@ -212,8 +212,8 @@ const GetOne = ({
 							onBlur={event => onChangeInput(event, item)}
 						/>
 					</div>
-				);
-				break;
+				)
+				break
 			case 'link':
 				return (
 					<div key='d4.1' label={item.title}><div><b>{item.title}</b></div>
@@ -234,8 +234,8 @@ const GetOne = ({
 							)}
 						</div>
 					</div>
-				);
-				break;	
+				)
+				break	
 			case 'tags':
 				return (
 					<div key={item.key} label={item.title}><div><b>{item.title}</b></div>
@@ -285,8 +285,8 @@ const GetOne = ({
 							))}
 						</div>
 					</div>
-				);
-				break;
+				)
+				break
 			case 'autocomplete':
 				return (
 					<div key='4.b' label={item.title}><div><b>{item.title}</b></div>
@@ -316,8 +316,8 @@ const GetOne = ({
 								</li>))}
 						</ul>
 					</div>
-				);
-				break;
+				)
+				break
 
 
 			case 'rate':
@@ -350,8 +350,8 @@ const GetOne = ({
 							</div>
 						</Row>
 					</div>
-				);
-				break;
+				)
+				break
 
 
 
@@ -401,8 +401,8 @@ const GetOne = ({
 							: null}
 						</ul>
 					</div>
-				);
-				break;
+				)
+				break
 			case 'filelist':
 			    return (
 					<div key='9.b' label='Filelist'>
@@ -415,7 +415,7 @@ const GetOne = ({
 							))}
 						</ul>
 					</div>
-				  );
+				  )
 			case 'images':
 			case 'image':
 				return (
@@ -456,8 +456,8 @@ const GetOne = ({
 						))}
 						</Row>
 					</div>
-				);
-				break;
+				)
+				break
 			case 'gallery':
 				return (
 					<div key='23.p' label='Images list'>
@@ -465,8 +465,8 @@ const GetOne = ({
 						<FileGallery title={item.title} files={data[item.key] || []} />
 	
 					</div>
-				);
-				break;
+				)
+				break
 			case 'select':
 			case 'select_api':
 				return (
@@ -485,8 +485,8 @@ const GetOne = ({
 							globalConfig={config}
 						/>
 					</div>
-				);
-				break;
+				)
+				break
 			case 'multiselect':
 			case 'multiselect_api':
 				return (
@@ -506,7 +506,7 @@ const GetOne = ({
 							globalConfig={config}
 						/>
 					</div>
-				);
+				)
 			case 'typehead':
 			case 'typehead_api':
 				return (
@@ -526,8 +526,8 @@ const GetOne = ({
 							globalConfig={config}
 						/>
 					</div>
-				);
-				break;
+				)
+				break
 			case 'multitypehead':
 			case 'multitypehead_api':
 				return (
@@ -547,8 +547,8 @@ const GetOne = ({
 							globalConfig={config}
 						/>
 					</div>
-				);
-				break;
+				)
+				break
 
 			case 'certificate':
 				return (
@@ -560,8 +560,8 @@ const GetOne = ({
 							onChangeInput={onChangeInput}
 						/>
 					</div>
-				);
-				break;
+				)
+				break
 
 			case 'colorpicker':
 				return (
@@ -572,7 +572,7 @@ const GetOne = ({
 							localConfig={item}
 						/>
 						</div>
-				);
+				)
 			case 'color':
 				return (
 					<div key='24c' label={item.title}><div><b>{item.title}</b></div>
@@ -584,7 +584,7 @@ const GetOne = ({
 								}}
 						></div>
 					</div>
-				);
+				)
 			case 'texteditor':
 				return (
 					<div key='1t' label={item.title}><div><b>{item.title}</b></div>
@@ -594,33 +594,33 @@ const GetOne = ({
 							localConfig={item}
 						/>
 					</div>
-				);
+				)
 			case 'innerHtml':
 				function createMarkup() {
-					return { __html: `${data[item.key]}` };
+					return { __html: `${data[item.key]}` }
 					}
 				return (
 					<div key='2t' label={item.title}><div><b>{item.title}</b></div>
 						<div dangerouslySetInnerHTML={createMarkup()} />
 					</div>
-				);
+				)
 			case 'array':
 				const dataTable = data[item.key]? 
 					data[item.key].map(it => {
 						return {
 							...it,
 							key: it.id
-						};
+						}
 					})
-				: null;
-					let dataColumns = [];
+				: null
+					let dataColumns = []
 				if (data[item.key]) {
 					for (let property in data[item.key][0]) {
 						dataColumns.push({
 							title: `${property}`.toUpperCase(),
 							dataIndex: `${property}`,
 							key: `${property}`
-						});
+						})
 					}
 				}
 				return (
@@ -639,17 +639,17 @@ const GetOne = ({
 											return (
 												<tr key={JSON.stringify(it)}>
 													{Object.keys(it).map(i => {
-														return <td key={i}>{it[i]}</td>;
+														return <td key={i}>{it[i]}</td>
 													})}
 												</tr>
-											);
+											)
 										})}
 									</tbody>
 								</table>
 							</CollapsibleItem>
 						</Collapsible>
 					</div>
-				);
+				)
 			case 'codeEditor':
 				return (
 					<div key='2t' label={item.title}><div><b>{item.title}</b></div>
@@ -670,7 +670,7 @@ const GetOne = ({
 							}}
 						/>
 					</div>
-				);
+				)
 
 			case 'multidate':
 				return (
@@ -688,8 +688,8 @@ const GetOne = ({
 					<div key='d22' label={item.title}><div><b>{item.title}</b></div>
 						{item.type}
 					</div>
-				);
-				break;
+				)
+				break
 		}
     },
 	render_form = (
@@ -700,12 +700,12 @@ const GetOne = ({
 						(item.visible === true || item.visible === 1) &&
 							visibleCondition(data, item.visible_condition, params.inputs)
 					).map((item, ind, arr) => {
-						let width = item.width ? (item.width > 12 ? 12 : parseInt(item.width)) : 6;
+						let width = item.width ? (item.width > 12 ? 12 : parseInt(item.width)) : 6
 						return (
 							<Col className={item.classname} s={(width > 12) ? 12 : width} key={'ss' + ind}>
 								<div className={item.classname}>{render_childs(item)}</div>
 							</Col>
-						);
+						)
 					})}
 				</Row>
 			</Col>
@@ -719,7 +719,7 @@ const GetOne = ({
 				/>
 			</Col>
 		</Row>
-	);
+	)
 	// ------------------------------------------------------------------------------------------------------------------------
 
 	return (
@@ -739,7 +739,7 @@ const GetOne = ({
 				</div>
 			</CollapsibleItem>
 		</Collapsible>
-	);
-};
+	)
+}
 
-export default enhance(GetOne);
+export default enhance(GetOne)

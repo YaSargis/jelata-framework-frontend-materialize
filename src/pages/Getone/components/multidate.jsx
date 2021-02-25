@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 
 import { 
 	Icon
-} from 'react-materialize';
+} from 'react-materialize'
 
 const MultiDate = ({
 	pickerVisible = false, set_state,
@@ -47,20 +47,20 @@ const MultiDate = ({
 				)}
 			</div>
 		</div>
-	);
-};
+	)
+}
 
 
-import { compose, withStateHandlers, withHandlers } from 'recompose';
+import { compose, withStateHandlers, withHandlers } from 'recompose'
 
 const enhance = compose(
 	withStateHandlers(() => ({}), {
 		set_state: (state) => (obj) => {
 			let _state = { ...state },
-			keys = Object.keys(obj);
+			keys = Object.keys(obj)
 
-			keys.map((key) => (_state[key] = obj[key]));
-			return _state;
+			keys.map((key) => (_state[key] = obj[key]))
+			return _state
 		},
 	}),
 	withHandlers({
@@ -70,24 +70,24 @@ const enhance = compose(
 			e
 		) => {
 			let date = e.target.value
-			set_state({ pickerVisible: false });
-			const localData = data[config.key] ? [...data[config.key]] : [];
-			const isCollision = localData.includes(date.toString());
+			set_state({ pickerVisible: false })
+			const localData = data[config.key] ? [...data[config.key]] : []
+			const isCollision = localData.includes(date.toString())
 			if (isCollision) {
-				alert('Date adding error');
+				alert('Date adding error')
 			} else {
-				localData.push(date.toString());
-				const isFormFull = origin.viewtype === 'form full' ? true : false;
-				isFormFull ? onChangeInput(localData, config) : onChangeData(localData, config);
+				localData.push(date.toString())
+				const isFormFull = origin.viewtype === 'form full' ? true : false
+				isFormFull ? onChangeInput(localData, config) : onChangeData(localData, config)
 			}
 		},
 		onCloseTag: ({ data, config, onChangeData, onChangeInput, origin }) => (item) => {
-			const localData = data[config.key] ? [...data[config.key]] : [];
-			const filtered = localData.filter((date) => date !== item);
-			const isFormFull = origin.viewtype === 'form full' ? true : false;
-			isFormFull ? onChangeInput(filtered, config) : onChangeData(filtered, config);
+			const localData = data[config.key] ? [...data[config.key]] : []
+			const filtered = localData.filter((date) => date !== item)
+			const isFormFull = origin.viewtype === 'form full' ? true : false
+			isFormFull ? onChangeInput(filtered, config) : onChangeData(filtered, config)
 		}
 	})
-);
+)
 
-export default enhance(MultiDate);
+export default enhance(MultiDate)

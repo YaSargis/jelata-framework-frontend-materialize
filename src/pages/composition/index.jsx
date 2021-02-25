@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-// import MyHeader from 'src/pages/layout/header';
-import { Col, Row, Button, Icon, Preloader  } from 'react-materialize';
-import List from 'src/pages/list';
-import GetOne from 'src/pages/Getone';
-import qs from 'query-string';
+import React, { useState, useEffect } from 'react'
+import { Col, Row, Button, Icon, Preloader  } from 'react-materialize'
+import List from 'src/pages/list'
+import GetOne from 'src/pages/Getone'
+import qs from 'query-string'
 
-import { apishka } from 'src/libs/api';
+import { apishka } from 'src/libs/api'
 
 const CompositionNew = ({ history, path, compo, location, match }) => {
 	let [_state, setState] = useState({}), {
@@ -13,52 +12,52 @@ const CompositionNew = ({ history, path, compo, location, match }) => {
 			id_page = null,	// pathname
 			init = false,
 			btnCollapseAll = true
-		} = _state;
+		} = _state
 
 	const [inputs, setInputs] = useState(location.search)
 
 	const set_state = (obj) => {
-		let st = {..._state}, keys = _.keys(obj);
-		keys.map( k => { st[k] = obj[k] });
-		setState(st);
-	};
+		let st = {..._state}, keys = _.keys(obj)
+		keys.map( k => { st[k] = obj[k] })
+		setState(st)
+	}
 
-	let _inputs = location.search;
+	let _inputs = location.search
 	const getData = (_id, type) => {
 		apishka(
 			'GET', {},
 			`/api/compobypath?path=${_id}&inputs=${JSON.stringify(qs.parse(location.search))}`,
 			(res) => {
-				document.title = res.outjson.title;
+				document.title = res.outjson.title
 				set_state({
 					id_page: _id, loading: false,
 					init: type ? true : init,
 					values: {...res.outjson}
-				});
+				})
 			},
 			(err) => {}
 		)
-	};
-	let _id = compo ? path : match.params.id; // if tree or composition in another component
+	}
+	let _id = compo ? path : match.params.id // if tree or composition in another component
 
 	const collapseActivityState = () => {
-		set_state({btnCollapseAll: !btnCollapseAll});
+		set_state({btnCollapseAll: !btnCollapseAll})
 	}
 
 	useEffect(() => {
 		if((id_page !== _id && id_page !== null) /*|| (values.refresh && )*/) {
 			setState({
 				loading: true, values: {}
-			});
-			getData(_id);
+			})
+			getData(_id)
 		} else {
-			_.isNull(id_page) ? getData(compo ? path : match.params.id, 'init') : null;
+			_.isNull(id_page) ? getData(compo ? path : match.params.id, 'init') : null
 		}
-	}, [_id]);
+	}, [_id])
 
 	if (inputs !== _inputs && values.visible_views) {
 		setInputs(_inputs)
-		getData(_id);
+		getData(_id)
 	}
 
 	return (
@@ -118,4 +117,4 @@ const CompositionNew = ({ history, path, compo, location, match }) => {
 	)
 }
 
-export default CompositionNew;
+export default CompositionNew

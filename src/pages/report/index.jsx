@@ -1,19 +1,19 @@
-import React from 'react';
-import enhance from './enhance';
-import Select from 'react-select';
+import React from 'react'
+import enhance from './enhance'
+import Select from 'react-select'
 
 
 import { 
 	Col, Row, Card, Button, Icon
-} from 'react-materialize';
+} from 'react-materialize'
 
 const Report = ({
 	values, params, changeInputs,
 	inputs, selections, getSelectOptions,
 	getReportFile
 }) => {
-	const { title } = values;
-	const { Option } = Select;
+	const { title } = values
+	const { Option } = Select
 	const inputStyles = {border: '1px solid #9e9e9e', height: '2.5rem', paddingLeft: '8px', fontSize:'15px', borderRadius:'5px'}
 
 	return [
@@ -25,7 +25,7 @@ const Report = ({
 							{(() => {
 								switch(item.typename) {
 									case "select":
-										let ptitle = item.id + item.ptitle;
+										let ptitle = item.id + item.ptitle
 										return (
 											<div>
 												<div><b>{item.ptitle}</b></div>
@@ -78,10 +78,10 @@ const Report = ({
 													}}
 													onChange = {(...args) => {
 														let inp = inputs,
-															e = args[0];
+															e = args[0]
 															_.isNull(e) ?
 															delete inp[item.func_paramtitle]
-															: inp[item.func_paramtitle] = e;
+															: inp[item.func_paramtitle] = e
 															changeInputs( inp )
 													}}
 													devaultValue = {inputs[item.func_paramtitle]}
@@ -117,10 +117,10 @@ const Report = ({
 																height:35, border:'0.3pt solid #c8c8b6'
 															}}
 															onClick={() => {
-																let inp = inputs;
-																inp[item.func_paramtitle] = it;
+																let inp = inputs
+																inp[item.func_paramtitle] = it
 																selections[ptitle]=[]
-																changeInputs(inp);
+																changeInputs(inp)
 															}}
 														>
 															{it.label}
@@ -137,9 +137,9 @@ const Report = ({
 												<input
 													style={inputStyles}
 													onChange = {(e) => {
-														let inp = inputs;
-														inp[item.func_paramtitle] = e.target.value;
-														changeInputs(inp);
+														let inp = inputs
+														inp[item.func_paramtitle] = e.target.value
+														changeInputs(inp)
 													}}
 													defaultValue={inputs[item.func_paramtitle]}
 													type = {item.typename}
@@ -156,6 +156,6 @@ const Report = ({
 			</Button>
 		</Card>
 	]
-};
+}
 
-export default enhance(Report);
+export default enhance(Report)

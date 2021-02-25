@@ -1,9 +1,9 @@
-import React from 'react';
-import 'react-quill/dist/quill.snow.css'; 
-import ReactQuill, {Quill} from 'react-quill';
-import ImageResize from 'quill-image-resize-module';
+import React from 'react'
+import 'react-quill/dist/quill.snow.css' 
+import ReactQuill, {Quill} from 'react-quill'
+import ImageResize from 'quill-image-resize-module'
 
-Quill.register('modules/imageResize', ImageResize);
+Quill.register('modules/imageResize', ImageResize)
 
 const toolbarOptions = [
 	['bold', 'italic', 'underline', 'strike'],                // toggled buttons
@@ -24,17 +24,17 @@ const toolbarOptions = [
 
     ['clean'], 
     ['link','image']                                                        
-];
+]
 
 class TextEditor extends React.Component {
         constructor(props) {
             super(props)
-            this.state = { text: props.currentText };
-            this.handleChange = this.handleChange.bind(this);
+            this.state = { text: props.currentText }
+            this.handleChange = this.handleChange.bind(this)
             this.modules = {
                 toolbar:toolbarOptions,
                 imageResize: {}
-            };
+            }
         }
     
         handleChange(value) {
@@ -51,8 +51,8 @@ class TextEditor extends React.Component {
                         formats={this.formats}
                         modules={this.modules} />
                 </div>
-            );
+            )
         }
 	}
 	
-    export default TextEditor;
+    export default TextEditor

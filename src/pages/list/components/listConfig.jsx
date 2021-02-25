@@ -1,13 +1,13 @@
-import React from 'react';
+import React from 'react'
 
-import { Icon, Checkbox } from 'react-materialize';
-import * as moment from 'moment';
+import { Icon, Checkbox } from 'react-materialize'
+import * as moment from 'moment'
 
-import Select from 'src/pages/Getone/components/select';
-import MultiSelect from 'src/pages/Getone/components/multiselect';
-import Typeahead from 'src/pages/Getone/components/typehead';
-import MultiTypehead from 'src/pages/Getone/components/multitypehead';
-import { handlerGoLink, visibleCondition, dateFormat } from 'src/libs/methods';
+import Select from 'src/pages/Getone/components/select'
+import MultiSelect from 'src/pages/Getone/components/multiselect'
+import Typeahead from 'src/pages/Getone/components/typehead'
+import MultiTypehead from 'src/pages/Getone/components/multitypehead'
+import { handlerGoLink, visibleCondition, dateFormat } from 'src/libs/methods'
 
 export const listConfigGenerate = (
 	listConfig, listData, listActions, arr_hide, params, history, isorderby,
@@ -27,7 +27,7 @@ export const listConfigGenerate = (
 							if (e.target.checked) {
 								listData.forEach((col) => {
 									chckd.push(col[id_key])
-								});	
+								})	
 							}
 							changeChecked(chckd)
 						}}
@@ -52,12 +52,12 @@ export const listConfigGenerate = (
 							let action = _.find(
 							   listActions, x => x.ismain === true &&
 							   visibleCondition(listData[rowIndex], x.act_visible_condition, params.inputs)
-							);
+							)
 							if (action) {
 								switch (action.type) {
 									case 'Link':
-										handlerGoLink(listData[rowIndex], action, listConfig, params.inputs, history);
-									break;
+										handlerGoLink(listData[rowIndex], action, listConfig, params.inputs, history)
+									break
 								}
 							}
 						}
@@ -79,34 +79,34 @@ export const listConfigGenerate = (
 							if (!order)
 								return (
 									<Icon style={{ fontSize: 12, display:'inline', marginLeft:3 }}>unfold_more</Icon>
-								);
+								)
 							else if (order === 'asc')
 								return (
 									<Icon style={{ fontSize: 12, display:'contents', marginLeft:3 }}>expand_less</Icon>
-								);
+								)
 							else if (order === 'desc')
 								return (
 									<Icon style={{ fontSize: 12, display:'contents', marginLeft:3 }}>expand_more</Icon>
-								);
+								)
 						}
-						return null;
+						return null
 					},
 					onSort: (field, order) => {
-						let inputs = params.inputs;
-						let desc = '';
-						if (order === 'desc') desc = order;
+						let inputs = params.inputs
+						let desc = ''
+						if (order === 'desc') desc = order
 						let orderby = [{
 							col: item.col, desc: desc,
 							fn: item.fn, fncols: item.fncolumns,
 							related: item.related, t: item.t
-						}];
-						inputs['orderby'] = orderby;
-						params['inputs'] = inputs;
-						set_state({ params: params }, getData(getData));
+						}]
+						inputs['orderby'] = orderby
+						params['inputs'] = inputs
+						set_state({ params: params }, getData(getData))
 					},
 					editorRenderer: (editorProps, value, row, column, rowIndex, columnIndex) => {
-						let colValItem = listData[rowIndex];
-						let colVal = colValItem[column.dataField];
+						let colValItem = listData[rowIndex]
+						let colVal = colValItem[column.dataField]
 
 					switch (item.type) {
 						case 'text':
@@ -118,13 +118,13 @@ export const listConfigGenerate = (
 									value={colVal}
 									style={{border: '1px solid #9e9e9e', fontSize:14, height: '1.5rem', paddingLeft: '8px', margin: '0 0 0 0', padding: '0 0 0 0'}}
 									onChange={e => {
-										listData[rowIndex][column.dataField] = e.target.value;
-										set_state({ listData: listData });
+										listData[rowIndex][column.dataField] = e.target.value
+										set_state({ listData: listData })
 									}}
 									onBlur={e => onChangeInput(e.target.value, item, rowIndex)}
 								/>
-							);
-						  break;
+							)
+						  break
 						case 'checkbox':
 							return (
 								<Checkbox 
@@ -141,14 +141,14 @@ export const listConfigGenerate = (
 											v = false
 										else
 											v = null
-										listData[rowIndex][column.dataField] = v;
-										onChangeInput(v, item, rowIndex);
-										set_state({ listData: listData });
+										listData[rowIndex][column.dataField] = v
+										onChangeInput(v, item, rowIndex)
+										set_state({ listData: listData })
 									}}
 									
 								/>
-							);
-							break;
+							)
+							break
 						case 'date':
 							return (
 								<input
@@ -156,13 +156,13 @@ export const listConfigGenerate = (
 									style={{border: '1px solid #9e9e9e', fontSize:14, height: '1.5rem', paddingLeft: '8px', margin: '0 0 0 0', padding: '0 0 0 0'}}									
 									value={colVal ? dateFormat(colVal, 'date') : null}
 									onChange={(e) => {
-										listData[rowIndex][column.dataField] = e.target.value; //.target.value
-										onChangeInput(e.target.value, item, rowIndex);
-										set_state({ listData: listData });
+										listData[rowIndex][column.dataField] = e.target.value //.target.value
+										onChangeInput(e.target.value, item, rowIndex)
+										set_state({ listData: listData })
 									}}
 								/>
-							);
-							break;
+							)
+							break
 						case 'datetime':
 							return (
 								<input
@@ -170,12 +170,12 @@ export const listConfigGenerate = (
 									style={{border: '1px solid #9e9e9e', fontSize:14, height: '1.5rem', paddingLeft: '8px', margin: '0 0 0 0', padding: '0 0 0 0'}}									
 									value={colVal ? dateFormat(colVal, 'datetime') : null}
 									onChange={(e) => {
-										listData[rowIndex][column.dataField] = e.target.value; //.target.value
-										onChangeInput(e.target.value, item, rowIndex);
-										set_state({ listData: listData });
+										listData[rowIndex][column.dataField] = e.target.value //.target.value
+										onChangeInput(e.target.value, item, rowIndex)
+										set_state({ listData: listData })
 									}}
 								/>
-							);
+							)
 						case 'select':
 						case 'select_api':
 							return (
@@ -190,14 +190,14 @@ export const listConfigGenerate = (
 									config={item}
 									data={colValItem} inputs={params.inputs}
 									onChangeInput={e => {
-										listData[rowIndex][column.dataField] = e; //.target.value
-										set_state({ listData: listData });
-										onChangeInput(e, item, rowIndex);
+										listData[rowIndex][column.dataField] = e //.target.value
+										set_state({ listData: listData })
+										onChangeInput(e, item, rowIndex)
 									}}
 									location={location} globalConfig={listConfig}
 								/>
-							);
-							break;
+							)
+							break
 						case 'multiselect':
 						case 'multiselect_api':
 							return (
@@ -211,13 +211,13 @@ export const listConfigGenerate = (
 									}  config={item}
 									data={colValItem} inputs={params.inputs}
 									onChangeInput={e => {
-										listData[rowIndex][column.dataField] = e; //.target.value
-										onChangeInput(e, item, rowIndex);
-										set_state({ listData: listData });
+										listData[rowIndex][column.dataField] = e //.target.value
+										onChangeInput(e, item, rowIndex)
+										set_state({ listData: listData })
 									}}
 									location={location} globalConfig={listConfig}
 								/>
-							);
+							)
 						case 'typehead':
 						case 'typehead_api':
 							return (
@@ -232,14 +232,14 @@ export const listConfigGenerate = (
 									config={item}
 									data={colValItem} inputs={params.inputs}
 									onChangeInput={e => {
-										listData[rowIndex][column.dataField] = e; //.target.value
-										onChangeInput(e, item, rowIndex);
-										set_state({ listData: listData });
+										listData[rowIndex][column.dataField] = e //.target.value
+										onChangeInput(e, item, rowIndex)
+										set_state({ listData: listData })
 									}}
 									location={location} globalConfig={listConfig}
 								/>
-							);
-							break;
+							)
+							break
 						case 'multitypehead':
 						case 'multitypehead_api':
 							return (
@@ -254,31 +254,31 @@ export const listConfigGenerate = (
 									config={item}
 									data={colValItem} inputs={params.inputs}
 									onChangeInput={e => {
-										listData[rowIndex][column.dataField] = e; //.target.value
-										onChangeInput(e, item, rowIndex);
-										set_state({ listData: listData });
+										listData[rowIndex][column.dataField] = e //.target.value
+										onChangeInput(e, item, rowIndex)
+										set_state({ listData: listData })
 									}}
 									location={location} globalConfig={listConfig}
 								/>
-							);
-							break;
+							)
+							break
 						default:
 							return (
 								<input
 									value={colVal}
 									onChange={e => {
-										listData[rowIndex][column.dataField] = e.target.value;
-										set_state({ listData: listData });
+										listData[rowIndex][column.dataField] = e.target.value
+										set_state({ listData: listData })
 									}}
 									onBlur={e => onChangeInput(e.target.value, item, rowIndex)}
 								/>
-							);
+							)
 					}
 				}
-			});
+			})
 		}
-	});
-	return columns2;
+	})
+	return columns2
 
 
 }

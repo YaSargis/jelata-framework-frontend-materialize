@@ -1,53 +1,29 @@
-import React from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
-import { config } from 'src/defaults';
+import React from 'react'
+import { Switch, Route, Link } from 'react-router-dom'
+import { config } from 'src/defaults'
 
-//import { Icon  /*Grid,*/ } from 'antd';
-//const { /*Header,*/ Sider, Content } = Layout;
-import _ from 'lodash';
-import Helmet from 'react-helmet';
-import { NotificationContainer } from 'react-notifications';
-import 'react-notifications/lib/notifications.css';
+//import { Icon  /*Grid,*/ } from 'antd'
+//const { /*Header,*/ Sider, Content } = Layout
+import _ from 'lodash'
+import Helmet from 'react-helmet'
+import { NotificationContainer } from 'react-notifications'
+import 'react-notifications/lib/notifications.css'
 
-import enhance from './enhance';
+import enhance from './enhance'
 
-import Home from 'src/pages/Home';
-import GetOne from 'src/pages/Getone';
-import LoginForm from 'src/pages/login';
-import Logout from 'src/pages/logout';
-import List from 'src/pages/list';
-import Composition from 'src/pages/composition';
-import Trees from 'src/pages/trees';
-import Report from 'src/pages/report';
+import Home from 'src/pages/Home'
+import GetOne from 'src/pages/Getone'
+import LoginForm from 'src/pages/login'
+import Logout from 'src/pages/logout'
+import List from 'src/pages/list'
+import Composition from 'src/pages/composition'
+import Trees from 'src/pages/trees'
+import Report from 'src/pages/report'
 import Error_404 from 'src/pages/error_404'
 
-// import {} from '@material-ui/core'
-import { Collapsible, Button, SideNav, SideNavItem, Icon as MIcon, Breadcrumb, Footer, Col } from 'react-materialize';
+import { Collapsible, Button, SideNav, SideNavItem, Icon as MIcon, Breadcrumb, Footer, Col } from 'react-materialize'
 import 'materialize-css'
 
-
-/*
-								<div>
-									<img
-										width='90px'
-										alt={} 
-										className='circle'
-										src={}
-									/>	
-									<Grid>
-										<span style={{ color: 'white' }}>
-											{!collapsed ? (user_detail.fam || '') + ' ' + (user_detail.im || '') : null}
-										</span>
-									</Grid>
-									{config.userorg ? (
-										<Grid>
-											<Link to={config.userorg}>
-												{!collapsed ? user_detail.orgname || '' : <Icon title='org' type='setting' />}
-											</Link>
-										</Grid>
-								) : null}
-								</div>
-*/
 
 
 const App = ({
@@ -147,8 +123,8 @@ const App = ({
 							left : 30
 						}}
 						onClick = {() => {
-							document.body.scrollTop = 0; // For Safari
-							document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera	
+							document.body.scrollTop = 0 // For Safari
+							document.documentElement.scrollTop = 0 // For Chrome, Firefox, IE and Opera	
 						}}
 						icon={<MIcon tiny>keyboard_arrow_up</MIcon>} 
 					/>
@@ -174,16 +150,8 @@ const App = ({
 				</div>
 			</Col>
 		</div>
-    );
-};
+    )
+}
 
-/*
-									{menu_creator_header(
-										menu_creator_header,
-										(_.find(custom_menu, item => item.id === 3) || {}).menu,
-										false
-									)}
 
-*/
-
-export default enhance(App);
+export default enhance(App)

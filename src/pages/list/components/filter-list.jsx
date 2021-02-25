@@ -1,11 +1,11 @@
-import React from 'react';
-import {compose, withHandlers, withState} from 'recompose';
-import { apishka } from "src/libs/api";
-import _ from 'lodash';
-import moment from 'moment';
-import {saveUserSettings} from 'src/libs/methods';
-import Select from 'react-select';
-import { Row, Col, Button, Icon, Modal, Checkbox, Switch } from 'react-materialize';
+import React from 'react'
+import {compose, withHandlers, withState} from 'recompose'
+import { apishka } from 'src/libs/api'
+import _ from 'lodash'
+import moment from 'moment'
+import {saveUserSettings} from 'src/libs/methods'
+import Select from 'react-select'
+import { Row, Col, Button, Icon, Modal, Checkbox, Switch } from 'react-materialize'
 const FilterList = ({
 	filter, filters, allProps, getData, changeLoading,
 	changeFilter, changeFilters, handlerFilters, handlerGetTable,
@@ -38,16 +38,16 @@ const FilterList = ({
 															style={{border: '1px solid #9e9e9e', height: '2.5rem', paddingLeft: '8px'}}
 															onKeyUp={(event) => {
 																if(event.keyCode === 13) {
-																	getData(getData);
-																	changeLoading(true);
-																	changeFilter(false);
+																	getData(getData)
+																	changeLoading(true)
+																	changeFilter(false)
 																}
 															}}
 															onChange={(event) => handlerFilters(p.column, event.target.value) }
 														/>
 													</Col>
-												];
-											break;
+												]
+											break
 											case 'date_between':
 												return [
 													<Col key='s1' s={12}><label >{p.title}</label></Col>,
@@ -58,18 +58,18 @@ const FilterList = ({
 															onChange={(event) => handlerFilters(p.column, event.target.value) }
 													  />
 													</Col>
-											  ];
-											  break;
+											  ]
+											  break
 											case 'multijson':
 											case 'select':
 											case 'multiselect':
-												let s_value;
+												let s_value
 												if(p.type === 'multijson' || p.type === 'multiselect'){
 												//filters[p.column] &&
 												  //Array.isArray(filters[p.column]) ?
 													s_value = filters[p.column]//.map((x, i_c)=> {x['key'] = i_c})
 													|| []
-												} else s_value = filters[p.column];
+												} else s_value = filters[p.column]
 												return [
 													<Col key={'s3' + p.column} s={12}><label >{p.title}</label></Col>,
 													<Col key={p.column} s={12}>
@@ -97,7 +97,7 @@ const FilterList = ({
 																}),
 																valueContainer: (base) => ({
 																	...base,
-																	padding: "0 8px",
+																	padding: '0 8px',
 																	color: '#000000'
 																}),
 																placeholder: (base)=>({
@@ -116,22 +116,22 @@ const FilterList = ({
 															onDeselect={(_val) => {
 																if(p.type === 'multijson' || p.type === 'multiselect') {
 																	filters[p.column] = s_value.filter(o => o && o.key !== _val.key)
-																	handlerFilters(p.column, filters[p.column]);
+																	handlerFilters(p.column, filters[p.column])
 																}
 															}}
 															onChange={(_val, option) => {
 																if(p.type === 'multijson' || p.type === 'multiselect') {
 																	_val['value'] = _val.key
 																	if(Array.isArray(filters[p.column]))
-																		filters[p.column].push(_val);
-																	else filters[p.column] = [_val];
-																} else filters[p.column] = _val;
-																handlerFilters(p.column, filters[p.column]);
+																		filters[p.column].push(_val)
+																	else filters[p.column] = [_val]
+																} else filters[p.column] = _val
+																handlerFilters(p.column, filters[p.column])
 															}}
 														/>
 															
 													</Col>
-												];
+												]
 												/*
 {
 																apiData[p.title] ? Array.isArray(apiData[p.title]) ? (()=> {
@@ -143,7 +143,7 @@ const FilterList = ({
 														</Select>
 												
 												*/
-												break;
+												break
 											case 'typehead':
 												return [
 													<Col key={'sd' + p.column} s={12}><label >{p.title}</label></Col>,
@@ -154,33 +154,33 @@ const FilterList = ({
 															style={{border: '1px solid #9e9e9e', height: '2.5rem', paddingLeft: '8px'}}
 															onKeyUp={(event) => {
 																if(event.keyCode === 13) {
-																	getData(getData);
-																	changeLoading(true);
-																	changeFilter(false);
+																	getData(getData)
+																	changeLoading(true)
+																	changeFilter(false)
 																}
 															}}
 															onChange={(event) => handlerFilters(p.title, event.target.value) }
 														/>
 													</Col>
 												]
-												break;
+												break
 											case 'period':
 												let _dates = [],
-												_format = 'YYYY-MM-DD';
-												filters[p.column] ? filters[p.column].date1 ? _dates.push(moment(filters[p.column].date1, _format)) : null : null;
-												filters[p.column] ? filters[p.column].date2 ? _dates.push(moment(filters[p.column].date2, _format)) : null : null;
+												_format = 'YYYY-MM-DD'
+												filters[p.column] ? filters[p.column].date1 ? _dates.push(moment(filters[p.column].date1, _format)) : null : null
+												filters[p.column] ? filters[p.column].date2 ? _dates.push(moment(filters[p.column].date2, _format)) : null : null
 												return [
 													<Col key={'d ' + p.column} s={12}><label >{p.title}</label></Col>,
 													<Col key={p.column} >
 														<Row>
 															{/*
-																value = [start date, end date];
+																value = [start date, end date]
 																<DatePicker.RangePicker
 																	value={_dates} format={_format}
 																	onKeyUp={(event) => {
 																		if(event.keyCode === 13) {
-																			getData(getData); changeLoading(true);
-																			changeFilter(false);
+																			getData(getData) changeLoading(true)
+																			changeFilter(false)
 																		}
 																	}}
 																	locale={locale}
@@ -202,8 +202,9 @@ const FilterList = ({
 																	}}
 																	onKeyUp={(event) => {
 																		if(event.keyCode === 13) {
-																			getData(getData); changeLoading(true);
-																			changeFilter(false);
+																			getData(getData) 
+																			changeLoading(true)
+																			changeFilter(false)
 																		}
 																	}}
 																	
@@ -221,8 +222,9 @@ const FilterList = ({
 																	}}
 																	onKeyUp={(event) => {
 																		if(event.keyCode === 13) {
-																			getData(getData); changeLoading(true);
-																			changeFilter(false);
+																			getData(getData) 
+																			changeLoading(true)
+																			changeFilter(false)
 																		}
 																	}}
 																	
@@ -233,7 +235,7 @@ const FilterList = ({
 														</Row>
 													</Col>
 												]
-												break;
+												break
 											case 'check':
 												return [
 													<Col key={p.column} s={12}>
@@ -249,8 +251,8 @@ const FilterList = ({
 														/>
 	
 													</Col>
-												];
-												break;
+												]
+												break
 											default:
 												return <Col>{p.type}</Col>
 										}})()
@@ -269,19 +271,21 @@ const FilterList = ({
 					onClick={()=>{
 						pagination.pagenum = 1
 						changePagination(pagination)
-						getData(getData); changeLoading(true);
+						getData(getData) 
+						changeLoading(true)
 					}}
 				>ok</Button>
 				<Button 
 					flat small
 					icon={<Icon>delete</Icon>} 
 					onClick={()=>{
-						filters = {};
-						changeFilters(filters); changeLoading(true);
+						filters = {}
+						changeFilters(filters) 
+						changeLoading(true)
 						// changeFilter(false)
 						pagination.pagenum = 1
 						changePagination(pagination)
-						getData(getData, {});
+						getData(getData, {})
 				}}>clean</Button>
 				<Button flat small icon={<Icon>close</Icon>} style={{ color: '#ef1010' }} onClick={()=>changeFilter(false)}>close</Button>
 			</Row>
@@ -309,7 +313,7 @@ const FilterList = ({
 			</Row>
 		</Modal>
 	)
-};
+}
 
 const enhance = compose(
 	withState('indeterminate', 'changeInder', true),
@@ -328,8 +332,9 @@ const enhance = compose(
 			}
 
 			if (viewsSettings.hide) {
-				let ind = _.findIndex(viewsSettings.hide, (x, i) => x === item.title);
-				if(ind !== -1) viewsSettings.hide.splice(ind, 1); else viewsSettings.hide.push(item.title)
+				let ind = _.findIndex(viewsSettings.hide, (x, i) => x === item.title)
+				if(ind !== -1) viewsSettings.hide.splice(ind, 1) 
+				else viewsSettings.hide.push(item.title)
 			} else {
 				viewsSettings.hide = [item.title]
 			}
@@ -337,35 +342,35 @@ const enhance = compose(
 			userSettings['views'][path] = viewsSettings
 			//reduxUser.user_detail.usersettings = userSettings
 			saveUserSettings(userSettings)
-			changeTS(userSettings['views']);
+			changeTS(userSettings['views'])
 		},
 		handlerFilters: ({filters, changeFilters}) => (column, value) => {
-			filters[column] = value;
-			changeFilters(filters);
+			filters[column] = value
+			changeFilters(filters)
 		},
 		handlerTriCheck: ({ filters, changeFilters, changeInder }) => (column, value) => {
 			if(value==null) {
-				changeInder(false);
-				filters[column] = true;
-				changeFilters(filters);
+				changeInder(false)
+				filters[column] = true
+				changeFilters(filters)
 			}
 			if(value === true) {
-				filters[column] = false;
-				changeFilters(filters);
+				filters[column] = false
+				changeFilters(filters)
 			}
 			if(value === false) {
-				changeInder(true);
-				filters[column] = null;
-				changeFilters(filters);
+				changeInder(true)
+				filters[column] = null
+				changeFilters(filters)
 			}
 		},
 		handlerGetTable: ({ listConfig, filters, apiData, changeApiData }) => (item) => {
 			apishka('GET', {}, '/api/gettable?id=' + item.id, (res) => {
-				apiData[item.title] = res.outjson;
-				changeApiData(apiData);
+				apiData[item.title] = res.outjson
+				changeApiData(apiData)
 			})
 		},
 	})
-);
+)
 
-export default enhance(FilterList);
+export default enhance(FilterList)
