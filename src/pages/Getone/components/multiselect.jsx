@@ -27,68 +27,72 @@ const SelectBox = ({ onChange, onChangeInput, data = {}, inputs, config, options
          }
     }
 
-    return <Select
-        styles={{
-            menuPortal: (base) => ({
-                ...base,
-                
-            }),
-            dropdownIndicator: (base) => ({
-                ...base,
-                padding: 4
-            }),
-            clearIndicator: (base) => ({
-                ...base,
-                padding: 4
-            }),
-            control: (base) => ({
-                ...base,
-                minHeight: 0
-            }),
-            input: (base) => ({
-                ...base,
-                height:'25px'
-            }),
-            valueContainer: (base) => ({
-                ...base,
-                color: '#000000'
-            }),
-            placeholder: (base)=>({
-            ...base,
-            color: '#cdbfc7'
-        })}}
-        menuPortalTarget={document.body}
-        menuPlacement='auto'
-        placeholder={'Choose from the list'}
-        isMulti
-        isClearable
-        isDisabled={config.read_only || false}
-        value={ filtOptions }
-        options={options}
-        onKeyDown={handleKeyDown}
-        onFocus={() => {
-            (config.type === 'multiselect_api') ? onFocusApi(config, inputs) : onFocus('')
-        }}
-        onChange={(...args) => {
-            switch(args[1].action) {
-                case 'select-option':
-                    if(data[config.key]) {
-                        data[config.key].push(args[1].option.value)
-                    } else {
-                        data[config.key] = [args[1].option.value]
-                    }
-                    break
-                case 'pop-value':
-                case 'remove-value':
-                    data[config.key] = _.filter(data[config.key], x => x !== args[1].removedValue.value)
-                    break
-                case 'clear': {
-                     data[config.key] = []
-                }
-            }
-            onChangeInput(data[config.key], config)
-        }}
-    />
+    return (
+		<Select
+			styles={{
+				menuPortal: (base) => ({
+					...base,
+					zIndex: 9999
+				}),
+				dropdownIndicator: (base) => ({
+					...base,
+					padding: 4
+				}),
+				clearIndicator: (base) => ({
+					...base,
+					padding: 4
+				}),
+				control: (base) => ({
+					...base,
+					minHeight: 0
+				}),
+				input: (base) => ({
+					...base,
+					padding: 0
+				}),
+				valueContainer: (base) => ({
+					...base,
+					padding: '0 8px',
+					color: '#000000'
+				}),
+				placeholder: (base)=>({
+					...base,
+					color: '#cdbfc7'
+				})
+			}}
+			menuPortalTarget={document.body}
+			menuPlacement='auto'
+			placeholder={'Choose from the list'}
+			isMulti
+			isClearable
+			isDisabled={config.read_only || false}
+			value={ filtOptions }
+			options={options}
+			onKeyDown={handleKeyDown}
+			onFocus={() => {
+				(config.type === 'multiselect_api') ? onFocusApi(config, inputs) : onFocus('')
+			}}
+			onChange={(...args) => {
+				switch(args[1].action) {
+					case 'select-option':
+						if(data[config.key]) {
+							data[config.key].push(args[1].option.value)
+						} else {
+							data[config.key] = [args[1].option.value]
+						}
+						break
+					case 'pop-value':
+					case 'remove-value':
+						data[config.key] = _.filter(data[config.key], x => x !== args[1].removedValue.value)
+						break
+					case 'clear': {
+						 data[config.key] = []
+					}
+				}
+				onChangeInput(data[config.key], config)
+			}}
+		/>
+	)
 }
 
 const enhance = compose(

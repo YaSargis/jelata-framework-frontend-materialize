@@ -50,36 +50,36 @@ const SelectBox = ({ name, onChange, onFocusApi, onFocus, data, inputs, config, 
     } else {
         return (
             <AsyncSelect
-                styles={{
-                    menuPortal: (base) => ({
-                        ...base,
-                        zIndex: 9999
-                    }),
-                    dropdownIndicator: (base) => ({
-                        ...base,
-                        padding: 4
-                    }),
-                    clearIndicator: (base) => ({
-                        ...base,
-                        padding: 4
-                    }),
-                    control: (base) => ({
-                        ...base,
-                        minHeight: 0
-                    }),
-                    input: (base) => ({
-                        ...base,
-                        padding: 0
-                    }),
-                    valueContainer: (base) => ({
-                        ...base,
-                        padding: '0 8px',
-                        color: '#000000'
-                    }),
+				styles={{
+					menuPortal: (base) => ({
+						...base,
+						zIndex: 9999
+					}),
+					dropdownIndicator: (base) => ({
+						...base,
+						padding: 4
+					}),
+					clearIndicator: (base) => ({
+						...base,
+						padding: 4
+					}),
+					control: (base) => ({
+						...base,
+						minHeight: 0
+					}),
+					input: (base) => ({
+						...base,
+						padding: 0
+					}),
+					valueContainer: (base) => ({
+						...base,
+						padding: '0 8px',
+						color: '#000000'
+					}),
 					placeholder: (base)=>({
 						...base,
 						color: '#cdbfc7'
-					}),
+					})
 				}}
                 menuPlacement='auto'
                 menuPortalTarget={document.body}

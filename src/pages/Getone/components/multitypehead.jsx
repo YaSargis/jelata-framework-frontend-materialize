@@ -64,7 +64,7 @@ const SelectBox = ({ name, onChange, onFocusApi, onFocus, data, inputs, config, 
 				styles={{
 					menuPortal: (base) => ({
 						...base,
-						
+						zIndex: 9999
 					}),
 					dropdownIndicator: (base) => ({
 						...base,
@@ -80,16 +80,18 @@ const SelectBox = ({ name, onChange, onFocusApi, onFocus, data, inputs, config, 
 					}),
 					input: (base) => ({
 						...base,
-						height:'25px'
+						padding: 0
 					}),
 					valueContainer: (base) => ({
 						...base,
+						padding: '0 8px',
 						color: '#000000'
 					}),
 					placeholder: (base)=>({
-					...base,
-					color: '#cdbfc7'
-				})}}
+						...base,
+						color: '#cdbfc7'
+					})
+				}}
 				isMulti
 				menuPlacement='auto'
 				menuPortalTarget={document.body}
