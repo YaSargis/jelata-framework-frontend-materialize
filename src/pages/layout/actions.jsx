@@ -103,7 +103,94 @@ const ActionsBlock = ({
 const enhance = compose(
 
 	withHandlers({
+		SIGN_API: ({ getData, origin = {}, data, location, setLoading, checked}) => (config_one) => {
+			let el = data, itm = config_one, config = origin.config, 
+				inputs = location ? qs.parse(location.search) : null, 
+				body = {}, args = {}
 
+			let id_key = origin.config.filter((item) => item.col.toUpperCase() === 'ID' && !item.fn && !item.related )[0].key
+
+			const paramBuild = new Promise((resolve, reject) => {
+				let thumbprint = localStorage.getItem('thumbprint')
+				if (config_one.parametrs && !_.isEmpty(config_one.parametrs)) {
+					config_one.parametrs.forEach((obj) => {
+						if (obj.paramcolumn) {
+							if  (  data && data[0]) { 
+								body[obj.paramtitle] = data[0][(config.filter((x)=> (
+									x.col === obj.paramcolumn.label || x.title === obj.paramcolumn.value
+								))[0] || {}).key]
+							}
+							if (!body[obj.paramtitle] && data) { 
+								body[obj.paramtitle] = data[(config.filter((x)=> (
+									x.col === obj.paramcolumn.label || x.title === obj.paramcolumn.value
+								))[0] || {}).key]
+							}
+							if  ( !body[obj.paramtitle]) { 
+								body[obj.paramtitle] = inputs[obj.paramcolumn.value]
+							}	
+						}
+						else if (obj.paraminput) {
+							body[obj.paramtitle] = inputs[obj.paraminput]
+						} else {
+							let cConst = obj.paramconst
+							if (cConst === '_checked_')
+								cConst = JSON.stringify(checked || [])
+							body[obj.paramtitle] = cConst
+						}
+
+
+					}) 
+					if (config_one.parametrs.filter((obj) => obj.paramt && (obj.paramt === 'sign' || obj.paramt === 'encode_and_sign')).length > 0) {
+						config_one.parametrs.filter((obj) => obj.paramt && (obj.paramt === 'sign' || obj.paramt === 'encode_and_sign')).forEach((obj) => {
+							let P = body[obj.paramtitle] 
+							if (obj.paramt === 'encode_and_sign') 
+								P = window.btoa(P)
+							mdlp.signRequest(P, thumbprint).then((signature) => {
+								console.log('sig:',signature)
+								body[obj.paramtitle] = signature
+								resolve(body)
+							}).catch((err) => {
+								NotificationManager.error('Error', 'sign error' + err, 5000)
+								reject(err)
+							})
+						})	
+						
+					} else resolve(body)
+				}
+				else
+					resolve(body)
+			})
+
+
+			paramBuild.then((body) => {
+				setLoading(true)		
+				apishka(
+					config_one.actapitype, body, config_one.act,
+					(res) => {
+						setLoading(false)
+						if (res && res.message) {
+							NotificationManager.success('message', res.message, 1000);
+
+						}
+						if (res && res._redirect) {
+							window.location.href = res._redirect
+						}
+						if (!config_one.isforevery) {
+							getData(data[id_key], getData)
+						} else {
+							getData(getData, {})
+						}
+					},
+					(err) => {
+						setLoading(false)
+					}
+				)
+
+			}).catch((err)=> {
+				setLoading(false)
+				console.log('promise parambuild err: ', err)
+			})
+		}
 	}),
 	withHandlers({
 		goLink: ({ data, origin, location, history, checked }) => (el) => {
@@ -126,11 +213,11 @@ const enhance = compose(
 		},
 		onCallApi: ({
 			getData, origin = {}, data, location,
-			params, checked, setLoading
+			params, checked, setLoading, SIGN_API
 		}) => (config_one) => {
-			setLoading(true)
-			let uri = config_one.act
-			function call() {
+			setLoading(true) 
+			/*let uri = config_one.act
+			/function call() {
 				let body = {}
 				if (config_one.actapitype === 'GET') {
 					uri = uri + QueryBuilder(data, config_one, origin.config, location ? qs.parse(location.search) : null, checked)
@@ -138,13 +225,13 @@ const enhance = compose(
 					body = bodyBuilder(config_one, params.inputs, origin.config, data, checked)
 				}
 				let id_key = origin.config.filter((item) => item.col.toUpperCase() === 'ID' && !item.fn && !item.related )[0].key
-				apishka( config_one.actapitype, body, uri,
+				apishka(
+					config_one.actapitype, body, uri,
 					(res) => {
 						if (res && res.message) {
-							/*notification['success']({
+							notification['success']({
 								message: res.message
-							})*/
-							NotificationManager.success('Message', res.message, 100)
+							})
 						}
 						if (res && res._redirect) {
 							window.location.href = res._redirect
@@ -159,11 +246,10 @@ const enhance = compose(
 						setLoading(false)
 					}
 				)
-			}
-			if (!config_one.actapimethod || config_one.actapimethod === 'simple') {
-				call()
-			} 
-			else setLoading(false) 
+			}*/
+	
+			SIGN_API(config_one)
+			setLoading(false)
 
 		},
 		onDelete: ({ getData, data, origin, setLoading }) => () => {
@@ -242,7 +328,13 @@ const enhance = compose(
 					</div>
 				),
 				buttons: [{ 
-					label:  <Icon type='close' />
+					label:  <Icon type='close' onClick = {() => {
+						if (!act.isforevery) {
+							getData(data[id_key], getData)
+						} else {
+							getData(getData, {})
+						}
+					}} />
 				}]
 			})
 		},

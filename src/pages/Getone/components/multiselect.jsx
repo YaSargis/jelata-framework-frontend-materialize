@@ -48,12 +48,15 @@ const SelectBox = ({ onChange, onChangeInput, data = {}, inputs, config, options
 				}),
 				input: (base) => ({
 					...base,
-					padding: 0
+					padding: 0,
+					
 				}),
 				valueContainer: (base) => ({
 					...base,
-					padding: '0 8px',
-					color: '#000000'
+					padding: '0.8px', 
+					color: '#000000',
+
+					top: -12
 				}),
 				placeholder: (base)=>({
 					...base,

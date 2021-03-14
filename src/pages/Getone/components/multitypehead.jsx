@@ -85,7 +85,8 @@ const SelectBox = ({ name, onChange, onFocusApi, onFocus, data, inputs, config, 
 					valueContainer: (base) => ({
 						...base,
 						padding: '0 8px',
-						color: '#000000'
+						color: '#000000',
+						top: -12
 					}),
 					placeholder: (base)=>({
 						...base,
@@ -172,7 +173,6 @@ const enhance = compose(
 			})
 
 			return getDataSelect.then( res => {
-				console.log('resSS', res)
 				if(substr) {
 					set_state({loading: false, options: res, status: true})
 					return res

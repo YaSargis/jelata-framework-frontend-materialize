@@ -7,7 +7,7 @@ import { config } from 'src/defaults'
 import _ from 'lodash'
 import Helmet from 'react-helmet'
 import { NotificationContainer } from 'react-notifications'
-import 'react-notifications/lib/notifications.css'
+//import 'react-notifications/lib/notifications.css'
 
 import enhance from './enhance'
 
@@ -74,7 +74,7 @@ const App = ({
 							{config.profile === true ? (
 									<SideNavItem
 										user={{
-											background: '/src/public/material_back.jpg',
+											background: '/files/material_back.jpg',
 											email: (user_detail.login || ''),
 											image: (user_detail.photo || null),
 											name: (user_detail.fam || '') + ' ' + (user_detail.im || ''),
