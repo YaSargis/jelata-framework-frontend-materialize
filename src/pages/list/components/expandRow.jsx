@@ -43,13 +43,7 @@ export const expandRowGenerator = (
               </div>
             )
           default:
-            const openNotification = () => {
-              notification.open({
-                message: `type ${typeContent} not correct  `,
-                description: 'use list or getone'
-              })
-            }
-            return openNotification
+            null
         }
       }
     },

@@ -1,6 +1,8 @@
 import { compose, withState,withHandlers, lifecycle } from 'recompose'
 import { apishka } from 'src/libs/api'
 
+let reportNotGet = (((LaNg || {}).reportNotGet ||{})[LnG || 'EN'] || 'Method are not Get')
+
 const enhance = compose(
 	withState('values', 'changeValues', {}),
 	withState('params', 'changeParams', []),
@@ -34,7 +36,7 @@ const enhance = compose(
 							}, (err) => {}
 						)
 					} else {
-						Error('Methotypename of data are not GET request')
+						Error({reportNotGet})
 					}
 				},
 				(err) => {}

@@ -8,6 +8,8 @@ import { Row, Col, Button, Icon, Modal, Checkbox, Switch, Card, Collapsible, Col
 import {saveUserSettings} from 'src/libs/methods'
 
 
+let filterOK = (((LaNg || {}).filterOK ||{})[LnG || 'EN'] || 'ok')
+let filterClean = (((LaNg || {}).filterClean ||{})[LnG || 'EN'] || 'clean')
 const FilterListUp = ({
 	filter, filters, allProps, getData, changeLoading,
 	changeFilter, changeFilters, handlerFilters, handlerGetTable,
@@ -272,7 +274,7 @@ const FilterListUp = ({
 							getData(getData) 
 							changeLoading(true)
 						}}
-					>ok</Button>
+					>{filterOK}</Button>
 					<Button 
 						flat small
 						icon={<Icon>delete</Icon>} 
@@ -284,7 +286,7 @@ const FilterListUp = ({
 							pagination.pagenum = 1
 							changePagination(pagination)
 							getData(getData, {})
-					}}>clean</Button>
+					}}>{filterClean}</Button>
 				</Row>
 		</CollapsibleItem>	
 	</Collapsible>

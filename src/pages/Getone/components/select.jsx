@@ -18,7 +18,7 @@ const handleKeyDown = (evt)=>{
 			break
 	}
 }
-
+let multiSelect = (((LaNg || {}).multiSelect ||{})[LnG || 'EN'] || 'Choose from the list')
 const SelectBox = ({ onChange, data = {}, inputs, config, options = [], onFocus, onFocusApi }) => {
 	let ind = _.findIndex(options, x => x.value === data[config.key])
 	return (
@@ -56,7 +56,7 @@ const SelectBox = ({ onChange, data = {}, inputs, config, options = [], onFocus,
 			}}
 			menuPlacement='auto'
 			menuPortalTarget={document.body}
-			placeholder={'Choose from the list'}
+			placeholder={multiSelect}
 			isClearable
 			isDisabled={config.read_only || false}
 			value={ options[ind] || ''}

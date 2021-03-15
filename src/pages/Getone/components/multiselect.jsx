@@ -4,6 +4,7 @@ import qs from 'query-string'
 import Select from 'react-select'
 
 import { apishka } from 'src/libs/api'
+let multiSelect = (((LaNg || {}).multiSelect ||{})[LnG || 'EN'] || 'Choose from the list')
 
 const SelectBox = ({ onChange, onChangeInput, data = {}, inputs, config, options = [], onFocus, onFocusApi }) => {
     let filtOptions = []
@@ -65,7 +66,7 @@ const SelectBox = ({ onChange, onChangeInput, data = {}, inputs, config, options
 			}}
 			menuPortalTarget={document.body}
 			menuPlacement='auto'
-			placeholder={'Choose from the list'}
+			placeholder={multiSelect}
 			isMulti
 			isClearable
 			isDisabled={config.read_only || false}

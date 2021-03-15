@@ -6,6 +6,13 @@ import moment from 'moment'
 import {saveUserSettings} from 'src/libs/methods'
 import Select from 'react-select'
 import { Row, Col, Button, Icon, Modal, Checkbox, Switch } from 'react-materialize'
+
+
+let filterOK = (((LaNg || {}).filterOK ||{})[LnG || 'EN'] || 'ok')
+let filterClean = (((LaNg || {}).filterClean ||{})[LnG || 'EN'] || 'clean')
+let bClose = (((LaNg || {}).bClose ||{})[LnG || 'EN'] || 'close')
+let shCols = (((LaNg || {}).shCols ||{})[LnG || 'EN'] || 'show/hide columns')
+
 const FilterList = ({
 	filter, filters, allProps, getData, changeLoading,
 	changeFilter, changeFilters, handlerFilters, handlerGetTable,
@@ -274,7 +281,7 @@ const FilterList = ({
 						getData(getData) 
 						changeLoading(true)
 					}}
-				>ok</Button>
+				>{filterOK}</Button>
 				<Button 
 					flat small
 					icon={<Icon>delete</Icon>} 
@@ -286,12 +293,12 @@ const FilterList = ({
 						pagination.pagenum = 1
 						changePagination(pagination)
 						getData(getData, {})
-				}}>clean</Button>
-				<Button flat small icon={<Icon>close</Icon>} style={{ color: '#ef1010' }} onClick={()=>changeFilter(false)}>close</Button>
+				}}>{filterClean}</Button>
+				<Button flat small icon={<Icon>close</Icon>} style={{ color: '#ef1010' }} onClick={()=>changeFilter(false)}>{bClose}</Button>
 			</Row>
 			<Row key='sawad5'>
 				<br/>
-				<div>SHOW/HIDE COLUMNS</div>
+				<div>{shCols}</div>
 				<ul>
 					{listColumns.map(rrrow => (
 						<li key={'li_' + rrrow.title}>

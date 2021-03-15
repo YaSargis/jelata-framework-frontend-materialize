@@ -18,8 +18,9 @@ import Getone from 'src/pages/Getone'
 import List from 'src/pages/list'
 
 
-
-
+let Error = (((LaNg || {}).Error ||{})[LnG || 'EN'] || 'Error')
+let signError = (((LaNg || {}).signError ||{})[LnG || 'EN'] || 'sign error')
+let Message = (((LaNg || {}).Message ||{})[LnG || 'EN'] || 'Message')
 const ActionsBlock = ({
 	actions, data, params,
 	loading, type = 'form', checked,
@@ -86,7 +87,7 @@ const ActionsBlock = ({
 					}}
 				>
 					<Icon type={el.icon} />
-						 { _value }
+					{ _value }
 				</button> 
 
 			
@@ -150,7 +151,7 @@ const enhance = compose(
 								body[obj.paramtitle] = signature
 								resolve(body)
 							}).catch((err) => {
-								NotificationManager.error('Error', 'sign error' + err, 5000)
+								NotificationManager.error({Error}, {signError} + err, 5000)
 								reject(err)
 							})
 						})	
@@ -169,7 +170,7 @@ const enhance = compose(
 					(res) => {
 						setLoading(false)
 						if (res && res.message) {
-							NotificationManager.success('message', res.message, 1000);
+							NotificationManager.success({Message}, res.message, 1000);
 
 						}
 						if (res && res._redirect) {

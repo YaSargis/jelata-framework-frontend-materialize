@@ -22,6 +22,7 @@ import enhance from './enhance';
 
 const keyTable = ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,c=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15 >> c/4).toString(16));
 //Configer.nanoid();
+let tCount = (((LaNg || {}).tCount ||{})[LnG || 'EN'] || 'count')
 
 const TableComp = ({
 	origin = {}, history, ready, allProps, getData,
@@ -42,7 +43,7 @@ const TableComp = ({
 		let arr_hide = settings_table.hide || [];
 		// -----------------------------
 		function showTotal(total) {
-			return allProps.isfoundcount ? `count: ${total}` : '';
+			return allProps.isfoundcount ? `${tCount}: ${total}` : '';
 		}
 
 		// -----------------------------
@@ -160,8 +161,9 @@ const TableComp = ({
 											cellEdit={cellEditFactory({ mode: 'click', blurToSave: true })}
 										/>
 										<label
-											style={{ fontSize: '9px' }}>
-											count : {allProps.foundcount}
+											style={{ fontSize: '9px' }}
+										>
+											{tCount} : {allProps.foundcount}
 										</label>
 									</div>
 								</React.Fragment>

@@ -24,8 +24,6 @@ import Error_404 from 'src/pages/error_404'
 import { Collapsible, Button, SideNav, SideNavItem, Icon as MIcon, Breadcrumb, Footer, Col } from 'react-materialize'
 import 'materialize-css'
 
-
-
 const App = ({
 	user_detail, collapsed, custom_menu, cxs, menu_creator_header,
 	menu_creator, menuCollapseStateSave, getMenu

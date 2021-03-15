@@ -12,6 +12,10 @@ import { apishka } from 'src/libs/api'
 //import { toggleLoading } from 'src/redux/actions/helpers'
 
 let wss = [] // ws array
+let Message = (((LaNg || {}).Message ||{})[LnG || 'EN'] || 'Message')
+let Error = (((LaNg || {}).Error ||{})[LnG || 'EN'] || 'Error')
+let unknownError = (((LaNg || {}).unknownError ||{})[LnG || 'EN'] || 'Unknown error')
+let wsError = (((LaNg || {}).wsError ||{})[LnG || 'EN'] || 'ws error')
 
 const enhance = compose(
     withStateHandlers(({
@@ -144,7 +148,7 @@ const enhance = compose(
                             let data = JSON.parse(e.data)
                             if (!data.error) {
                                 data.forEach(x => {
-                                    NotificationManager.success('message', x.notificationtext)
+                                    NotificationManager.success(Message, x.notificationtext)
 
                                     apishka('POST', { id: x.id }, '/api/setsended')
                                     if (res.data[0])
@@ -155,7 +159,7 @@ const enhance = compose(
                             }
                         }
                         socket.onerror = error => {
-                            NotificationManager.error('Error', 'ws error')
+                            NotificationManager.error(Error, wsError)
                             console.log('ws error:', error)
                         }
                     }
@@ -263,13 +267,13 @@ const enhance = compose(
 							}
 							/* update compo if updatable */
 
-							NotificationManager.success('message', 'OK')
+							NotificationManager.success(Message, 'OK')
 						},
 						(err) => {}
 					)
 				}).catch(err => {
 					if (err)
-						NotificationManager.error('Error', err.response ? err.response.data.message : 'Uncknown Error')
+						NotificationManager.error(Error, err.response ? err.response.data.message : unknownError)
 				})
 			}
 		},
@@ -435,7 +439,7 @@ const enhance = compose(
 					loading: false
 				})
 				
-				NotificationManager.success('message', 'Ok')
+				NotificationManager.success(Message, 'Ok')
 				getData(data[id_title] || res_data.id, getData)
 				if (callback && typeof(callback) === 'function') {
 					callback()

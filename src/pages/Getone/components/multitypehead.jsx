@@ -8,7 +8,8 @@ import AsyncSelect from 'react-select/async'
 import { apishka } from 'src/libs/api'
 
 let timer = {}
-
+let typeAHead = (((LaNg || {}).typeAHead ||{})[LnG || 'EN'] || 'start typing')
+let NOresult = (((LaNg || {}).NOresult ||{})[LnG || 'EN'] || 'NO RESULT')
 const NoOptionsMessage = props => {
 	const { selectProps } = props
 	const { loading } = selectProps
@@ -21,7 +22,7 @@ const NoOptionsMessage = props => {
 	} else {
 		return (
 			<components.NoOptionsMessage {...props}>
-				<div>NO RESULT</div>
+				<div>{NOresult}</div>
 			</components.NoOptionsMessage>
 		)
 	}
@@ -99,7 +100,7 @@ const SelectBox = ({ name, onChange, onFocusApi, onFocus, data, inputs, config, 
 				loading={loading}
 				components={{ NoOptionsMessage, LoadingMessage: () => <div style={{textAlign: 'center'}}><Preloader tip='...' /></div> }}
 				isClearable
-				placeholder={'start typing'}
+				placeholder={typeAHead}
 				cacheOptions
 				isDisabled={config.read_only || false}
 				value={ filtOptions }

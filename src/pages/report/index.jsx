@@ -15,7 +15,7 @@ const Report = ({
 	const { title } = values
 	const { Option } = Select
 	const inputStyles = {border: '1px solid #9e9e9e', height: '2.5rem', paddingLeft: '8px', fontSize:'15px', borderRadius:'5px'}
-
+	let reportGenerate = (((LaNg || {}).reportGenerate ||{})[LnG || 'EN'] || 'Generate')
 	return [
 		<Card key='1l'>
 			<h3>{title}</h3>
@@ -152,7 +152,7 @@ const Report = ({
 					)}
 				)}
 			<Button onClick={ getReportFile } style={{ marginTop: '10px'}}>
-				Generate
+				{reportGenerate}
 			</Button>
 		</Card>
 	]

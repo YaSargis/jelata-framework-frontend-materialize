@@ -1,6 +1,10 @@
 import React from 'react'
 import { compose, lifecycle, withStateHandlers, withHandlers } from 'recompose'
 import {Button} from 'react-materialize'
+
+let certList = (((LaNg || {}).certList ||{})[LnG || 'EN'] || 'list:')
+let certButton = (((LaNg || {}).certButton ||{})[LnG || 'EN'] || 'Сhoose certificate')
+
 const Certificate = ({
 	data, config, open = false, options = [],
 	set_state, onSave, onOpen, onSelect
@@ -9,18 +13,18 @@ const Certificate = ({
 	return [
 		<div>
 			<Button onClick={onOpen} key='c1'>
-				Сhoose certificate
+				{certButton}
 			</Button>
 			{(open)? (
 					<ul>
-						list:
+						{certList}
 						{options.map((item) => (
 							<li 
 								className='autocompli' 
 								onClick={() => onSelect(item)}
 								style={{ 
 									cursor:'pointer', borderRadius:'12px', margin:3, padding: 5, 
-									height:35, border:'0.3pt solid #c8c8b6'
+									 border:'0.3pt solid #c8c8b6'
 								}}
 							>
 								{item.sname}

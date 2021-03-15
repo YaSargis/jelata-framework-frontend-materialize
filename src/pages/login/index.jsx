@@ -12,15 +12,17 @@ import { apishka } from 'src/libs/api'
 
 import enhance from './enhance'
 
-let config = {
-	title: 'Log in', login: 'Login',
-	pass: 'Password', remember: {
-		visible: true, title: 'Remember me',
-	},
-	forgot: {
-		visible: true, title: 'Forgot the password'
-	}
-}
+
+let passwordPlaceholder = (((LaNg || {}).passwordPlaceholder ||{})[LnG || 'EN'] || 'password')
+
+let plLogin = (((LaNg || {}).plLogin ||{})[LnG || 'EN'] || 'login')
+let loginForm = (((LaNg || {}).loginForm ||{})[LnG || 'EN'] || 'Log In')
+let signIn = (((LaNg || {}).signIn ||{})[LnG || 'EN'] || 'sign in')
+let oOr = (((LaNg || {}).oOr ||{})[LnG || 'EN'] || 'or')
+let logSig = (((LaNg || {}).logSig ||{})[LnG || 'EN'] || 'Log in by digital signature')
+let logPas = (((LaNg || {}).logPas ||{})[LnG || 'EN'] || 'Log in by login/password')
+let Error = (((LaNg || {}).Error ||{})[LnG || 'EN'] || 'Error')
+let noCryptoPlugin = (((LaNg || {}).noCryptoPlugin ||{})[LnG || 'EN'] || 'Can not found the  crypto plugin')
 
 const LoginForm = () => {
 	const [legacy, setLegacy] = useState(true)
@@ -55,15 +57,14 @@ const LoginForm = () => {
 				if ( sertificats.length === 0 ) {
 					if ( authorize ) {
 						authorize.ecpInit().then(res => {
-							console.log('CERTS:', res)
 							setSertificats( res.certs )
 						}).catch(err => {
 
-							NotificationManager.error('Error', err.status || 'Can not found the module', 100)
+							NotificationManager.error(Error, err.status || {noCryptoPlugin}, 1000)
 
 						})
 					} else {
-						NotificationManager.error('Error', 'Can not fount the module', 100)
+						NotificationManager.error(Error, {noCryptoPlugin}, 1000)
 					}
 				} 
 			}
@@ -75,14 +76,14 @@ const LoginForm = () => {
 			
 			<Modal 
 				open={modal}
-				trigger={<Button style={{color: 'blue', textDecoration: 'underline'}} flat node='button'>LogIn</Button>}
+				trigger={<Button style={{color: 'blue', textDecoration: 'underline'}} flat node='button'>{signIn}</Button>}
 			>
 				<Col>
-					<h5>{config.title}</h5>			
+					<h5>{loginForm}</h5>			
 					{legacy ? [
 						<Col>
 							<input
-								placeholder='login' id='email'
+								placeholder={plLogin} id='email'
 								style={inputStyles}
 								onChange={(e) => setLogin(e.target.value)}
 							/>
@@ -92,7 +93,7 @@ const LoginForm = () => {
 						<Col key='s2'>
 							<input
 								type='password' id='password'
-								placeholder='password' style={inputStyles}
+								placeholder={passwordPlaceholder} style={inputStyles}
 								onChange={(e) => setPass(e.target.value)}
 								onKeyUp={(e) => {
 									if (e.key === 'Enter') {
@@ -112,16 +113,16 @@ const LoginForm = () => {
 					]}
 					<Row>
 						<Col>
-							<Button onClick={handleSubmit}>Sign In</Button>
+							<Button onClick={handleSubmit}>{signIn}</Button>
 						</Col>
 						<Col>
-							<label style={{ color: '#afb1be' }}>or</label>
+							<label style={{ color: '#afb1be' }}>{oOr}</label>
 						</Col>
 						<Col>
 							<Button flat onClick={() => {
 								onECP()
 							}}>
-								{ !legacy ? 'Log in by login/password' : 'Log in by digital signature' }
+								{ !legacy ? logPas : logSig }
 							</Button>						
 						</Col>														
 					</Row>

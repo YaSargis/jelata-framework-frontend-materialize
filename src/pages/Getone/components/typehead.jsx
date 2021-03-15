@@ -9,6 +9,8 @@ import { PostMessage , apishka} from 'src/libs/api'
 import { Preloader } from 'react-materialize'
 
 let timer = {}
+let NOresult = (((LaNg || {}).NOresult ||{})[LnG || 'EN'] || 'NO RESULT')
+let typeAHead = (((LaNg || {}).typeAHead ||{})[LnG || 'EN'] || 'start typing')
 
 const NoOptionsMessage = props => {
     const { selectProps } = props
@@ -22,7 +24,7 @@ const NoOptionsMessage = props => {
     } else {
         return (
             <components.NoOptionsMessage {...props}>
-                <div>NO RESULT</div>
+                <div>{NOresult}</div>
             </components.NoOptionsMessage>
         )
     }
@@ -86,7 +88,7 @@ const SelectBox = ({ name, onChange, onFocusApi, onFocus, data, inputs, config, 
                 loading={loading}
                 components={{ NoOptionsMessage, LoadingMessage: () => <div style={{textAlign: 'center'}}><Preloader  /></div> }}
                 isClearable
-                placeholder={'start typing'}
+                placeholder={typeAHead}
                 cacheOptions
                 isDisabled={config.read_only || false}
                 value={options[ind] || null}

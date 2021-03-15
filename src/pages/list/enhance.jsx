@@ -7,7 +7,10 @@ import { saveUserSettings } from 'src/libs/methods';
 import { apishka } from "src/libs/api";
 
 let wss = []; // ws array
-
+let Message = (((LaNg || {}).Message ||{})[LnG || 'EN'] || 'Message')
+let Error = (((LaNg || {}).Error ||{})[LnG || 'EN'] || 'Error')
+let unknownError = (((LaNg || {}).unknownError ||{})[LnG || 'EN'] || 'Unknown error')
+let wsError = (((LaNg || {}).wsError ||{})[LnG || 'EN'] || 'ws error')
 const enhance = compose(
 	withStateHandlers(({
 		inState = {
@@ -129,7 +132,7 @@ const enhance = compose(
 				  			let data = JSON.parse(e.data)
 							if (!data.error) {
 								data.forEach((x) => {
-									NotificationManager.success('message', x.notificationtext, 100);
+									NotificationManager.success(Message, x.notificationtext, 1000);
 									apishka('POST', {id:x.id}, '/api/setsended')
 			  						getData(getData)
 			  					})
@@ -261,7 +264,7 @@ const enhance = compose(
 					'POST', _data, '/api/saverow', (res) => {
 						let res_data = res.outjson;
 						getData(getData);
-						NotificationManager.success('message', 'OK', 100);
+						NotificationManager.success(Message, 'OK', 1000);
 						if (item_config.updatable && compo) {
 							let search_updater = '___hashhhh___=0.11'
 							if (location.search.indexOf('?') === -1)
@@ -279,7 +282,7 @@ const enhance = compose(
 						message: 'Error',
 						description: err.response ?  err.response.data.message : 'Unknown error'
 					});*/
-					NotificationManager.error('Error', err.response ?  err.response.data.message : 'Unknown error', 100);
+					NotificationManager.error(Error, err.response ?  err.response.data.message : unknownError, 1000);
 				}
 			});
 		}

@@ -16,7 +16,7 @@ export const apishka = (type, data, methodname, cb = () => {}, err = () => {}) =
 		cb(response.data) // on success callback
 	}, (error) => {
 		err( error ) // error callback
-		let errText = 'Unknown error'
+		let errText = (((LaNg || {}).unknownError ||{})[LnG || 'EN'] || 'Unknown error')
 		if (
 			error.response &&
 			error.response.data &&
@@ -27,7 +27,7 @@ export const apishka = (type, data, methodname, cb = () => {}, err = () => {}) =
 			console.log(methodname,':',error)
 		}
 
-		NotificationManager.error('Error', errText, 5000)
+		NotificationManager.error((((LaNg || {}).Error ||{})[LnG || 'EN'] || 'Error'), errText, 5000)
 		
 		let redirect401 = localStorage.getItem('redirect401')
 		if (!redirect401 ||  redirect401 === 'undefined' || redirect401 === 'null') {

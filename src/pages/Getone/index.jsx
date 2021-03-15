@@ -36,6 +36,8 @@ import { visibleCondition, dateFormat } from 'src/libs/methods'
 const keyCollapse = ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,c=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15 >> c/4).toString(16))
 
 const inputStyles = {border: '1px solid #9e9e9e', height: '2.5rem', paddingLeft: '8px', fontSize:'15px', borderRadius:'5px'}
+let passwordPlaceholder = (((LaNg || {}).passwordPlaceholder ||{})[LnG || 'EN'] || 'password')
+let timePlaceholder = (((LaNg || {}).timePlaceholder ||{})[LnG || 'EN'] || 'Chose time')
 
 const GetOne = ({
 	location, history, set_state,
@@ -122,7 +124,7 @@ const GetOne = ({
 							value={data[item.key]}
 							onChange={event => onChangeData(event, item)}
 							onBlur={event => onChangeInput(event, item)}
-							placeholder='password'
+							placeholder={passwordPlaceholder}
 						/>
 					</div>
 				)
@@ -173,7 +175,7 @@ const GetOne = ({
 						type='time'
 						value={dateFormat(data[item.key], 'time')}
 						onChange={(ev) => onChangeInput(ev.target.value, item)}
-						placeholder='Chose time'
+						placeholder={timePlaceholder}
 					/>
 				</div>
 			)
@@ -208,7 +210,7 @@ const GetOne = ({
 							style={{border: '1px solid #9e9e9e'}}
 							disabled={item.read_only || false}
 							value={data[item.key] ? data[item.key] : ''}
-							onChange={event => onChangeData(event.target.value) }
+							onChange={event => onChangeData(event.target.value, item) }
 							onBlur={event => onChangeInput(event, item)}
 						/>
 					</div>
