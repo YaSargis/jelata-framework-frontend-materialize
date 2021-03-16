@@ -118,6 +118,22 @@ var LaNg = {
 	"shCols": {
 		"EN":"show/hide columns",
 		"RU":"показать/скрыть столбцы"
+	},
+	"notFound": {
+		"EN":"404: Not Found",
+		"RU":"404: Страница не найдена"
+	},
+	"Yes": {
+		"EN":"Yes",
+		"RU":"Да"
+	},
+	"Confirm": {
+		"EN":"confirm",
+		"RU":"подтверждение"
+	}, 
+	"notForget" : {
+		"EN":"Do not forget save changes",
+		"RU":"Не забудьте сохранить изменения"
 	}
 }
 

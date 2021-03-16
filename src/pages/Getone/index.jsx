@@ -29,6 +29,7 @@ import Typeahead from './components/typehead'
 import MultiTypehead from './components/multitypehead'
 import Certificate from './components/certificate'
 import AceEditor from 'react-ace'
+import Diagram from './components/diagram'
 
 import { visibleCondition, dateFormat } from 'src/libs/methods'
 
@@ -685,6 +686,13 @@ const GetOne = ({
 						/>
 					</div>
 				)
+			case 'diagram_api':
+				return (
+					<div key='diagram_api' label={item.title}>
+						<div><b>{item.title}</b></div>
+						<Diagram config={item} data={data} origin={origin} inputs={params.inputs} />
+					</div>
+				)	
 			default:
 				return (
 					<div key='d22' label={item.title}><div><b>{item.title}</b></div>
