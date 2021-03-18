@@ -1,5 +1,5 @@
 import React from 'react'
-import { compose, withHandlers, lifecycle, withState } from 'recompose'
+import { compose, withHandlers, lifecycle, withStateHandlers } from 'recompose'
 import _ from 'lodash'
 import { NotificationManager } from 'react-notifications'
 
@@ -11,16 +11,32 @@ let chatSocket
 
 
 const enhance = compose(
-	withState('custom_menu', 'changeMenu', []), // menus array
-	withState('user_detail', 'changeUserDetail', {}), // user details
-	withState('collapsed', 'changeCollapsed', false), // preloader
-	withState('cxs', 'changeCxs', 8), // preloader
+	withStateHandlers((
+		inState = {
+			custom_menu: [], user_detail: {}, collapsed: false, current_role: null
+		}) => ({
+			custom_menu: inState.custom_menu, user_detail: inState.user_detail,
+			collapsed: inState.collapsed, current_role: inState.current_role
+		}),
+		{
+		  set_state: (state) => (obj) => {
+			let _state = {...state},
+				keys = _.keys(obj)
+			
+			keys.map( k => _state[k] = obj[k])
+			return _state
+		  }
+		}
+	),
 
 	withHandlers({
-		getMenu: ({ changeMenu, changeUserDetail, changeLoading }) => () => {
+		getMenu: ({ set_state }) => () => {
 			apishka( 'GET', {}, '/api/menus', (res) => {
-				changeMenu(res.outjson.menus)
-				changeUserDetail(res.outjson.userdetail)
+				set_state({ 
+					custom_menu: res.outjson.menus,
+					user_detail: res.outjson.userdetail,
+					current_role: res.outjson.current_role
+				})
 				localStorage.setItem('usersettings', JSON.stringify(res.outjson.userdetail.usersettings))
 				localStorage.setItem('homepage', res.outjson.homepage)
 				localStorage.setItem('ischat', res.outjson.ischat)
@@ -33,14 +49,12 @@ const enhance = compose(
 		},
 		menu_creator: menu_creator,
 		menu_creator_header: menu_creator_header,
-		menuCollapseStateSave: ({changeCollapsed, changeCxs}) => (collapseState) => {
+		menuCollapseStateSave: ({set_state}) => (collapseState) => {
 			let userSettings = JSON.parse(localStorage.getItem('usersettings')) || {views:{}}
 			userSettings['menuCollapse'] = collapseState
 			saveUserSettings(userSettings)
 			localStorage.setItem('usersettings',JSON.stringify(userSettings))
-			changeCollapsed(collapseState) 
-			if (collapseState) changeCxs(8) 
-			else changeCxs(12)
+			set_state({ collapsed: collapseState })
 		}
 	}),
 	withHandlers({
@@ -67,10 +81,10 @@ const enhance = compose(
 	}),
     lifecycle({
 		componentDidMount(){
-			const { changeCollapsed, handleGlobalWS, getMenu} = this.props
+			const { set_state, handleGlobalWS, getMenu} = this.props
 			let userSettings = JSON.parse(localStorage.getItem('usersettings'))
 			if (userSettings && userSettings.menuCollapse !== undefined) {
-				changeCollapsed(userSettings.menuCollapse)
+				set_state({ collapsed: userSettings.menuCollapse })
 			}
 
 			/* create client session */

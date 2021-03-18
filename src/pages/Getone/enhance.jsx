@@ -12,11 +12,11 @@ import { apishka } from 'src/libs/api'
 //import { toggleLoading } from 'src/redux/actions/helpers'
 
 let wss = [] // ws array
-let Message = (((LaNg || {}).Message ||{})[LnG || 'EN'] || 'Message')
+
 let Error = (((LaNg || {}).Error ||{})[LnG || 'EN'] || 'Error')
 let unknownError = (((LaNg || {}).unknownError ||{})[LnG || 'EN'] || 'Unknown error')
 let wsError = (((LaNg || {}).wsError ||{})[LnG || 'EN'] || 'ws error')
-
+let MSG = (((LaNg || {}).Message ||{})[LnG || 'EN'] || 'Message')
 const enhance = compose(
     withStateHandlers(({
         inState = {
@@ -148,7 +148,7 @@ const enhance = compose(
                             let data = JSON.parse(e.data)
                             if (!data.error) {
                                 data.forEach(x => {
-                                    NotificationManager.success(Message, x.notificationtext)
+                                    NotificationManager.success(MSG, x.notificationtext)
 
                                     apishka('POST', { id: x.id }, '/api/setsended')
                                     if (res.data[0])
@@ -267,7 +267,7 @@ const enhance = compose(
 							}
 							/* update compo if updatable */
 
-							NotificationManager.success(Message, 'OK')
+							NotificationManager.success(MSG, 'OK')
 						},
 						(err) => {}
 					)
@@ -439,7 +439,7 @@ const enhance = compose(
 					loading: false
 				})
 				
-				NotificationManager.success(Message, 'Ok')
+				NotificationManager.success(MSG, 'Ok')
 				getData(data[id_title] || res_data.id, getData)
 				if (callback && typeof(callback) === 'function') {
 					callback()

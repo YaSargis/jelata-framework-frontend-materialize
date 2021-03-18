@@ -1,11 +1,9 @@
 import React from 'react'
 import _ from 'lodash'
-import { compose, withHandlers, withState } from 'recompose'
+import { compose, withHandlers } from 'recompose'
 import { menu_creator } from 'src/libs/methods'
 
 const enhance = compose(
-	withState('menu', 'changeMenu', []),
-	withState('usermenu', 'changeUsermenu', []),
 	withHandlers({
 		menu_creator: menu_creator
 	})

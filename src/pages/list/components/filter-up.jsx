@@ -1,5 +1,5 @@
 import React from 'react'
-import {compose, withHandlers, withState} from 'recompose'
+import {compose, withHandlers, withStateHandlers} from 'recompose'
 import { apishka } from 'src/libs/api'
 import _ from 'lodash'
 import moment from 'moment'
@@ -295,10 +295,25 @@ const FilterListUp = ({
 }
 
 const enhance = compose(
-	withState('indeterminate', 'changeInder', true),
-	withState('apiData', 'changeApiData', {}),
+	withStateHandlers(({
+		inState = {
+			indeterminate: true,
+			apiData: {}
+		}
+	}) => ({
+		indeterminate: inState.indeterminate,
+		apiData: inState.apiData
+	}), {
+		set_state: state => obj => {
+			let _state = { ...state }
+			_.keys(obj).map(k => {
+				_state[k] = obj[k]
+			});
+			return _state
+		}
+	}),
 	withHandlers({
-    handlerColumnHider: ({ basicConfig, changeTS,  path }) => (ev, item) => {
+		handlerColumnHider: ({ path }) => (ev, item) => {
 			// userSettings from global
 
 			let userSettings = JSON.parse(localStorage.getItem('usersettings')) || {}
@@ -309,48 +324,46 @@ const enhance = compose(
 			}
 
 			if (userSettings['views'][path]) { // if not view in views object
-					viewsSettings = userSettings['views'][path]
+				viewsSettings = userSettings['views'][path]
 			}
 
-		if (viewsSettings.hide) {
-			let ind = _.findIndex(viewsSettings.hide, (x, i) => x === item.title)
-			if(ind !== -1) viewsSettings.hide.splice(ind, 1) 
-			else viewsSettings.hide.push(item.title)
-		} else {
-			viewsSettings.hide = [item.title]
-		}
+			if (viewsSettings.hide) {
+				let ind = _.findIndex(viewsSettings.hide, (x) => x === item.title);
+				if(ind !== -1) viewsSettings.hide.splice(ind, 1); else viewsSettings.hide.push(item.title)
+			} else {
+				viewsSettings.hide = [item.title]
+			}
 			localStorage.setItem('usersettings', JSON.stringify(userSettings))
 			userSettings['views'][path] = viewsSettings
-			//reduxUser.user_detail.usersettings = userSettings
 			saveUserSettings(userSettings)
-      changeTS(userSettings['views'])
-    },
-		handlerFilters: ({filters, changeFilters}) => (column, value) => {
-      filters[column] = value
-      changeFilters(filters)
-    },
-    handlerTriCheck: ({ filters, changeFilters, changeInder }) => (column, value) => {
-      if(value==null) {
-        changeInder(false)
-        filters[column] = true
-        changeFilters(filters)
-      }
-      if(value === true) {
-        filters[column] = false
-        changeFilters(filters)
-      }
-      if(value === false) {
-        changeInder(true)
-        filters[column] = null
-        changeFilters(filters)
-      }
-    },
-    handlerGetTable: ({ listConfig, filters, apiData, changeApiData }) => (item) => {
-	     apishka('GET', {}, '/api/gettable?id=' + item.id, (res) => {
-					apiData[item.title] = res.outjson
-					changeApiData(apiData)
-		   })
-    },
+		},
+		handlerFilters: ({ filters, changeFilters }) => (column, value) => {
+			filters[column] = value
+			changeFilters(filters)
+		},
+		handlerTriCheck: ({ filters, changeFilters, set_state }) => (column, value) => {
+			if(value==null) {
+				set_state({ indeterminate: false })
+				filters[column] = true
+				changeFilters(filters)
+			}
+			if(value === true) {
+				filters[column] = false
+				changeFilters(filters)
+			}
+			if(value === false) {
+				set_state({ indeterminate: true })
+				filters[column] = null
+				changeFilters(filters)
+			}
+		},
+		handlerGetTable: ({ apiData, set_state }) => (item) => {
+			apishka('GET', {}, '/api/gettable?id=' + item.id, (res) => {
+				 const _apiData = {...apiData}
+				 _apiData[item.title] = res.outjson
+				 set_state({ apiData: _apiData })
+			})
+		},
 	})
 )
 

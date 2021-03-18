@@ -151,7 +151,7 @@ const enhance = compose(
 								body[obj.paramtitle] = signature
 								resolve(body)
 							}).catch((err) => {
-								NotificationManager.error({Error}, {signError} + err, 5000)
+								NotificationManager.error(Error, signError + err, 5000)
 								reject(err)
 							})
 						})	
@@ -170,7 +170,7 @@ const enhance = compose(
 					(res) => {
 						setLoading(false)
 						if (res && res.message) {
-							NotificationManager.success({Message}, res.message, 1000);
+							NotificationManager.success(Message, res.message, 1000);
 
 						}
 						if (res && res._redirect) {
