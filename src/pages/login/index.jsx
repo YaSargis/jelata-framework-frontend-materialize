@@ -46,6 +46,7 @@ const LoginForm = () => {
 		} else {
 			apishka( 
 				'POST', select_scp, '/auth/auth_crypto', (res) => {
+					localStorage.setItem('thumbprint', select_scp.thumbprint)
 					location.href='/'
 				}
 			)

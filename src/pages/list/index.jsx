@@ -170,6 +170,7 @@ const TableComp = ({
 							)}
 						</div>
 					</div>
+					{pagin}
 				</>
 			);
 		}
