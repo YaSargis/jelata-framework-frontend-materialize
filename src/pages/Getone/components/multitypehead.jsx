@@ -38,6 +38,9 @@ const handleKeyDown = (evt)=>{
 			if(evt.shiftKey) evt.target.selectionEnd = len
 			else evt.target.setSelectionRange(len,len)
 			break
+		case 'Enter': evt.preventDefault();
+			console.log('ENTER STOPPAGE')
+			break;	
 	}
 }
 

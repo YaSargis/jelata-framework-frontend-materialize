@@ -73,7 +73,7 @@ const enhance = compose(
 				let globalData = JSON.parse(e.data)
 				globalData.forEach((g_item) => {
 					NotificationManager.success('message', g_item.message)
-					apishka('GET',  {id: g_item.id},  '/api/setsended')
+					apishka('GET',  {id: g_item.id},  '/api/notifications_setreaded_by_userid')
 				})
 				getMenu()
 			}
