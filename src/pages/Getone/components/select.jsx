@@ -59,7 +59,7 @@ const SelectBox = ({ onChange, data = {}, inputs, config, options = [], onFocus,
 			placeholder={multiSelect}
 			isClearable
 			isDisabled={config.read_only || false}
-			value={ options[ind] || ''}
+			value={ options[ind] || null}
 			options={options}
 			onFocus={() => {
 				(config.type === 'select_api') ? onFocusApi(config, inputs) : onFocus('')
@@ -97,6 +97,8 @@ const enhance = compose(
 				config.select_api,
 				(res) => {
 					let dat = _.sortBy(res.outjson, ['value'])
+					if (!dat)
+						dat = []
 					set_state({
 						options: dat,
 					})

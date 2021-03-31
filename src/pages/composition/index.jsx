@@ -90,7 +90,7 @@ const CompositionNew = ({ history, path, compo, location, match }) => {
 												values.visible_views.filter((i) => i == x.path.id ).length > 0
 										)) {
 						 					return (
-												<Col key={isk} s={(x.width > 12)? 12: Math.floor(x.width/2) ||  12}>
+												<Col key={isk} s={(x.width > 12)? Math.floor(x.width/2) ||  12 : x.width || 12}>
 													{(() => {	switch(x.path.viewtype) {
 														case 'table':
 														case 'tiles':
