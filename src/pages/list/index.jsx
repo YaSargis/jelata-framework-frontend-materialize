@@ -99,7 +99,7 @@ const TableComp = ({
 									{(ready ? rows : []).map((el, i) => {
 										return (
 											<Card key={'tile_' + i} className='tiles_el'>
-												<Col>
+												<Col s={12}>
 													{listConfig.filter((cnf) => cnf.key !== 'rownum').map((conf, ind) => {
 														return conf.visible === true ? (
 															<div> {
@@ -129,7 +129,7 @@ const TableComp = ({
 																	</Col>
 																)  : (
 																	<Col
-																		s={24} key={'lfa_' + ind}
+																		s={12} key={'lfa_' + ind}
 																		style={{ borderBottom: '1px dashed #ececec' }}
 																	>
 																		<div className='tiles_actions'>{el[conf.key]}</div>
