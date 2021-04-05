@@ -26,20 +26,20 @@ const FilterList = ({
 			fixedFooter={false}
 			onClose={() => changeFilter(!filter)}
 		>
-			<Row key='sawadddd1' >
+			<Row key='sawaddddfdf1' >
 				{allProps.filters ? (
 						Array.isArray(allProps.filters) &&
 						allProps.filters.filter((f) => f.position === 1).length > 0
 					) ?
 						allProps.filters.filter((f) => f.position === 1).map((p, ixs)=> {
 							return (
-								<Col key={ixs + 's'} s={ parseInt(p.width) || 12}>
+								<Col key={ixs + 's' + p.id} s={ parseInt(p.width) || 12}>
 									{(() => {
 										switch (p.type) {
 											case 'substr':
 												return [
-													<Col key={'sx3' + p.column} s={12}><label >{p.title}</label></Col>,
-													<Col key={'sddd3' + p.column} s={12}>
+													<Col key={'sxff3' + p.id} s={12}><label >{p.title}</label></Col>,
+													<Col key={'sdffdd3' + p.id} s={12}>
 														<input placeholder={p.title || '...'}
 															value={filters[p.column]}
 															style={{border: '1px solid #9e9e9e', height: '2.5rem', paddingLeft: '8px'}}
@@ -57,8 +57,8 @@ const FilterList = ({
 											break
 											case 'date_between':
 												return [
-													<Col key='s1' s={12}><label >{p.title}</label></Col>,
-													<Col key='s2' s={12}>
+													<Col  key={'sdffvdd3' + p.id} s={12}><label >{p.title}</label></Col>,
+													<Col  key={'sdvvffdd3' + p.id} s={12}>
 														<input placeholder={p.title || '...'}
 															value={filters[p.column]} type='date'
 															style={{border: '1px solid #9e9e9e', height: '2.5rem', paddingLeft: '8px'}}
@@ -78,8 +78,8 @@ const FilterList = ({
 													|| []
 												} else s_value = filters[p.column]
 												return [
-													<Col key={'s3' + p.column} s={12}><label >{p.title}</label></Col>,
-													<Col key={p.column} s={12}>
+													<Col key={'sdvffdd3d' + p.id} s={12}><label >{p.title}</label></Col>,
+													<Col  key={'sdffdfdfdfdd3' + p.id} s={12}>
 														<Select
 															styles={{
 																menuPortal: (base) => ({
@@ -112,10 +112,13 @@ const FilterList = ({
 																	color: '#cdbfc7'
 																})
 															}}
-															labelInValue={(p.type === 'multijson' || p.type === 'multiselect')? true : false}
-															multiple={ (p.type === 'multijson' || p.type === 'multiselect') ? true : false }
+																
+															isMulti={ (p.type === 'multijson' || p.type === 'multiselect') ? true : false }
 															showSearch={true}
-															value={filters[p.column]}
+															value={(p.type === 'multijson' || p.type === 'multiselect') ? 
+																filters[p.column] : (apiData[p.title] || []).filter((f) => f.value === filters[p.column])[0]
+															
+															}
 															placeholder={p.title}
 															style={{ width: '100%', border: '1px solid #9e9e9e' }}
 															onFocus={()=>handlerGetTable(p)}
@@ -127,13 +130,10 @@ const FilterList = ({
 																}
 															}}
 															onChange={(_val, option) => {
-																if(p.type === 'multijson' || p.type === 'multiselect') {
-																	_val['value'] = _val.key
-																	if(Array.isArray(filters[p.column]))
-																		filters[p.column].push(_val)
-																	else filters[p.column] = [_val]
-																} else filters[p.column] = _val
-																handlerFilters(p.column, filters[p.column])
+																if (p.type === 'multijson' || p.type === 'multiselect')
+																	handlerFilters(p.column, _val || [])
+																else 
+																	handlerFilters(p.column, (_val || {}).value || null)
 															}}
 														/>
 															
@@ -153,8 +153,8 @@ const FilterList = ({
 												break
 											case 'typehead':
 												return [
-													<Col key={'sd' + p.column} s={12}><label >{p.title}</label></Col>,
-													<Col key={p.column} s={12}>
+													<Col  key={'sdffddfff3' + p.id} s={12}><label >{p.title}</label></Col>,
+													<Col  key={'sdvfvfffdd3' + p.id} s={12}>
 														<input
 															placeholder={p.title || '...'}
 															value={filters[p.title]}
@@ -177,8 +177,8 @@ const FilterList = ({
 												filters[p.column] ? filters[p.column].date1 ? _dates.push(moment(filters[p.column].date1, _format)) : null : null
 												filters[p.column] ? filters[p.column].date2 ? _dates.push(moment(filters[p.column].date2, _format)) : null : null
 												return [
-													<Col key={'d ' + p.column} s={12}><label >{p.title}</label></Col>,
-													<Col key={p.column} >
+													<Col key={'sdvfvvvcccfffdd3' + p.id} s={12}><label >{p.title}</label></Col>,
+													<Col key={'sdvfvfffdfdfdfdfdfd3' + p.id} >
 														<Row>
 															{/*
 																value = [start date, end date]
@@ -199,7 +199,7 @@ const FilterList = ({
 																	}}
 																/>
 															*/}
-															<Col key={p.column} s={6}>
+															<Col key={'sdssfdd3' + p.id} s={6}>
 																<input 
 																	type='date'
 																	onChange={(e) => {
@@ -219,7 +219,7 @@ const FilterList = ({
 																	style={{border: '1px solid #9e9e9e', height: '2.5rem', paddingLeft: '8px'}}
 																/>
 															</Col>
-															<Col key={p.column} s={6}>
+															<Col key={'sdvfvfffdddffd3' + p.id} s={6}>
 																<input 
 																	type='date'
 																	onChange={(e) => {
@@ -245,7 +245,7 @@ const FilterList = ({
 												break
 											case 'check':
 												return [
-													<Col key={p.column} s={12}>
+													<Col key={'sdvfvfffddccs3' + p.id} s={12}>
 														<Checkbox 
 															key={p.column}
 															id={p.column}

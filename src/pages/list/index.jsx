@@ -1,27 +1,27 @@
-import React from 'react';
-import _ from 'lodash';
-import { withRouter } from 'react-router';
+import React from 'react'
+import _ from 'lodash'
+import { withRouter } from 'react-router'
 
-import { Col, Row, Card, Preloader, Collapsible, CollapsibleItem } from 'react-materialize';
+import { Col, Row, Card, Preloader, Collapsible, CollapsibleItem } from 'react-materialize'
 
-import { handlerGoLink, visibleCondition } from 'src/libs/methods';
-import MyHeader from 'src/pages/layout/header';
-import ActionsBlock from 'src/pages/layout/actions';
+import { handlerGoLink, visibleCondition } from 'src/libs/methods'
+import MyHeader from 'src/pages/layout/header'
+import ActionsBlock from 'src/pages/layout/actions'
 
-import FilterListUp from './components/filter-up';
+import FilterListUp from './components/filter-up'
 
-import BootstrapTable from 'react-bootstrap-table-next';
-import cellEditFactory from 'react-bootstrap-table2-editor';
-import {listConfigGenerate} from './components/listConfig';
-import {listDataGenerate} from './components/listData';
-import {PegiNation} from './components/pagination';
-import { expandRowGenerator } from './components/expandRow';
-import enhance from './enhance';
+import BootstrapTable from 'react-bootstrap-table-next'
+import cellEditFactory from 'react-bootstrap-table2-editor'
+import {listConfigGenerate} from './components/listConfig'
+import {listDataGenerate} from './components/listData'
+import {PegiNation} from './components/pagination'
+import { expandRowGenerator } from './components/expandRow'
+import enhance from './enhance'
 
 
 
-const keyTable = ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,c=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15 >> c/4).toString(16));
-//Configer.nanoid();
+const keyTable = ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,c=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15 >> c/4).toString(16))
+//Configer.nanoid()
 let tCount = (((LaNg || {}).tCount ||{})[LnG || 'EN'] || 'count')
 
 const TableComp = ({
@@ -38,12 +38,12 @@ const TableComp = ({
 	localActiveKey, changePagination, changeChecked, checked
 }) => {
 	if (ready) {
-		let settings_table = ((JSON.parse(localStorage.getItem('usersettings')) || {'views':{}})['views']|| {})[location.pathname] || {};
+		let settings_table = ((JSON.parse(localStorage.getItem('usersettings')) || {'views':{}})['views']|| {})[location.pathname] || {}
 
-		let arr_hide = settings_table.hide || [];
+		let arr_hide = settings_table.hide || []
 		// -----------------------------
 		function showTotal(total) {
-			return allProps.isfoundcount ? `${tCount}: ${total}` : '';
+			return allProps.isfoundcount ? `${tCount}: ${total}` : ''
 		}
 
 		// -----------------------------
@@ -51,27 +51,27 @@ const TableComp = ({
 			allProps, location, listConfig, listColumns, arr_hide, basicConfig, filter,
 			pagination, filters, showTotal, handlerPaginationPage, changePagination, getData,
 			changeFilter, changeFilters, changeLoading, handlerGetTable, changeTS
-		);
+		)
 		const rows = listDataGenerate(
 			listData, listConfig, listActions, filters, origin, history, location,
 			checked, getData, get_params, changeChecked, changeLoading
-		);
+		)
 
 		const columns2 = listConfigGenerate(
 			listConfig, listData, listActions, arr_hide, params, history,
 			isorderby, changeChecked, set_state, onChangeInput, getData
-		);
+		)
 
 		const onGridRowsUpdated = ({ fromRow, toRow, updated }) => {
 			for (let i = fromRow; i <= toRow; i++) {
-				rows[i] = { ...rows[i], ...updated };
+				rows[i] = { ...rows[i], ...updated }
 			}
-			return { rows };
-		};
+			return { rows }
+		}
 
 		const expandRow = expandRowGenerator (
 			listData, params, listConfig, history, origin, expandState, set_state
-		);
+		)
 
 		function renderBlock() {
 			return (
@@ -112,12 +112,12 @@ const TableComp = ({
 																			let action = _.find(listActions, x =>
 																				x.ismain === true &&
 																				visibleCondition(el, x.act_visible_condition, params.inputs)
-																			);
+																			)
 																			if (action) {
 																				switch (action.type) {
 																					case 'Link':
-																						handlerGoLink(listData[i], action, listConfig, params.inputs, history);
-																						break;
+																						handlerGoLink(listData[i], action, listConfig, params.inputs, history)
+																						break
 																					 }
 																				}
 																		}}
@@ -137,11 +137,11 @@ const TableComp = ({
 																)
 															}
 															</div>
-														) : null;})
+														) : null})
 													}
 												</Col>
 											</Card>
-										);})
+										)})
 									}
 								</div>
 							) : (
@@ -172,7 +172,7 @@ const TableComp = ({
 					</div>
 					{pagin}
 				</>
-			);
+			)
 		}
 		return (
 			<Collapsible accordion={true} key={allProps.title + 'rrr'} >
@@ -211,7 +211,7 @@ const TableComp = ({
 					</div>
 				</CollapsibleItem>
 			</Collapsible>
-		);
+		)
 	} else
 		return (
 			<Row
@@ -224,8 +224,8 @@ const TableComp = ({
 				{' '}
 				<Preloader active={loading} />{' '}
 			</Row>
-		);
-};
+		)
+}
 
-export default enhance(TableComp);
-	//withRouter(TableComp));
+export default enhance(TableComp)
+	//withRouter(TableComp))

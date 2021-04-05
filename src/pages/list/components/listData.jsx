@@ -10,6 +10,7 @@ export const listDataGenerate = (
     getData, get_params, changeChecked, changeLoading
 ) => {
 	const rows = []
+	
 	listData.forEach((item, ind) => {
 		let newItem = {}
 		Object.keys(item).forEach(k => {
@@ -211,14 +212,15 @@ export const listDataGenerate = (
 			}
 			return false
 		}
+
 		newItem['__checker__'] = (
-			<div>
+			<div key = {JSON.stringify(item) + 'chkckckc'}>
 				<Checkbox 
 					onChange={(e)=>{
 						let id_key = listConfig.filter((conf) => conf.col.toLowerCase() === 'id' && !conf.related)[0].key
 						let Id = item[id_key]
 						let chckd = checked
-						if (e.target.checked === 'on') {
+						if (e.target.checked === true) {
 							chckd.push(Id)
 						} else {
 							chckd = chckd.filter((ch) => ch !== Id)
