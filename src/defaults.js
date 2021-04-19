@@ -4,7 +4,7 @@ const isDev = process.env.NODE_ENV === 'development'
 
 export const config = c.default;
 export const api = isDev? {
-		_url: 'http://localhost:8080'		
+		_url: 'http://localhost:8080'
 	} : c.api
 
 export const actions = [

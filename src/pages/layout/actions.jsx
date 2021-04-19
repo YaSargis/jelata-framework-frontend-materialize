@@ -329,13 +329,14 @@ const enhance = compose(
 					</div>
 				),
 				buttons: [{ 
-					label:  <Icon type='close' onClick = {() => {
+					label:  <Icon type='close' />,
+					onClick: () => {
 						if (!act.isforevery) {
 							getData(data[id_key], getData)
 						} else {
 							getData(getData, {})
 						}
-					}} />
+					}
 				}]
 			})
 		},

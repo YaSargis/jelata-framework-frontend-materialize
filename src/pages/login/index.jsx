@@ -78,6 +78,9 @@ const LoginForm = () => {
 			<Modal 
 				open={modal}
 				trigger={<Button style={{color: 'blue', textDecoration: 'underline'}} flat node='button'>{signIn}</Button>}
+				actions={[
+					<Button flat modal="close" node="button" waves="green">X</Button>
+				]}
 			>
 				<Col>
 					<h5>{loginForm}</h5>			
