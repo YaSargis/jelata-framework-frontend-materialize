@@ -91,7 +91,7 @@ const GetOne = ({
 					<div key='1.2' label={item.title}><div><b>{item.title}</b></div>
 						<input
 							style={inputStyles}
-							disabled={item.read_only || false}
+							disabled={item.disabled || false}
 							value={data[item.key] ? data[item.key] : ''}
 							onChange={event => onChangeData(event, item)}
 							onBlur={event => onChangeInput(event, item)}
@@ -105,7 +105,7 @@ const GetOne = ({
 						<input
 							type='number'
 							style={inputStyles}
-							disabled={item.read_only || false}
+							disabled={item.disabled || false}
 							value={data[item.key] === null ? null : data[item.key]}
 							onChange={event => {
 								onChangeData(event, item)
@@ -121,7 +121,7 @@ const GetOne = ({
 						<input
 							type='password'
 							style={inputStyles}
-							disabled={item.read_only || false}
+							disabled={item.disabled || false}
 							value={data[item.key]}
 							onChange={event => onChangeData(event, item)}
 							onBlur={event => onChangeInput(event, item)}
@@ -148,7 +148,7 @@ const GetOne = ({
 						<input
 							style={inputStyles}
 							type='date'
-							disabled={item.read_only || false}
+							disabled={item.disabled || false}
 							value={dateFormat(data[item.key], 'date')}
 							onChange={(ev) => onChangeInput(ev.target.value, item)}
 						/>
@@ -161,7 +161,7 @@ const GetOne = ({
 						<input
 							style={inputStyles}
 							type='datetime-local'
-							disabled={item.read_only || false}
+							disabled={item.disabled || false}
 							value={dateFormat(data[item.key], 'datetime')}
 							onChange={(ev) => onChangeInput(ev.target.value, item)}
 						/>
@@ -174,6 +174,7 @@ const GetOne = ({
 					<input
 						style={inputStyles}
 						type='time'
+						disabled={item.disabled || false}
 						value={dateFormat(data[item.key], 'time')}
 						onChange={(ev) => onChangeInput(ev.target.value, item)}
 						placeholder={timePlaceholder}
@@ -209,7 +210,7 @@ const GetOne = ({
 					<div key='d2.1' label={item.title}><div><b>{item.title}</b></div>
 						<textarea
 							style={{border: '1px solid #9e9e9e'}}
-							disabled={item.read_only || false}
+							disabled={item.disabled || false}
 							value={data[item.key] ? data[item.key] : ''}
 							onChange={event => onChangeData(event.target.value, item) }
 							onBlur={event => onChangeInput(event, item)}
@@ -295,6 +296,7 @@ const GetOne = ({
 					<div key='4.b' label={item.title}><div><b>{item.title}</b></div>
 						<input 
 							style={inputStyles}
+							disabled={item.disabled || false}
 							value={data[item.key] ? data[item.key] : ''}
 							onChange={e => {
 								handlerAutoComplete(e.target.value, item)
@@ -473,8 +475,10 @@ const GetOne = ({
 			case 'select':
 			case 'select_api':
 				return (
-					<div key='5.b' label={item.title}><div><b>{item.title}</b></div>
+					<div key='5.b' label={item.title} style={{cursor: `${item.disabled ? 'not-allowed' : 'inherit'}`}} >
+						<div><b>{item.title}</b></div>
 						<Select
+							isDisabled={item.disabled || false}
 							name={
 								([1e7]+-1e3+-4e3+-8e3+-1e11)
 								.replace(/[018]/g,c=>(
@@ -493,7 +497,8 @@ const GetOne = ({
 			case 'multiselect':
 			case 'multiselect_api':
 				return (
-					<div key='12.b' label={item.title}><div><b>{item.title}</b></div>
+					<div key='12.b' label={item.title} style={{cursor: `${item.disabled ? 'not-allowed' : 'inherit'}`}}>
+						<div><b>{item.title}</b></div>
 						<MultiSelect
 							name={
 								([1e7]+-1e3+-4e3+-8e3+-1e11)
@@ -513,7 +518,8 @@ const GetOne = ({
 			case 'typehead':
 			case 'typehead_api':
 				return (
-					<div key={item.key} label={item.title}><div><b>{item.title}</b></div>
+					<div key={item.key} label={item.title} style={{cursor: `${item.disabled ? 'not-allowed' : 'inherit'}`}}>
+						<div><b>{item.title}</b></div>
 						<Typeahead
 							name={
 								([1e7]+-1e3+-4e3+-8e3+-1e11)
@@ -534,7 +540,8 @@ const GetOne = ({
 			case 'multitypehead':
 			case 'multitypehead_api':
 				return (
-					<div key='7.b' label={item.title}><div><b>{item.title}</b></div>
+					<div key='7.b' label={item.title} style={{cursor: `${item.disabled ? 'not-allowed' : 'inherit'}`}}>
+						<div><b>{item.title}</b></div>
 						<MultiTypehead
 							name={
 								([1e7]+-1e3+-4e3+-8e3+-1e11)

@@ -23,6 +23,7 @@ const SelectBox = ({ onChange, data = {}, inputs, config, options = [], onFocus,
 	let ind = _.findIndex(options, x => x.value === data[config.key])
 	return (
 		<Select
+			
 			styles={{
 				menuPortal: (base) => ({
 					...base,
@@ -52,6 +53,10 @@ const SelectBox = ({ onChange, data = {}, inputs, config, options = [], onFocus,
 				placeholder: (base)=>({
 					...base,
 					color: '#cdbfc7'
+				}),
+				option: (base, {data})=>({
+					...base,
+					color:data.color
 				})
 			}}
 			menuPlacement='auto'
@@ -96,7 +101,7 @@ const enhance = compose(
 				},
 				config.select_api,
 				(res) => {
-					let dat = _.sortBy(res.outjson, ['value'])
+					let dat = res.outjson //_.sortBy(res.outjson, ['value'])
 					if (!dat)
 						dat = []
 					set_state({
@@ -134,7 +139,7 @@ const enhance = compose(
 						},
 						'/api/select',
 						(res) => {
-							let _data = _.sortBy(res.outjson, ['value'])
+							let _data = res.outjson//_.sortBy(res.outjson, ['value'])
 							set_state({
 								options: _data
 							})

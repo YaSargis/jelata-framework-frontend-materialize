@@ -95,6 +95,10 @@ const SelectBox = ({ name, onChange, onFocusApi, onFocus, data, inputs, config, 
 					placeholder: (base)=>({
 						...base,
 						color: '#cdbfc7'
+					}),
+					option: (base, {data})=>({
+						...base,
+						color:data.color
 					})
 				}}
 				isMulti
@@ -167,7 +171,7 @@ const enhance = compose(
 							config: globalConfig, val:substr,
 							id:id, ismulti:true, substr: id || substr
 						}, config.select_api, (res) => {
-							let dat = _.sortBy(res.outjson, ['value'])
+							let dat = res.outjson//_.sortBy(res.outjson, ['value'])
 							if (!dat)
 								dat = []
 							resolve(dat)
@@ -215,7 +219,7 @@ const enhance = compose(
 							inputs: inputs, config: config, val: substr,
 							id: id, ismulti: true
 						}, '/api/select', (res) => {
-								let _data = _.sortBy(res.outjson, ['value'])
+								let _data = res.outjson//_.sortBy(res.outjson, ['value']);
 								resolve(_data)
 							},
 							(err) => {}

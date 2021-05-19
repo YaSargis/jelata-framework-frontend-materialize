@@ -135,12 +135,12 @@ export const listConfigGenerate = (
 									onChange={(e)=>{
 										console.log('EEEE:', e.target.value)
 										let v = colVal
-										if (v === null || v === undefined)
+										if (v === null || v === undefined || v === false)
 											v = true
 										else if (v === true)
 											v = false
-										else
-											v = null
+										/*else
+											v = null*/
 										listData[rowIndex][column.dataField] = v
 										onChangeInput(v, item, rowIndex)
 										set_state({ listData: listData })

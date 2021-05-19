@@ -136,7 +136,7 @@ const enhance = compose(
                             data: data, inputs: inputs, config: globalConfig
                         }, config.select_api+'?substr='+(id || substr),
                         (res) => {
-                            let dat = _.sortBy(res.outjson, ['value'])
+                            let dat = res.outjson //_.sortBy(res.outjson, ['value'])
 							if (!dat)
 								dat = []
                             resolve(dat)
@@ -183,7 +183,7 @@ const enhance = compose(
                                 val: substr, id: id, ismulti: null
                             }, '/api/select',
                             (res) => {
-                                let _data = _.sortBy(res.outjson, ['value'])
+                                let _data = res.outjson//_.sortBy(res.outjson, ['value'])
                                 resolve(_data)
                             },
                             (err) => {}
