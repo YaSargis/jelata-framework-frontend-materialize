@@ -20,9 +20,11 @@ import Composition from 'src/pages/composition'
 import Trees from 'src/pages/trees'
 import Report from 'src/pages/report'
 import Error_404 from 'src/pages/error_404'
+import Chat from 'src/pages/chat'
 
 import { Collapsible, Button, SideNav, SideNavItem, Icon as MIcon, Breadcrumb, Footer, Col } from 'react-materialize'
 import 'materialize-css'
+//import 'react-notifications/lib/notifications.css'
 
 const App = ({
 	user_detail, collapsed, custom_menu, cxs, menu_creator_header,
@@ -112,6 +114,7 @@ const App = ({
 						<Route path='/trees/:id' component={Trees} exact />
 						<Route path='/report/:id' component={Report} />
 						<Route path='/logout' component={Logout} exact />
+						<Route path='/chats' component={Chat} />
 						<Route component={Error_404} />
 					</Switch>
 					<Button 
@@ -129,7 +132,7 @@ const App = ({
 					<NotificationContainer />
 
 					{(localStorage.getItem('ischat') === true || localStorage.getItem('ischat') === 'true') ? (
-							<Link to='/composition/chats'>
+							<Link to='/chats'>
 								<MIcon 
 									small
 									style={{

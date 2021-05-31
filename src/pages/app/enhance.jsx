@@ -2,7 +2,6 @@ import React from 'react'
 import { compose, withHandlers, lifecycle, withStateHandlers } from 'recompose'
 import _ from 'lodash'
 import { NotificationManager } from 'react-notifications'
-
 import { menu_creator, saveUserSettings, menu_creator_header } from 'src/libs/methods'
 import { apishka } from 'src/libs/api'
 import { api } from 'src/defaults'
