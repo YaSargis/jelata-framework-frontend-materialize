@@ -196,7 +196,7 @@ const enhance = compose(
                 o => o.col.toUpperCase() === 'ID' && !o.fn && !o.relatecolumn
             )[0].key
 
-            if (origin.viewtype === 'form not mutable') {
+            if (origin.viewtype === 'form not mutable' || origin.viewtype  === 'api_form') {
                 onChangeData(value, item_config)
             } else if (origin.viewtype === 'form full') {
                 // form full
