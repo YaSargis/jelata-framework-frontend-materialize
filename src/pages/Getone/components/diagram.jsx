@@ -1,6 +1,6 @@
 import { message } from 'antd'
 import React, {useEffect, useState} from 'react'
-import { Line } from 'react-chartjs-2'
+import { /*Line,*/ Bar  } from 'react-chartjs-2'
 import { apishka } from 'src/libs/api'
 
 // const data1 = {
@@ -35,17 +35,29 @@ const Diagram = ({data, config, inputs}) => {
 			const preparedData = {
 				labels: y, datasets: enhancedDatasets
 			}
-			setDataFromApi(preparedData)
+			setDataFromApi(res.outjson)
 		})
 	}
 
 	useEffect(() => {
 		getDataFromApi()
 	}, [])
+	
+	const options = {
+	  scales: {
+		yAxes: [
+		  {
+			ticks: {
+			  beginAtZero: true,
+			},
+		  },
+		],
+	  },
+	}
 
 	return (
 		<div>
-			<Line data={dataFromApi} />
+			<Bar  type={dataFromApi.type || 'line'} data={dataFromApi} options={options}/>
 		</div>
 	)
 }
