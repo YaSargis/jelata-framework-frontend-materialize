@@ -36,7 +36,7 @@ const FilterListUp = ({
 															<Col key={'sx3' + p.id} s={12}><label >{p.title}</label></Col>,
 															<Col key={'sddd3' + p.id} s={12}>
 																<input placeholder={p.title || '...'}
-																	value={filters[p.column]}
+																	value={filters[p.column] || ''}
 																	style={{border: '1px solid #9e9e9e', height: '2.5rem', paddingLeft: '8px'}}
 																	onKeyUp={(event) => {
 																		if(event.keyCode === 13) {
@@ -55,7 +55,7 @@ const FilterListUp = ({
 															<Col key={'sx4' + p.id} s={12}><label >{p.title}</label></Col>,
 															<Col key={'sx44' + p.id} s={12}>
 																<input placeholder={p.title || '...'}
-																	value={filters[p.column]} type='date'
+																	value={filters[p.column] || ''} type='date'
 																	style={{border: '1px solid #9e9e9e', height: '2.5rem', paddingLeft: '8px'}}
 																	onChange={(event) => handlerFilters(p.column, event.target.value) }
 															  />
@@ -112,7 +112,9 @@ const FilterListUp = ({
 																	isMulti={ (p.type === 'multijson' || p.type === 'multiselect') ? true : false }
 																	showSearch={true}
 																	value={(p.type === 'multijson' || p.type === 'multiselect') ? 
-																		filters[p.column] : (apiData[p.title] || []).filter((f) => f.value === filters[p.column])[0]
+																		(filters[p.column] || []) : (
+																				(apiData[p.title] || []).filter((f) => f.value === filters[p.column])[0] || null
+																			)
 																	
 																	}
 																	placeholder={p.title}
@@ -153,13 +155,13 @@ const FilterListUp = ({
 															<Col key={p.id + 'ssdf'} s={12}>
 																<input
 																	placeholder={p.title || '...'}
-																	value={filters[p.title]}
+																	value={filters[p.title] || ''}
 																	style={{border: '1px solid #9e9e9e', height: '2.5rem', paddingLeft: '8px'}}
 																	onKeyUp={(event) => {
 																		if(event.keyCode === 13) {
 																			getData(getData)
-																			changeLoading(true)
-																			changeFilter(false)
+																			//changeLoading(true)
+																			//changeFilter(false)
 																		}
 																	}}
 																	onChange={(event) => handlerFilters(p.title, event.target.value) }
@@ -211,7 +213,7 @@ const FilterListUp = ({
 																				}
 																			}}
 																			
-																			value={(filters[p.column] || {}).date1} 
+																			value={(filters[p.column] || {}).date1 || ''} 
 																			style={{border: '1px solid #9e9e9e', height: '2.5rem', paddingLeft: '8px'}}
 																		/>
 																	</Col>
@@ -230,7 +232,7 @@ const FilterListUp = ({
 																					changeFilter(false)
 																				}
 																			}}
-																			value={(filters[p.column] || {}).date2} 
+																			value={(filters[p.column] || {}).date2 || ''} 
 																			style={{border: '1px solid #9e9e9e', height: '2.5rem', paddingLeft: '8px'}}
 																		/>
 																	</Col>	
@@ -280,10 +282,11 @@ const FilterListUp = ({
 						flat small
 						icon={<Icon>delete</Icon>} 
 						onClick={()=>{
-							filters = {}
-							changeFilters(filters) 
-							changeLoading(true)
-							// changeFilter(false)
+							//changeLoading(true)
+							changeFilters({}) 
+							
+							
+							//changeFilter(false)
 							pagination.pagenum = 1
 							changePagination(pagination)
 							getData(getData, {})
