@@ -73,7 +73,7 @@ export const PegiNation = (
 			</Col>
 			<Col s={1}>
 				<Button
-					waves='light' className='blue'
+					waves='light' className={(filters && Object.keys(filters).length > 0)?'red': 'blue'}
 					small floating style={{ float: 'right' }}
 					icon={<Icon>settings_input_component</Icon>} onClick={() => changeFilter(!filter)}
 				>

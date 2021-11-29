@@ -20,7 +20,8 @@ const FilterList = ({
 	if (styleType === 'up')
 		return (
 			<Collapsible key = 'filt-up' accordion={false} >
-				<CollapsibleItem header={<Icon>settings_input_component</Icon>} key='sr411' expanded={false}>
+				<CollapsibleItem header={<Icon>settings_input_component</Icon>} key='sr411' 
+					expanded={(filters && Object.keys(filters).length > 0)?true: false}>
 					<Filters 
 						filter={filter} filters={filters} allProps={allProps}
 						getData={getData} changeLoading={changeLoading}
