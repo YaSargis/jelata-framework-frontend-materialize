@@ -310,17 +310,19 @@ const enhance = compose(
 	}),
 	lifecycle({
 		componentWillMount() {
-			const { pagination, location, params, match, search, path, compo, getData, changeParams, set_state } = this.props
-
+			const { pagination, location, params, match, search, path, compo, getData, changeParams, set_state, settings_views, changeFilters } = this.props
+			let filters = {}
 			if(compo) {
 				params.path = path 
 				params.inputs = qs.parse(location.search)
 				params.search = search
 				pagination.pagenum = 1
+				filters = (((settings_views.views || {views:{}})[path] || {}).filters || {})
 			} else {
 				params.inputs = qs.parse(location.search)
 				params.search = location.search
-				params.path = match.params.match
+				params.path = match.url
+				filters = ((settings_views.views || {views:{}})[match.url] || {}).filters || {}
 			}
 
 			let type = location.pathname.split('/')[1]
@@ -329,7 +331,8 @@ const enhance = compose(
 			})
 
 			changeParams({...params, ...pagination})
-			getData(getData)
+			changeFilters(filters)
+			getData(getData, filters)
 		},
 		componentWillUnmount() {
 			wss.forEach((ws_item) => ws_item.close()) // close all sockets

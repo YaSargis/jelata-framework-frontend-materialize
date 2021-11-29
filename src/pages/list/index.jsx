@@ -8,7 +8,7 @@ import { handlerGoLink, visibleCondition } from 'src/libs/methods'
 import MyHeader from 'src/pages/layout/header'
 import ActionsBlock from 'src/pages/layout/actions'
 
-import FilterListUp from './components/filter-up'
+import FilterList from './components/filterList'
 
 import BootstrapTable from 'react-bootstrap-table-next'
 import cellEditFactory from 'react-bootstrap-table2-editor'
@@ -50,7 +50,7 @@ const TableComp = ({
 		let pagin = PegiNation(
 			allProps, location, listConfig, listColumns, arr_hide, basicConfig, filter,
 			pagination, filters, showTotal, handlerPaginationPage, changePagination, getData,
-			changeFilter, changeFilters, changeLoading, handlerGetTable, changeTS
+			changeFilter, changeFilters, changeLoading, handlerGetTable, changeTS, params
 		)
 		const rows = listDataGenerate(
 			listData, listConfig, listActions, filters, origin, history, location,
@@ -180,7 +180,7 @@ const TableComp = ({
 					<div key='s3' className='f_content_app' style={collapseAll || localChangeCollapse? {} : {display: 'none'}}>
 						<h5>{params.inputs._sub_title}</h5>
 						{(allProps.filters.filter((f) => f.position === 2).length > 0)?
-							<FilterListUp
+							<FilterList
 								getData={getData} allProps={allProps} path={location.pathname}
 								filter={filter} changeFilter={changeFilter} filters={filters}
 								changeFilters={changeFilters} listConfig={listConfig}
@@ -188,6 +188,7 @@ const TableComp = ({
 								arr_hide={arr_hide} handlerGetTable={handlerGetTable}
 								changeTS={changeTS} basicConfig={basicConfig}
 								pagination = {pagination} changePagination = {changePagination}
+								styleType='up' params={params}
 							/>: null
 						}
 						{compo ? null : (

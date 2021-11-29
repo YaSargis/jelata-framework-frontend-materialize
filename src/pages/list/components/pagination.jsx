@@ -1,13 +1,13 @@
 import React from 'react'
 // import { Pagination } from 'antd'
-import FilterList from '../components/filter-list'
+import FilterList from '../components/filterList'
 import { Col, Row, Button, Icon } from 'react-materialize'
 import Select from 'react-select'
 
 export const PegiNation = (
 	allProps, location, listConfig, listColumns, arr_hide, basicConfig, filter,
 	pagination, filters, showTotal, handlerPaginationPage, changePagination,
-	getData, changeFilter, changeFilters, changeLoading, handlerGetTable, changeTS
+	getData, changeFilter, changeFilters, changeLoading, handlerGetTable, changeTS, params
 ) => {
 	return (
 		<Row>
@@ -86,7 +86,7 @@ export const PegiNation = (
 					listColumns={listColumns} changeLoading={changeLoading}
 					arr_hide={arr_hide} handlerGetTable={handlerGetTable}
 					changeTS={changeTS} basicConfig={basicConfig}
-					pagination = {pagination} changePagination = {changePagination}
+					pagination = {pagination} changePagination = {changePagination} params={params}
 				/>
 			</Col>
 		</Row>
