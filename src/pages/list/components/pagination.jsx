@@ -71,24 +71,26 @@ export const PegiNation = (
 					</Row>
 				) : null}
 			</Col>
-			<Col s={1}>
-				<Button
-					waves='light' className={(filters && Object.keys(filters).length > 0)?'red': 'blue'}
-					small floating style={{ float: 'right' }}
-					icon={<Icon>settings_input_component</Icon>} onClick={() => changeFilter(!filter)}
-				>
-					
-				</Button>
-				<FilterList
-					getData={getData} allProps={allProps} path={location.pathname}
-					filter={filter} changeFilter={changeFilter} filters={filters}
-					changeFilters={changeFilters} listConfig={listConfig}
-					listColumns={listColumns} changeLoading={changeLoading}
-					arr_hide={arr_hide} handlerGetTable={handlerGetTable}
-					changeTS={changeTS} basicConfig={basicConfig}
-					pagination = {pagination} changePagination = {changePagination} params={params}
-				/>
-			</Col>
+			{(allProps.rmnu == true || allProps.filters.filter((x) => x.position == '1').length > 0)?
+				<Col s={1}>
+					<Button
+						waves='light' className={(filters && Object.keys(filters).length > 0)?'red': 'blue'}
+						small floating style={{ float: 'right' }}
+						icon={<Icon>settings_input_component</Icon>} onClick={() => changeFilter(!filter)}
+					>
+						
+					</Button>
+					<FilterList
+						getData={getData} allProps={allProps} path={location.pathname}
+						filter={filter} changeFilter={changeFilter} filters={filters}
+						changeFilters={changeFilters} listConfig={listConfig}
+						listColumns={listColumns} changeLoading={changeLoading}
+						arr_hide={arr_hide} handlerGetTable={handlerGetTable}
+						changeTS={changeTS} basicConfig={basicConfig}
+						pagination = {pagination} changePagination = {changePagination} params={params}
+					/>
+				</Col> : null
+			}
 		</Row>
 	)
 }
